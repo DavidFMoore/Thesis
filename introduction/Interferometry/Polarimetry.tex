@@ -1,0 +1,308 @@
+\section{Polarimetry}
+\label{sec:Polarimetry}
+
+Here, we add the final complication to our model of the visibility (Equation \ref{eq:visdef}), which
+will be the subject of this thesis: polarization. To understand the interferometer's 
+response to a polarized signal, we need first to lay some groundwork defining our coordinate systems.
+
+As mentioned in the previous section, the $uv$-plane is defined as being
+fixed to the earth, but the polarization vector of a source is obviously fixed to the celestial
+sphere. To account for this, we usually define the $uv$-plane in what we call the topocentric
+coordinate system (East, North, Up), and we define the source position in the equatorial coordinate
+system, fixed to the sky, ($(X,Y,Z)$, where $X^2 + Y^2 + Z^2 = 1$). The three-coordinate equatorial
+system can be converted into the more familiar right-ascension
+$\alpha$\nomenclature[G]{$\alpha$}{Right
+ascension} and declination $\delta$\nomenclature[G]{$\delta$}{Declination}
+via a similar transformation to convert from Cartesian to spherical coordinates:\footnote{The
+  differences are due to the definitions of the two coordinates --- $\delta$ is defined to be zero
+  at the equator, rather than the pole ($\delta=\pi/2-\theta$), and $\alpha$ is defined to be left-handed, to track the
+earth's rotation, from the point of view of an observer looking up ($\alpha = -\phi$).}
+\begin{equation}
+  \tan\alpha = \frac{Y}{X}, \quad
+  \sin\delta = Z.
+\end{equation}
+
+The projection of the topocentric $uv$-plane into equatorial coordinates is the projection of the
+$uv$-plane onto the tangent plane of the celestial sphere. Since the hemisphere
+available to an observer is dependent on the observer's location on the earth and the local sidereal
+time\nomenclature[Zl]{LST}{Local sidereal time} for the observer, the projection matrix $\B{R}$ is a function of location and time. We write
+$\B{R}$ in terms of the declination of the pointing $\delta$ and the hour angle of the pointing $H =
+LST-\alpha$\nomenclature[Rh]{$H$}{Hour angle} as  
+\begin{equation}
+  \B{R} = \begin{pmatrix}
+    \sin H & -\sin\delta\cos H &  \cos\delta\cos H \\
+    \cos H &  \sin\delta\sin H & -\cos\delta\sin H \\
+    0      &  \cos\delta       &  \sin\delta
+  \end{pmatrix},
+  \label{eq:def_top2eq}
+\end{equation}
+which is defined to act on topocentric vectors (the baseline $\vec{b}$, for instance) on the right as 
+\begin{equation}
+  \vec{b}_{eq} = \vec{b}_{top}\cdot\B{R},
+\end{equation}
+where $\vec{b}_{eq}$ is the baseline vector represented in equatorial coordinates, and $\vec{b}$ is
+the baseline vector represented in topocentric coordinates. The projection matrix $\B{R}$ is defined to act
+on baselines from the right to facilitate interpretation of the product
+$\vec{b}\cdot\hat{s}$.\footnote{Am I standing still and the sky rotates around me, or is the sky
+fixed and I'm rotating through it? Either interpretation is correct, depending on your choice of
+frame of reference. The source vector $\hat{s}$ can be written in the topocentric frame as
+$\B{R}\cdot\hat{s}$, so in either frame of reference, the term $\vec{b}\cdot\B{R}\cdot\hat{s}$, being a scalar, is
+coordinate-independent, and thus is always constant. This is highly analogous to the Schr\"{o}dinger
+and Heisenberg pictures of quantum mechanics.}
+
+Having defined the equatorial and topocentric coordinate systems, and described how a vector from
+one projects onto the other, let us now discuss the physical process of a polarization vector
+projecting onto an interferometer's dipole. In doing so, we will introduce three concepts: the 
+Kronecker product, the Stokes parameters, and parallactic rotation.
+
+The polarization vector of a source is fixed in the celestial sphere, making equatorial coordinates
+a natural choice of basis. Since the propagation direction of the $E$-field of any source is
+radially inward, toward the observer, right-ascension and declination are better suited to
+describe these vectors. An interferometer, and any telescope in general, projects these vectors onto
+its own local frame of reference. If we choose topocentric coordinates $(x,y)$, colinear with the
+previously defined $(u,v)$,\footnote{Generally, $u$ and $v$ are the Fourier-dual variables to sky
+coordinates $l$ and $m$, measured in units of wavelength. $x$ and $y$ are the physical easting and northing,
+measured in units of length.} then we can write
+this projection as a simple rotation
+\begin{equation}
+  \begin{pmatrix}E_x\\E_y\end{pmatrix}
+  \equiv \B{P}'\cdot\begin{pmatrix}E_\alpha\\E_\delta\end{pmatrix} =
+  \begin{pmatrix}\cos\psi&\sin\psi\\-\sin\psi&\cos\psi\end{pmatrix}
+  \begin{pmatrix}E_\alpha\\E_\delta\end{pmatrix},
+\end{equation}
+where $E_{x,y}$ are the components of the electric field in the $xy$ coordinate system,
+$E_{\alpha,\delta}$ are the components in the equatorial frame, and
+$\psi$\nomenclature[G]{$\psi$}{Parallactic angle} is the parallactic angle,
+defined in terms of latitude $\lambda$, hour angle of observation $H$, and the
+declination of observation $\delta$ as 
+\begin{equation}
+  \tan\psi = \frac{\cos\lambda\sin H}{\sin\lambda\cos\delta - \cos\lambda\sin\delta\cos H}
+\end{equation}
+Figure \ref{fig:parang} shows the parallactic rotation of a plus sign.
+
+\figuremacroW{introduction/Interferometry/figures/ParallacticAngle.eps}{0.7}{fig:parang}{
+  Parallactic rotation of a plus sign. Lines of constant declination at $\delta = 30,\ 0,\ -30,\ -60$ and lines of
+constant hour angle $H= 0,\ 3h,\ 6h,\ 12h,\ 15h,\ 18h,\ 21h$ are shown with dotted lines. The latitude 
+is chosen to be that of the PAPER array ($-30^\circ43'17.5'$). Hour angle $0$ is chosen to be the meridian.
+}{Parallactic rotation of a $+$ sign}
+
+The next step in propagating a celestial signal through an interferometer is applying any
+instrumental gains to each component of the electric field. In general, this can be represented by a
+$2\times2$, complex matrix ($\B{G}$), all of whose elements are non-zero. There are three major components 
+to setting the elements of $\B{G}$: the overall amplification of the signal, the electrical
+delay of the signal with respect to an array-wide average, and any instrumental polarization terms,
+most of which can arise from improperly aligned feeds or inter-signal crosstalk. Each signal
+recieves each of these calibration parameters, so there exist $N_{ant}$ copies of the matrix
+$\B{G}$, for an array with $N_{ant}$ antennae. Finally, we separate the direction-dependent terms
+and call them the primary beam $A(l,m)$. For the purposes of simplicity\footnote{As we 
+  will discuss in Chapter \ref{chap:PowerSpectra}, these cross-terms are measured to be negligibly 
+small for our purposes.}, we will omit any discussion of cross-polarizing terms and represent the 
+matrix for the $i^{\rm th}$ antenna's matrix $\B{G}_i$ in terms of signal gain for each polarization
+$\alpha$, $g_i^\alpha$\nomenclature[Rg]{$g$}{Antenna gain} and an electrical delay for each polarization
+$\tau_i^\alpha$\nomenclature[G]{$\tau$}{Delay}, and the
+$\alpha$ polarization's primary beam:
+\begin{equation}
+  \B{G}_i = \begin{pmatrix}
+    g_i^xA_x(l,m)e^{-2\pi i \nu \tau_i^x} & 0 \\          
+    0 & g_i^yA_y(l,m)e^{-2\pi i \nu \tau_i^y}          
+  \end{pmatrix}.
+  \label{eq:def_gains}
+\end{equation}
+This operation is applied to the signal at each antenna, making the electric field measured from the
+$i^{\rm th}$ antenna at the point of correlation 
+\begin{equation}
+  \vec{E}_i = \B{G}_i\cdot\B{P}\cdot\vec{E}_{\alpha\delta}. 
+\end{equation}
+
+At last, we have discussed the necessary precursors, and can begin correlation! An interferometer whose dipoles are aligned along the $x$- and $y$-axes (equivalently the $u$- and
+$v$-axes) correlates each component of the $E$-field with both itself and the other, totaling to
+four polarization products. This operation can be represented by the Kronecker outer
+product\nomenclature[X]{$\otimes$}{Kronecker outer product} between two
+matrices\footnote{There is another convention, defining an outer product in which
+$(\B{A}\otimes\B{B}^\dagger)_{ij} = A_iB^*_j$. Using this notation, the native, linear polarization
+products are simply an expansion of the Stokes parameters times the Pauli matrices and unity. While
+this definition of an outer product leads to mathematically elegant results, and is in theory
+equivalent to our choice of an outer product, I personally find the calculations to be quite
+cumbersome and will not use it.}, which takes an $m\times n$ matrix $\B{A}$ and a $p\times q$ matrix $\B{B}$ and computes
+the $mp\times nq$ matrix
+\begin{equation}
+  \B{A}\otimes\B{B} = \begin{pmatrix}
+      a_{11}\B{B} & \dots & a_{1n}\B{B} \\ 
+      \vdots & \ddots & \vdots \\
+      a_{1m}\B{B} & \dots & a_{mn}\B{B}
+  \end{pmatrix},
+\end{equation}
+where $a_{ij}$ is the $(i,j)^{{\rm th}}$ element of the matrix $\B{A}$, and each $p\times q$ block
+(represented by $\B{B}$) contains the elements of matrix $\B{B}$. As an example, the
+Kronecker product of the $E$ field (in the $(x,y)$ representation) is
+\begin{equation}
+  \vec{E}_{xy}\otimes\vec{E}_{xy}^* = \begin{pmatrix}E_xE_x^*\\E_xE_y^*\\E_yE_x^*\\E_yE_y^*\end{pmatrix},
+    \label{eq:example_kronecker}
+\end{equation}
+which weighted by the primary beam, and integrated over time and space, is a visibility. A useful
+property of the Kronecker product is the mixed-product property, which states that
+\begin{equation}
+  (\B{A}\B{B})\otimes(\B{C}\B{D}) = (\B{A}\otimes\B{C})\cdot(\B{B}\otimes\B{D}).
+\end{equation}
+So, if we define the $4\times1$ vector of visibilities measured between antennae $i$ and $j$ as 
+$\mathcal{V} \equiv \langle
+\vec{E}_i\otimes\vec{E}_j^*\rangle$\nomenclature[Rv]{$\mathcal{V}$}{Visibility, calibration terms
+included}, then
+\begin{align}
+  \mathcal{V} &=
+  \left\langle(\B{G}_i\B{P}\vec{E}_{\alpha\delta})\otimes(\B{G}_j\B{P}\vec{E}_{\alpha\delta})^*\right\rangle 
+  = (\B{G}_i\otimes\B{G}_j^*)(\B{P}\otimes\B{P})\left\langle \vec{E}_{\alpha\delta}\otimes\vec{E}_{\alpha\delta}\right\rangle
+  \label{eq:vis_outerproduct}
+\end{align}
+We can tackle this expression term-by-term, starting on the right. Equation
+\ref{eq:example_kronecker} gives an expression for the outer product of the two linear 
+components of an electric field, but a much more useful basis can be found. This basis, whose
+components are called the Stokes parameters, is defined for linearly polarized components of 
+the electric field thus:
+\begin{gather}
+    I =  |E_\alpha|^2 + |E_\delta|^2 \\
+    Q =  |E_\alpha|^2 - |E_\delta|^2 \\
+    U = 2\mathfrak{Re}\left\{E_\alpha E_\delta^*\right\} = E_\alpha E_\delta^* + E_\delta E_\alpha^* \\
+    V = 2\mathfrak{Im}\left\{E_\alpha E_\delta^*\right\} = -i(E_\alpha E_\delta^* - E_\delta E_\alpha^*).
+\end{gather}
+This basis conveniently represents the power of the electric fields in terms of its total intensity
+($I$), the power contained in each component of a basis of two, orthogonal, linear polarizations ($Q$ and
+$U$), and the power contained in circular polarizations ($V$). The rotation can be represented by
+the matrix $\dvec{S}$\nomenclature[Rs]{$\dvec{S}$}{Stokes rotation matrix}, defined as
+\begin{equation}
+  \begin{pmatrix}I\\Q\\U\\V\end{pmatrix} =
+    \begin{pmatrix}
+      1 &  0 & 0 &  1 \\
+      1 &  0 & 0 & -1 \\
+      0 &  1 & 1 &  0 \\
+      0 & -i & i &  0
+    \end{pmatrix}
+  \begin{pmatrix}|E_\alpha|^2\\E_\alpha E_\delta^*\\E_\delta E_\alpha^*\\|E_\delta|^2\end{pmatrix} =
+   \dvec{S}
+  \begin{pmatrix}|E_\alpha|^2\\E_\alpha E_\delta^*\\E_\delta E_\alpha^*\\|E_\delta|^2\end{pmatrix} 
+  \label{eq:stokes_def}
+\end{equation}
+For completeness, we present the inverse of $\dvec{S}$, and note that were it not for the
+normalization which requires $I$ to contain the \emph{total} intensity of the electric field, $\dvec{S}$ 
+would be Hermitian:
+\begin{equation}
+  \dvec{S}^{-1} = \frac{1}{2}\begin{pmatrix}
+    1 &  1 & 0 &  0 \\
+    0 &  0 & 1 &  i \\
+    0 &  0 & 1 & -i \\
+    1 & -1 & 0 &  0
+  \end{pmatrix}.
+\end{equation}
+This definition allows us to write Equation \ref{eq:vis_outerproduct} in terms of the Stokes
+parameters:
+\begin{equation}
+  \mathcal{V} =
+  (\B{G}_i\otimes\B{G}_j^*)
+  (\B{P}\otimes\B{P})\dvec{S}^{-1}\left\langle\begin{pmatrix}I\\Q\\U\\V\end{pmatrix}\right\rangle,
+\end{equation}
+which allows us to write the parallactic rotation of the Stokes parameters in a convenient form: 
+
+\begin{equation}
+  \dvec{P} = (\B{P}\otimes\B{P})\dvec{S}^{-1} 
+  =
+  \frac{1}{2}\begin{pmatrix}
+    1 &  \cos2\psi &  \sin2\psi &  0 \\
+    0 & -\sin2\psi &  \cos2\psi &  i \\
+    0 & -\sin2\psi &  \cos2\psi & -i \\
+    1 & -\cos2\psi & -\sin2\psi &  0 
+  \end{pmatrix},
+\end{equation}
+which looks confusing until we make one observation. The Stokes parameters defined on the celestial
+sphere (in the $\alpha,\delta$ basis) are different from those observed (in the $x,y$ basis). If we
+define topocentric, observed Stokes parameters, ($I' = |E_x|^2 + |E_y|^2$, etc.), we find that observed 
+$Q'$ and $U'$ are rotated from the celestial $Q$ and $U$ by an angle $2\psi$, while $I$ and $V$
+remain fixed. We can represent this transformation as 
+\begin{align}
+\begin{pmatrix}I\\Q\\U\\V\end{pmatrix}
+  = \dvec{S}(\B{P}^{-1}\otimes\B{P}^{-1})\dvec{S}^{-1}
+\begin{pmatrix}I'\\Q'\\U'\\V'\end{pmatrix}
+=  \begin{pmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & \cos2\psi & -\sin2\psi & 0 \\
+    0 & \sin2\psi & \cos2\psi & 0 \\
+    0 & 0 & 0 & 1
+  \end{pmatrix}
+\begin{pmatrix}I'\\Q'\\U'\\V'\end{pmatrix},
+\end{align}
+which aligns with our intuition that $Q$ and $U$ rotate between frames, but $I$ and $V$ remain
+constant. 
+
+Finally, we can write the parallactic rotation from the point of view from the feeds as 
+\begin{equation}
+  \dvec{P}' =
+  (\B{P}\otimes\B{P})\dvec{S}^{-1}\dvec{S}(\B{P}^{-1}\otimes\B{P}^{-1})\dvec{S}^{-1} =
+  \dvec{S}^{-1},
+\end{equation}
+where we have taken advantage of another property of the Kronecker outer product, that
+$\B{A}^{-1}\otimes\B{B}^{-1} = (\B{A}\otimes\B{B})^{-1}$. A curious reader at this point will ask
+why we bothered defining the visibilities in terms of the equatorially defined Stokes parameters --
+since the interferometer measures in topocentrically defined coordinates, why not use those? The
+answer is because of the time-dependence of parallactic rotation. A visibility measured at some time
+with some pointing is not equal to the same visibility with the same pointing at a later time. We've 
+written the matrices and carefully defined each rotation and projection to define visibilities in a
+fixed coordinate system, and furthermore, to develop intuition about the rotations between Stokes
+parameters and their projection onto the $xy$ plane.
+
+We can use Figure \ref{fig:parang} to visualize the parallactic rotation of $Q$ and $U$, that is,
+the rotation from $Q',U'$ to $Q,U$. In this figure, all symbols represent $Q$, since they align with
+lines of constant right ascension and declination. However, as the $+$ sign ``rises'' and ``sets,'' increasing or
+decreasing in hour angle, it rotates into $\times$ (and back again). The $+$ and $\times$ in Figure \ref{fig:parang}
+represent $Q'$ and $U'$, respectively.
+
+To complete this brief discussion of interferometric polarimetry, we present the full equations for
+a visibility measured using linear feeds:
+\begin{equation}
+  \mathcal{V} = \left\langle
+  (\B{G}_i\B{P}\vec{E}_{\alpha\delta})
+  \otimes
+  (\B{G}_j\B{P}\vec{E}_{\alpha\delta})^*
+  \right\rangle,
+\end{equation}
+or, writing each component explicitly in terms of topocentric Stokes parameters:
+\begin{gather}
+  \mathcal{V}_{xx} = \int A_{xx}(\hat{s})g_i^xg_j^{x*} e^{-2\pi i \nu(\tau_i^x-\tau_j^x)}
+  \left[I'(\hat{s}) + Q'(\hat{s})\right]e^{-2\pi i \nu (\vec{b}/c)\cdot\hat{s}}\D{\Omega}
+  \label{eq:def_Vxx}
+  \\
+  \mathcal{V}_{xy} = \int A_{xy}(\hat{s})g_i^xg_j^{y*} e^{-2\pi i \nu(\tau_i^x-\tau_j^y)}
+  \left[U'(\hat{s}) + iV'(\hat{s})\right]e^{-2\pi i \nu (\vec{b}/c)\cdot\hat{s}}\D{\Omega}
+  \label{eq:def_Vxy}
+  \\
+  \mathcal{V}_{yx} = \int A_{yx}(\hat{s})g_i^yg_j^{x*} e^{-2\pi i \nu(\tau_i^y-\tau_j^x)}
+  \left[U'(\hat{s}) - iV'(\hat{s})\right]e^{-2\pi i \nu (\vec{b}/c)\cdot\hat{s}}\D{\Omega}
+  \label{eq:def_Vyx}
+  \\
+  \mathcal{V}_{yy} = \int A_{yy}(\hat{s})g_i^yg_j^{y*} e^{-2\pi i \nu(\tau_i^y-\tau_j^y)}
+  \left[I'(\hat{s}) - Q'(\hat{s})\right]e^{-2\pi i \nu (\vec{b}/c)\cdot\hat{s}}\D{\Omega}
+  \label{eq:def_Vyy}
+\end{gather}
+
+It is often convenient to rotate the linearly-polarized visibilities as the linearly-polarized
+images are rotated into Stokes parameters. This does not exactly represent the true
+Fourier-transformed Stokes parameters, but it does provide a useful approximation. Section
+\ref{sec:BeamLeakage} will discuss one of the negative consequences of such a rotation. For
+completeness, we provide the definition of Stokes visibilities:
+\begin{equation}
+  \begin{pmatrix}
+    \mathcal{V}_I \\
+    \mathcal{V}_Q \\
+    \mathcal{V}_U \\
+    \mathcal{V}_V
+  \end{pmatrix} = \begin{pmatrix}
+    1 &  0 & 0 &  1 \\
+    1 &  0 & 0 & -1 \\
+    0 &  1 & 1 &  0 \\
+    0 & -i & i &  0
+  \end{pmatrix}\begin{pmatrix}
+    \mathcal{V}_{xx} \\
+    \mathcal{V}_{xy} \\
+    \mathcal{V}_{yx} \\
+    \mathcal{V}_{yy}
+  \end{pmatrix}
+\label{eq:def_stokes_vis}
+\end{equation}

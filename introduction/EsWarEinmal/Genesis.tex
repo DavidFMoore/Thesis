@@ -1,0 +1,204 @@
+\section{The Early Universe}\label{sec:Genesis}
+
+13.7 billion years ago, when the universe was only about 380,000 years old, the cosmic radiation
+background (CMB)\nomenclature[Zc]{CMB}{Cosmic Microwave Background Radiation}\footnote{I hesitate to
+  call it the Cosmic Microwave Background (which is what CMB stands for) when talking about it
+  during recombination. The ``M'' in CMB represents the fact that today, its brightness peaks at
+  microwave frequencies. During recombination, it peaked in the UV. Do we call it the CUVB then?
+Hence, ``cosmic radiation background.''} cooled to the point where 
+its photons could no longer dissociate hydrogen, allowing the first stable atoms to form. This point
+in cosmic time is often called the surface of last scattering or the epoch of recombination, and is
+the earliest event we can measure, since before this time, the scattering rate of photons with early 
+protons and electrons was so great as to render the universe opaque. 
+
+The relic abundance of photons from this period (the CMB) has provided a pristine picture of the
+initial conditions of our universe, and has provided much of the evidence for our current
+understanding of cosmology. It is truly remarkable how simple these initial conditions were --- the
+standard model of cosmology, ``vanilla'' $\Lambda$CDM can be fully characterized by only eight
+numbers! Today, such a simplistic representation of our current universe would be absurd --- with the
+growth of structure also came the growth of complexity. One of the main goals of the study of 
+cosmology is to answer the question, how did the complex universe we see today arise?
+
+To begin answering this question, we turn to the universe as it was just after recombination. Baryonic matter 
+in the universe mostly consisted of neutral hydrogen. Quantum fluctuations in the radiation background 
+yielded fluctuations in the density of matter. Fluctuations in the matter field allowed the first structures 
+to form. The increased gravitational potential in the overdensities drew in the surrounding matter, making 
+the overdensities more dense, and the underdensities less dense. Eventually, overdensities above some threshold density
+collapsed into galactic haloes --- self-supporting structures held together by their own
+gravitational potential.
+
+Within these haloes, the first stars and galaxies formed. It is in these stars and galaxies that we
+are interested for this thesis. As we will see in the next section, few Lyman alpha
+(Ly$\alpha$)\nomenclature[Zl]{Ly$\alpha$}{Lyman alpha} photons, the most 
+abundant source of radiation from HI escaped these early times without being scattered. Without
+looking to other tracers of the HI, we know very little about this period of time. Because of this effect, some call
+this period ``the cosmic dark ages.'' Others call it ``cosmic dawn,'' because it was at this time
+that the first luminous objects originated.
+
+The universe we see today is much different than it was during the cosmic dark ages. Stars have processed
+hydrogen and helium into heavier elements, allowing for a more complex chemistry. Galaxies have
+merged and evolved into much more complex structures than their relatively simple progenitors.
+Notably, UV emission from early luminous objects ionized the field of neutral hydrogen
+surrounding them, the intergalactic medium
+(IGM)\nomenclature[Zi]{IGM}{Intergalactic Medium}. Today,
+we measure a highly ionized IGM, but we know that without a neutral IGM, the CMB could not have
+arisen. The period of time when the IGM transitioned from neutral to ionized, called the Epoch of
+Reionization (EoR)\nomenclature[Ze]{EoR}{Epoch of Reionization} captivates researchers, as it is the
+most recent cosmic phase transition.
+
+By characterizing the ionization history of the IGM during the EoR, we can begin to solve some of 
+the mysteries of the early universe. In what environment did the first luminous objects arise? What 
+were they? When did the universe begin to look as it does today? These questions allows us to fill
+the gaps in our understanding between relatively thorough knowledge of the universe at early and
+late times.
+
+\section{How Do We Measure The Earliest Galaxies?}
+
+Now, we turn our attention to observations of the IGM during the EoR, focusing on both its timing
+and the nature of reionizing galaxies. Not only will this discussion elucidate the methods of
+detecting the signature of the first stars and galaxies, but it will also show the limits of our
+understanding of the EoR.
+
+There are three main methods to measure HI during the EoR: the absorption of Ly$\alpha$
+emission from high-redshift quasars, the scattering of CMB photons off of free electrons after
+reionization, and 21cm emission from the hyperfine transition of HI. We will discuss
+these three measurements in turn, focusing on the advantages and limitations of 
+each. We will argue that the measurement most likely to detect signatures of reionization is the
+21cm power spectrum, on which we will focus for the remainder of this thesis.
+
+\subsection{High Redshift Lyman Alpha Emitters}
+
+Ly$\alpha$ emission from high-redshift quasars is both relatively abundant and relatively
+bright, so it would seem to be an excellent candidate for detecting the signature of HI during the 
+EoR. Ly$\alpha$ photons have a high cross-section to HI and will quickly become absorbed in a
+neutral IGM. As a Ly$\alpha$ photon from a quasar passes through a cloud of HI, it becomes
+absorbed, creating a dip in the quasar spectrum. \citet{GunnPeterson} investigated this effect in
+their seminal paper, predicting that, for a quasar in a highly neutral interstellar medium, all
+emission blue-wards of Ly$\alpha$ in the quasar's rest frame would be nearly completely 
+absorbed. Furthermore, they suggest using the optical depth of Ly$\alpha$ to that quasar yields
+a measure of the neutral hydrogen fraction, integrated along the line of sight. 
+
+\figuremacroW{Gunn-Peterson.eps}{1.0}{fig:GunnPeterson}{
+  Quasar spectra at redshift 5.80 (cyan), 5.82 (green), 5.99 (magenta), and 6.28 (red), showing the
+  near-total absorption of Ly-$\alpha$ in the high-redshift IGM. This so-called Gunn-Peterson trough 
+  indicates the presence of neutral hydrogen in the quasar environment. Figure taken from
+  \citet{Becker2001}.
+}{Detection of the Gunn-Peterson trough with high-$z$ quasars, from \citet{Becker2001}}
+To date, several measurements have been made of these so-called Gunn-Peterson troughs
+\cite[][e.g.]{Fan2006,Becker2001}. Figure \ref{fig:GunnPeterson} shows measurements from
+\citet{Becker2001} of several quasar spectra, demonstrating the increasing optical depth of the
+Ly$\alpha$ line with redshift. This indicates the increase of the neutral fraction with
+increasing redshift. Measurements like this one indicate the presence of HI in the IGM as late as
+$z\sim6$. Measuring the global neutral fraction through this method is uncertain, as each
+measurement of $x_{HI}$ depends on the line of sight to the quasar, and cannot measure a global
+quantity \cite{Taylor2014}.
+
+\citet{GunnPeterson}, in a nearly identical calculation to the one presented in Section 
+\ref{sec:SpinTemp}, show that the optical depth of Ly$\alpha$ through neutral hydrogen 
+is, to an order of magnitude, $\tau_\nu \sim 10^4x_{HI}$, where $x_{HI}$ is the neutral fraction of 
+hydrogen. This poses the difficult problem that nearly all Ly$\alpha$ emission passing 
+through an IGM with $x_{HI} \gtrsim 10^{-4}$ is absorbed. Thus, these measurements can only access the
+late stages of the EoR, and will prove to be difficult to use in measuring $x_{HI}$ during peak
+reionization. 
+Ly$\alpha$ emitters can also be measured without spectroscopy. Objects with an excess
+brightness in one photometric band which could correspond to highly-redshifted Ly$\alpha$
+are called ``Lyman break'' galaxies. Lyman break galaxies can be used to measure the luminosity function 
+--- and thus the mass function --- of galaxies as a function of redshift \citet[][e.g.]{Bouwens2011}. 
+
+\figuremacroW{LuminosityFunction.eps}{0.6}{fig:dNdL}{
+  Luminosity function of Lyman break galaxies, in several redshift bins. These data indicate a
+  steepening of the luminosity function with age. Figure taken from \citet{Bouwens2011}.
+}{Luminosity function of Lyman break galaxies, from \citet{Bouwens2011}}
+Figure \ref{fig:dNdL} shows the luminosity function for several Lyman break galaxies in a series of
+redshift bins. The luminosity function seems to steepen with age, indicating fewer, older luminous 
+galaxies; hence, galaxies during the EoR were most likely relatively small. There are two major sources
+of uncertainty in this measurement, though. First, since the redshift Lyman break galaxies are 
+measured photometrically, there is a high uncertainty in their redshift. This uncertainty may be
+caused by a (photometric) degeneracy between redshift 6 Ly$\alpha$ and a redshift 2 OIII line, allowing for
+only $\sim85\%$ confidence in the redshifts measured for these galaxies. Second, since only the
+brightest galaxies from this epoch can be measured, one must extrapolate measurements of the
+luminosity function to lower brightness, creating a high degree of uncertainty. Nonetheless, these
+measurements indicate that reionization was most likely driven by low-mass, low-brightness galaxies. 
+
+\subsection{Hints from the CMB}
+
+Free electrons present after reionization will scatter CMB photons, suppressing the overall
+amplitude of the temperature power spectrum by a factor of $\exp\{-\tau_{ri}\}$, where 
+$\tau_{ri}$ is the optical depth of a CMB photon through those free electrons 
+\cite{Zaldarriaga1997-parameters}. The global ionization history can be estimated by $\tau_{ri}$,
+and in fact, $\tau_{ri}$ is one of the free parameters of vanilla $\Lambda$CDM 
+\cite[][e.g.]{Spergel2003, Komatsu2009}, but there is a clear degeneracy between $\tau_{ri}$ and the
+overall scaling of the $TT$ power spectrum.
+
+\figuremacroW{KogutReionization.eps}{0.6}{fig:Kogut}{
+  $TE$ cross-correlation from WMAP, showing the first detection of the effects of reionziation 
+  on the CMB. Thompson scattering of CMB photons off of free electrons produced during reionization
+  creates polarized power on scales of $\ell\sim2\sqrt{\tau_{ri}}$, where $\tau_{ri}$ is the optical
+  depth of a CMB photon through reionization. Figure from \citet{Kogut2003}.
+}{The first detection of the signature of reionziation in the CMB, from \citet{Kogut2003}}
+This degeneracy is broken by analyzing the polarization of the CMB. If a CMB photon Thompson-scatters 
+off of an electron from within a quadrupolar temperature anisotropy, the CMB becomes
+linearly polarized (this is one generator of E-modes). This type of scattering during reionization
+contributes power to the $EE$ spectrum, generating a peak whose amplitude is proportional to
+$\tau_{ri}$, and whose location is around $\ell \sim 2\sqrt{\tau_{ri}}$
+\cite{Zaldarriaga1997-reionization}. Figure \ref{fig:Kogut} shows the first detection of this
+effect, seen in the $TE$ cross-correlation using the Wilkinson Microwave Anisotropy Probe
+(WMAP)\nomenclature[Zw]{WMAP}{Wilkinson Microwave Anisotropy Probe}.
+
+Extracting the ionization history from $\tau_{ri}$ is highly model dependent, since $\tau_{ri}$ is
+an integral quantity, summing information from all times since last scattering. Typically,
+researchers will assume simple models for the ionization history and model the optical depth as 
+$\tau_{ri} \propto \int_0^{z_{recomb}}x_{e}(z)(1+z)^{-1}(dl/dz)\D{z}$, where $z_{recomb}$ is the
+redshift of recombination, $x_{e}(z)$ is the ionization history, and $dl/dz$ is the cosmological 
+line-element at redshift $z$. Popular models for $x_{HI}(z)$ include ``instantaneous reionization,'' 
+in which $x_{HI}(z)$ is 1 until the redshift of reionization $z_{reion}$, and 0 afterwards, and a
+model including a sustained reionization, $x_{HI}(z) = \tan^{-1}\{(z-z_{reion})/\Delta z\}$, where
+$\Delta z$ is the duration of reionization.
+
+\figuremacroW{ZahnCMB.eps}{0.6}{fig:xHIz}{
+  Summary of measurements of $x_{HI}(z) \approx 1-\bar{x}_e(z)$ including information from both the CMB data and
+Ly$\alpha$ emitters, from \citet{Zahn2012}. Contours show the 1- and $2\sigma$ confidence
+intervals of $x_{HI}(z)$ taken from data from WMAP and the South Pole Telescope (SPT). Points,
+upper, and lower limits show measurements from Ly$\alpha$ emitters (citations shown in the figure).
+}{Summary of measurements of $x_{HI}(z)$ \cite{Zahn2012}}
+A final constraint on the ionization history of the IGM that can be drawn from the CMB is due to the
+kinetic Sunyaev-Zel'dovic effect. CMB photons will Doppler-shift as they scatter off of moving
+electrons \cite{Sunyaev1980}. The flow of free electrons generated by ionized bubbles will generated 
+this Doppler shift in the CMB, and will add structure to the $TT$ power spectrum \cite{Zahn2012}.
+Measurements of this type are both heavily model dependent and vulnerable to systematic errors due
+to imperfect foreground removal. Figure \ref{fig:xHIz} shows inferences of the ionization history 
+from measurements of this effect from \citet{Zahn2012}, alongside measurements from CMB polarization 
+and Ly$\alpha$ emitters. 
+
+\subsection{Hyperfine Transition of Neutral Hydrogen}
+
+We now turn our attention to the third method of detecting the signature of the EoR, emission from the
+hyperfine transition of neutral hydrogen. The hyperfine transition occurs via an
+interaction between the spins of the electron and proton in an HI atom. The singlet state, when the
+spins are symmetric under interchange, has a slightly lower energy level than the triplet state, when
+they are anti-symmetric under interchange. This effect is usually summarized by a spin flip in the
+electron, though this only describes two of the three triplet states. This transition
+yields a photon with a wavelength of 21cm.
+
+The hyperfine transition may be much more useful for detecting HI during the EoR than the previous 
+two measurements. As we will show in Section \ref{sec:SpinTemp}, all lines of sight to
+neutral hydrogen at high redshift are optically thin, so emission from all times throughout the EoR
+is accessible. It also reaches Earth at radio frequencies, so ground-based experiments are
+sufficient to measure it. By contrast, redshift 10 Ly$\alpha$ reaches us in the infrared, to
+which the atmosphere is opaque. Also, since 21cm emission directly detects HI,
+information about the EoR can be directly inferred, with no dependence on a model, as in CMB
+analysis.
+
+There are two downsides to using the 21cm line to measure neutral hydrogen. First, the hyperfine
+transition is a forbidden transition, and has a mean lifetime of around $10^7$ years. The effect of
+this small transition rate is relatively dim emission from neutral hydrogen clouds. Second, the
+21cm line from the EoR redshifts into meter wavelengths at which galactic synchrotron emission
+dominates all astrophysical radiation. To give an estimate of the relative strengths of these two
+processes, the temperature of 21cm EoR emission is around 30 mK, and the temperature of galactic
+synchrotron emission is around 1000 K. That foreground emission is $\sim10^5$ times brighter than the
+target signal necessitates a highly accurate foreground removal or avoidance scheme. 
+
+Despite the difficulties facing its measurement, the benefits of 21cm tomogrophy seem to outweigh
+the challenges. Again, the universe is optically thin to 21cm emission, and detecting HI during the
+EoR requires no model. Hence, for the duration of this thesis, we will focus on 21cm emission from 
+neutral hydrogen, and inspect is usefulness for detecting the signature of the first stars and galaxies.

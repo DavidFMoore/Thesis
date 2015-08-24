@@ -1,0 +1,46 @@
+# This file contains parameters for source distributions:
+
+###########################################
+#source fluxes from 6C survey, Hales(2005)#
+#follows a broken power law               # 
+###########################################
+
+#lower half
+#normalization for dNdS (N/Jy/sr)
+aL:4865.
+#power
+bL:2.3
+
+#upper half
+aH:4865. 
+bH:2.3
+
+#knee flux (Jy)
+So: 0.88 
+#maximum flux (Jy)
+Smax: 57.22 
+#minimum flux (Jy)
+Smin: 0.286
+
+######################################
+# polarization fraction              #
+# drawn from log-normal distribution #
+# these are fractions, not percents  #
+######################################
+
+#mean fraction
+Pmean: 0.0201 
+#standard deviation
+Psig: 0.0384 
+#throw out fractons drawn above this value
+Pmax: 0.1 
+
+##############################
+# Spectral index             # 
+# drawn from standard normal #
+##############################
+
+#mean
+Gmean: 0.8
+#standard deviation
+Gsig: 0.1

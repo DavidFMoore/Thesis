@@ -1,0 +1,62 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{UserDefs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% USER DEFINITIONS
+%
+% Here is where you define anything you want to call in the .tex document:
+%   This includes items specific to your paper.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Definitions                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\dirtybeam{dirty beam \index{Dirty Beam}}
+\def\LST{local sidereal time\nomenclature[Am ]{LST}{Local Sidereal Time}\index{LST}}
+\def\PA{parallactic angle }
+\def\PAPER{PAPER }
+\def\polvector{pol-vector\index{Pol-Vector} }
+\def\uv{$uv$-}
+
+%so I can write \Sha
+\usepackage[OT2,T1]{fontenc}
+\DeclareSymbolFont{cyrletters}{OT2}{wncyr}{m}{n}
+\DeclareMathSymbol{\Sha}{\mathalpha}{cyrletters}{"58}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Function definitions            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand\dfdx[2]{\frac{d #1}{d #2}}
+\newcommand\pdfdx[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\D[1]{\ \mathrm{d}#1}
+\newcommand\B[1]{\mathbf{#1}}
+
+%matrix vector lines.
+\def\vecsign{\mathchar"017E}
+\def\dvecsign{\smash{\stackon[-1.95pt]{\vecsign}{\rotatebox{180}{$\vecsign$}}}}
+\def\dvec#1{\def\useanchorwidth{T}\stackon[-4.2pt]{#1}{\, \dvecsign}}
+\usepackage{stackengine}
+\stackMath
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography definitions %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\aap{A\&A}
+\def\aaps{A\&A Supp.}
+\def\aj{AJ}
+\def\apj{ApJ}
+\def\apjl{ApJ Letters}
+\def\apjs{ApJ Supp.}
+\def\araa{ARAA}
+\def\mnras{MNRAS}
+\def\nat{Nature}
+\def\nar{NAR}
+\def\pasa{PASA}
+\def\physrep{PhysRep}
+\def\prd{Phys. Rev. D}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% End of Document                 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\endinput

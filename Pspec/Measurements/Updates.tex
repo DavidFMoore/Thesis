@@ -1,0 +1,244 @@
+\section{Updated Polarization Fractions}\label{sec:updates}
+
+\subsection{Scaling the Simulations}
+
+\figuremacroW{CompareSim.eps}{0.6}{fig:compare_sim}{
+  Top row: measured and simulated power spectra for $I$ (left) and Q (right). Measured power
+  spectra are in black, simulated values are in blue (median value), cyan ($68\%$ confidence
+  interval), and light cyan ($95\%$ confidence interval). Simulations are generated as in
+  Chapter \ref{chap:Simulations}, with a mean polarized fraction of $2.01\%$. Bottom row: Same as
+  the top row, for Band II.
+}{A comparison of simulations and measurements.}
+Figure \ref{fig:compare_sim} compares the measured $Q$ and $I$ power spectra to those simulated
+in Chapter \ref{chap:Simulations}. Since the measured values consistently disagree with the
+simulations, we can constrain the input parameters to the simulations, beginning with a simple
+scaling relation:
+\begin{equation}
+  P_k = x^2S_k,
+  \label{eq:def_x}
+\end{equation}
+where $P_k$\nomenclature[Rp]{$P_k$}{Power spectrum in the $k^{{\rm th}}$ bin} is the measured $Q$ 
+power spectrum in the $k^{{\rm th}}$ bin,
+$S_k$\nomenclature[Rs]{$S_k$}{Simulated power spectrum in
+the $k^{{\rm th}}$ bin} is the simulated power spectrum in that bin, and
+$x^2$\nomenclature[Rx]{$x$}{Scale factor between the simulated and measured power spectra} is the 
+scale factor between the two. We choose to use a scale factor of $x^2$ rather than $x$ in order to
+facilitate the interpretation of $x$ as an adjustment to the mean polarized fraction of point
+sources, as we will soon discuss.
+
+For the duration of this section, we will approximate the measured power spectrum $\hat{P}_k$ as
+normal, random variables, 
+\begin{equation}
+  \hat{P}_k \sim \mathcal{N}(P_k, \sigma_k^2),
+\end{equation}
+with mean $P_k$ and variance $\sigma_k^2$, derived from the distribution of bootstrapped power
+spectra.
+
+We find the scale factor $x$ that best fits Equation \ref{eq:def_x}, and then interpret its physical
+meaning. The likelihood of drawing a simulated power spectrum
+$\mathcal{S}$\nomenclature[Rs]{$\mathcal{S}$}{Set of all bandpowers in a simulated power spectrum} by
+a factor $x^2$ given the measured data
+$\mathcal{D}$\nomenclature[Rd]{$\mathcal{D}$}{Set of all
+bandpowers in a measured power spectrum} is 
+\begin{equation}
+  P(x,\mathcal{S}|\mathcal{D}) 
+  \propto \exp\left\{-\frac{1}{2}\sum_k\frac{|x^2S_k - P_k|^2}{\sigma_k^2}\right\},
+\end{equation}
+where the sum extends over all available values of $k$.
+
+By marginalizing over $\mathcal{S}$, we find the likelihood of $x$:
+\begin{equation}
+  P(x|\mathcal{D}) \propto \int P(x,\mathcal{S}|\mathcal{D})P(\mathcal{S})\D{\mathcal{S}}.
+  \label{eq:likelihood}
+\end{equation}
+Here, $P(\mathcal{S})$ is the joint probability of all $k$-bins of the simulation, i.e. $P(S_0,
+\dots, S_n)$ for $k$-bins labelled 0 to $n$, and $\D{\mathcal{S}}$ denotes the $n$ values of
+$\mathcal{S}$ over which we integrate. We compute the integral in Equation \ref{eq:likelihood} 
+by the Monte Carlo technique, sampling $\mathcal{S}$ from different instances of the simulation. 
+This encapsulates both the probability distribution functions of each $S_k$ and the covariances 
+between $k$-bins in $\mathcal{S}$. To insulate the result from potentially damaging effects of 
+the foreground removal (Section \ref{sec:rm_fg}), we do not consider $k$-bins within the horizon 
+in this integral. 
+
+To find the most likely value of $x$ which would produce the measured power spectrum, we turn to
+Bayes theorem, $P(\mathcal{D}|x) \propto P(x)P(x|\mathcal{D})$, where $P(\mathcal{D}|x)$ is the
+posterior distribution of $\mathcal{D}$ and $P(x)$ is our prior on $x$. Since $x^2$ is a scale
+factor, we choose to use Jeffrey's prior in $x^2$, which sets $P(x) \propto 1/x$.
+
+\figuremacroW{Px.eps}{0.6}{fig:Px}{
+  Posterior distributions for the data, given scale factor $x$. Blue shows that from Band I; cyan,
+  from Band II; and black shows the joint posterior from both bands. Moments of these distributions
+  are summarized in Table \ref{tab:x}.
+}{Posterior distribution of $\mathcal{D}$ given $x$.}
+\begin{table}\begin{center}
+  \begin{tabular}{ c c c c }
+    Band & $\bar{x}$ & $\sigma_x$ & Implied Mean Polarized Fraction 
+    \\
+    \hline\hline
+    I & 0.99 & 0.002 & $2.0\times10^{-3}$
+    \\
+    II & 0.247 & 0.002 & $5.0\times10^{-3}$
+    \\
+    Both & 0.108 & 0.001 & $2.2\times10^{-3}$
+  \end{tabular}
+  \caption{\label{tab:x}Moments of $P(\mathcal{D}|x)$.}
+\end{center}\end{table}
+Measurements from the different bands can be summarized into a joint posterior by simply computing
+the product of the posterior of each band. This assumes that each band is independent, a reasonable
+assumption given the high level of noise in the measured power spectra. Figure \ref{fig:Px} shows
+the posterior distributions of $\mathcal{D}$ given $x$ for Bands I and II, alongside the joint posterior. 
+The moments of the three distributions are summarized in Table \ref{tab:x}.
+
+\subsection{Why is $x$ Related to the Polarized Fraction?}
+
+As mentioned in the previous section, we interpret the scale factor $x$ as an adjustment to the mean
+polarized fraction of point sources. The simulations parameterize each point source with a polarized
+fraction $p$, an unpolarized flux $f$, and a rotation measure $\Phi$. All sources are given a
+spectrum $pf\exp\{-2i\Phi\lambda^2\}$, where $\lambda^2$ is the squared wavelength. This is a
+simplified account of Equation \ref{eq:sim_vis}, but encapsulates the relevant quantities for this
+discussion. Since the source counts are well measured at these frequencies \cite{Hales1988}, and
+rotation measures are also well-measured \cite{Oppermann2012} and independent of frequency, we
+regard the distributions of these two quantities to be fixed. Hence, any constraints we place on
+these simulations can be considered as updates to the distribution of polarized fraction.
+
+The amplitude of the power spectrum in the simulations ($S_k$) can be expressed in terms of the
+source fluxes $f_i$, and the polarized fractions $p_i$.,
+\begin{equation}
+  S_k \sim \sum_{i,j}p_ip_jf_if_j \equiv \bar{p}^2\sum_{i,j}\pi_i\pi_jf_if_j,
+\end{equation}
+where we have defined $\pi_i \equiv p_i/\bar{p}$ as the ratio of a single polarization fraction
+$p_i$ to the mean, $\bar{p}$. Hence, the simulated power spectra are proportional to the mean
+polarized fraction squared, $\bar{p}^2$, and we can interpret the scale factor $x$ as the fractional
+change in the mean polarized fraction.
+
+Table \ref{tab:x} gives the implied mean polarized fraction of point sources for the two bands and
+the joint posterior. In these simulations, we drew polarized fractions from a distribution with a
+mean of around $2\%$, and now we can set a limit about an order of magnitude lower. 
+
+\figuremacroW{CompareSim_MLE.eps}{0.6}{fig:compare_sim_mle}{
+  Same as Figure \ref{fig:compare_sim}, but using a polarized fraction distribution scaled by
+  $x=0.108$, the maximum likelihood value of $x$ using both bands.
+}{Figure \ref{fig:compare_sim}, with a mean polarized fraction of $2.2\times10^{-3}$.}
+Figure \ref{fig:compare_sim} shows updated simulations using the implied polarization fraction of
+the joint posterior from Figure \ref{fig:Px}: $2.2\times10^{-3}$. The simulated $Q\to I$ leakage now
+lies between 10 and 100 ${\rm mK}^2$ in Band II, around the expected level of the 21cm EoR power
+spectrum at redshift 7.
+
+\subsection{On the Applicability of the Simulations}\label{sec:applicable}
+
+We now turn our attention to a qualitative discussion of the diffuse emission found in
+\citet[][B13]{Bernardi2013} and \citet[][J14]{Jelic2014}, and how applicable the simulations are to
+the polarized emission found in those measurements, which is largely characterized as being diffuse
+and as having low rotation measures. We will argue that the simulations may apply to both these two
+measurements, and also that the simulations are a valid point of comparison to the measurements made
+in Section \ref{sec:results}. This discussion builds on Chapter \ref{chap:Simulations}, and justifies
+the use of the simulation as a tool for understanding the power spectra presented in Section
+\ref{sec:results}.
+
+Both B13 and J14 show diffuse, weakly polarized emission found at relatively low rotation measure
+($|\Phi| \lesssim 25\ {\rm m}^{-2}$. These measurements differ from the input sources of the
+simulations in two ways: in the choice of rotation measures included, and in the spatial
+correlation of power. We will discuss these in turn.
+
+The simulations sample rotation measures from the entire \citet{Oppermann2012} map, rather than
+restricting to a particular field of view. Two effects may arise from such a generality. First, the
+inclusion of large rotation measures could scatter power to larger $k$ in the simulations than in
+reality, and second, uncorrelated polarization vectors in the simulation could have a depolarizing
+effect. This concern was addressed in Section \ref{sec:Consistency} by computing the simulation with
+all rotation measures drawn from a pointing at the galactic south pole (coincidentally, the B13
+field), with maximally correlated polarization vectors. The result of this test was identical to the
+random drawing (Figure \ref{fig:corr_sim}). The reproduction of power spectra between the two
+simulations indicates that rotation measure is not a dominant factor in determining the shape or the
+amplitude of the power spectrum of polarized emission. 
+
+The rotation measures in B13 and J14 are considerably lower than those sampled in the simulations.
+Since there is overlap between our field and the B13 field, our measurements include lower
+rotation measures than sampled in the simulation as well. A comparison with our field and the
+\citet{Oppermann2012} maps shows that this is due simply to our choice of pointing. Again, the
+results of Section \ref{sec:Consistency} show that this does not significantly affect the power
+spectrum.
+
+There is another more subtle difference between the Faraday depths of diffuse emission and point
+sources. Since we expect diffuse emission mostly to be generated from within our galaxy, we expect
+it to be emitting from within the magnetized, ionized plasma that rotates its polarization vector.
+As discussed in \citet{Jelic2010}, this creates both a depolarizing effect and structure in the
+rotation measure spectrum of the source. 
+
+The simulations account for this by distributing sources on smaller scales than the resolution
+element of the array.\footnote{I'm trying very hard not to use the word ``synthesized beam'' here.
+  We are looking at the power spectrum on a single baseline --- there is no synthesis, so a
+``synthesized beam'' doesn't really make sense.} Since each source is assigned an independent
+rotation measure, and many sources are placed within the inverse baseline length ($\theta \sim 1/u$),
+then the visibility averages over many rotation measures and polarization angles per pointing. This
+has the same effect as a polarized source emitting from within an ionized, magnetized plasma ---
+different lines of sight summed within the same resolution element of an array produce a complex
+Faraday depth spectrum, and they also add incoherently.
+
+Next, we address the spatial correlation of emission. The simulations assume an isotropic placement
+of point sources. Projecting the fringe onto the simulated sky selects the modes correlated on the
+baseline scale (in our case, $3^\circ$), so the simulation represents any power correlated on those
+$3^\circ$ scales --- that we model it as a series of point sources in many ways is irrelevant, since
+it does not affect this fact. Figure \ref{fig:Cell} shows the agreement of these simulations with
+existing angular power spectral measurements, which indicates that the level of the power correlated
+on $3^\circ$ scales in the simulations agrees with real, diffuse emission. 
+
+Since the simulations produce angular power spectra that agree with measurements, and address
+spectral differences between polarized point sources and diffuse emission, we take the simulations
+as a good reference for all types of polarized emission. Hence, for the $15\lambda$ baselines we
+simulate and measure, any adjustments to the simulation can be considered as adjustments to our
+understanding of the polarized sky. 
+
+\subsection{Comparison to Other Measurements}
+
+As mentioned before, most measurements of the polarized sky at meter wavelengths detect large
+amounts of diffuse polarized emission, compared to the relatively few point sources.
+\citet[][abbreviated in this section as B13]{Bernardi2013}, in a 2400 square degree, detect a single
+point source, PMN J0351-2744, whose polarized flux is 320 mJy. Since this was the only source
+detected in this survey, they claimed that the polarized fraction of sources must be bounded at
+$2\%$.
+
+We ask if our measurements agree with the B13 detection and upper bound. First, we compute the
+probability of detecting a source whose polarized fraction is greater than $2\%$ in the context of
+our measurements. We scale the log-normal distribution of polarization fractions in \citet{Tucci2012}
+by the maximum likelihood value of $x$ from the joint distribution of both bands (Table
+\ref{tab:x}). Integrating this distribution above $2\%$  yields the probability of detecting a
+polarized point source above $2\%$. That probability is $5\%$. While this implies that $2\%$ cannot
+be counted as a strict upper limit, as B13 imply, it does roughly agree with their sstatement that
+detecting sources this polarized is unlikely. Thus, we can relax their strict upper limit to a
+$2\sigma$ upper bound in the polarization fraction.
+
+\figuremacroW{NgtP.eps}{0.6}{fig:NgtP}{
+  Number counts of polarized sources, from a simulation with mean polarized
+  fraction of $2.2\times10^{-3}$, derived from the power spectra in Figures \ref{fig:pspec2x2_lo}
+  and \ref{fig:pspec2x2_hi}. This is a convolution of the unpolarized source counts
+  \cite{Hales1988}, and the polarized fraction distribution \cite{Tucci2012}, scaled by the
+  maximum-likelihood value of $x$ (Table \ref{tab:x}).
+}{Polarized source counts predicted from our measurement of the mean polarized fraction}
+Second, we ask if our updated simulations can produce the occurrence of sources like PMN J0351-2744.
+Figure \ref{fig:NgtP} shows the simulated, integrate source counts from the updated simulation.
+These source counts imply that one source with a polarized flux of 320 mJy occurs roughly every 1700
+square degrees. These number counts are in close agreement with the detection of one source of this
+strength in 2400 square degrees.
+
+This data does have the sensitivity to detect sources like PMN J0351-2744, but its location amidst
+other polarized emission provides difficulty isolating it, as can be seen in Figure
+\ref{fig:pq_vs_t}.
+
+\subsection{Closing Remarks}
+
+Though PAPER in its grid configuration is incapable of creating the high dynamic-range images needed
+to isolate polarized point sources, there are several hints in the data indicating the presence of
+polarized foregrounds. The power we described in the previous sections is consistent with
+the general properties of diffuse, polarized emission described by other measurements
+\cite[][e.g.]{Pen2009,Bernardi2009,Bernardi2013,Jelic2014}. Follow-up observations with arrays more
+suited for imaging will be necessary to fully detect and characterize this emission.
+
+Even with the much reduced polarized fraction inferred from this emission, the implied level of $Q\to I$ 
+leakage exceeds the expected level of the 21cm EoR power spectrum \cite[][e.g.]{Morales2006,
+Lidz2008}. This excess presents a challenge for ongoing and future observations. There are two
+mitigation strategies. First, polarized point sources may be identified and subtracted, as in
+\citet{Geil2011}. Subtracting to the requisite levels will require highly accurate models for an
+unreasonable number of sources, as we showed in Section \ref{sec:sim_mitigation}. The second mitigation
+strategy will involve the design of future instruments, limiting $Q\to I$ leakage. Engineering a
+symmetric primary beam could limit instrumental polarization, and is one of the drivers of the
+design of the HERA array.

@@ -1,0 +1,230 @@
+\section{The Mechanics of the DRMT}\label{sec:mechanics}
+
+Now, we will discuss the computational details of estimating the integral \ref{eq:def_dtrmt}. This
+discussion builds upon and is intended to complement the work done in
+BdB, in
+which rotation measure synthesis is described, and a prescription for its computation is given. We
+will review the discussion of BdB and add a discussion of the effects of
+discretizing the RMT, creating (in an analogy to the DFT) a discrete
+rotation measure transform (DRMT)\nomenclature[Zd]{DRMT}{Discrete Rotation Measure Transform}
+
+We begin the prescription for a DRMT by assigning $\lambda^2$ values to each frequency bin of data.
+Following BdB, we estimate the average value of $\lambda^2$ in the $i^{th}$ frequency bin ($\nu_i$)
+in a spectrum with evenly spaced frequencies, whose spacing is $\Delta\nu$. We define the discrete
+values of the squared wavelength $\lambda^2_i$ as
+\begin{equation}
+  \lambda_i^2 = 
+  \frac{1}{\Delta\nu}\int_{\nu_i-\Delta\nu/2}^{\nu_i+\Delta\nu/2} \frac{c^2}{\nu^2}\D{\nu}
+  = \frac{c^2}{\nu_i\Delta\nu}\left[
+    \left(1 - \frac{1}{2}\frac{\Delta\nu}{\nu_i}\right)^{-1} 
+  - \left(1 + \frac{1}{2}\frac{\Delta\nu}{\nu_i}\right)^{-1} \right]
+  \approx
+  \left(\frac{c}{\nu_i}\right)^2
+  \label{eq:def_lambda2}
+\end{equation}
+where $c$ is the speed of light. To approximate the band-averaged value of $\lambda^2$, we have used 
+the assumption that $\Delta\nu \ll \nu_i$.\footnote{That this is different than the value cited in
+BdB, $\lambda^2_i = (c/\nu)^2(1 + 3\Delta\nu/4\nu_i)$, due to our only approximating to first order
+in $\Delta\nu/\nu$. I personally haven't found any justification for going to a higher order.} Since frequencies are spaced evenly, $\lambda_i^2$ cannot
+be; ergo, there is no set of rotation measures $\Phi_j$ which allow the DRMT to evenly sample the
+unit circle, a crucial property of the choice of frequencies in the DFT. Formally, there are no
+solutions to the equation 
+\begin{equation}
+  2(\lambda_i^2 - \lambda_0^2)\Phi_j = 2\pi\frac{ij}{N}
+  \label{eq:choose_Phiij}
+\end{equation}
+which are independent of $i$.\footnote{As a reminder, the frequencies of a DFT are chosen such that
+  $2\pi(t_i-t_0)\nu_j = 2\pi(ij/N)$. This allows for an even sampling of the unit circle on
+  $[-\pi,\pi)$ and allows for a complete basis of frequencies.} 
+Here $i$ runs on the interval $[0,N)$ and $j\in[-N/2,N/2)$. We will discuss the implications of the
+lack of solutions to Equation \ref{eq:choose_Phiij} throughout this section, but the first and
+most obvious of which prohibits a straightforward set of rotation measures to sample.
+
+To find an optimal set of rotation measures to sample, we must first approximate the spacing between
+adjacent frequency bins and then choose a set of rotation measures accordingly. To do this, we
+simply Taylor expand the spacing in $\lambda^2$ as 
+\begin{equation}
+  \Delta\lambda_i^2 \approx \Delta\nu\left|\pdfdx{\lambda^2}{\nu}\right|_{\nu=\nu_i}
+  = 2\left(\frac{c}{\nu_i}\right)^2\left(\frac{\Delta\nu}{\nu_i}\right),
+  \label{eq:def_dlam2}
+\end{equation}
+and the approximating Equation \ref{eq:choose_Phiij} for appropriate values of $\Phi$.
+
+\figuremacroW{oversampled_kernel}{0.6}{fig:bad_kernel}{
+  Magnitude of the kernel of the DRMT $K(\Phi)$, sampled to a maximum value
+  $\Phi_{max}=(2\Delta\lambda^2_{min})^{-1}$. Vertical lines correspond to the harmonics of
+  $\Phi_{min} = (2\Delta\lambda^2_{max})^{-1}$, with the dashed vertical line corresponding to
+  $\Phi_{min}$ and the dotted lines corresponding to higher harmonics. This plot demonstrates the
+  pitfalls of choosing $\Delta\Phi$ too large, since it shows the kernel structure induced from
+  oversampling the lowest frequencies in a band.
+}{Oversampled kernel of DRMT}
+
+Next, we choose spacings in $\Delta\Phi$ to fully sample the spectrum in rotation measure. Setting
+$\Delta\Phi < 1/2N\Delta\lambda^2_{min}$ prohibits complete reconstruction (i.e. aliasing) of the 
+high-frequency channels, since this choice of $\Delta\Phi$ is less than the maximum Nyquist frequency
+of the spectrum. On the other hand, setting $\Delta\Phi > 1/2N\Delta\lambda_{max}^2$ over-samples the
+$\Phi$ spectrum at the lowest frequencies, adding structure to the kernel of the DRMT at the
+harmonics of $1/2N\Delta\lambda_i^2$, demonstrated in Figure \ref{fig:bad_kernel}.
+
+\figuremacroW{sampling_cartoon}{0.6}{fig:sampling_cartoon}{
+  A cartoon to demonstrate the range of acceptable choices for $\Delta\Phi$. The region on the
+  $\Delta\Phi$-axis hashed to the upper-right represents the range $\Delta\Phi <
+  (2N\Delta\lambda^2_{min})^{-1}$ which under-samples the high frequencies. The region hashed to the
+  lower-right depicts the region $\Delta\Phi > (2N\Delta\lambda_{max}^2)^{-1}$, which over-samples
+  the high frequencies.
+}{Cartoon representation of arguments for sampling $\Delta\Phi$}
+
+Figure \ref{fig:sampling_cartoon} gives a graphic depiction of the argment for choosing
+$\Delta\Phi$. We avoid the doubly-excluded region $(2N\Delta\lambda^2_{max})^{-1} < \Delta\Phi <
+(2N\Delta\lambda^2_{min})^{-1}$, and choose to undersample rather than to introduce unwanted
+structure. Finally, we choose a sampling in rotation measure
+\begin{equation}
+  \Delta\Phi = \frac{1}{N\Delta\lambda^2_{max}}.
+  \label{eq:def_dphi}
+\end{equation}
+
+We use this choice of spacing in rotation measure to construct the rotation measure spectrum which
+we sample:
+\begin{equation}
+  \Phi_j = j\Delta\Phi,
+\end{equation}
+where the index $j\in[N/2, N/2)$ mirrors that of the DFT.
+
+Finally, we set the phase-offset
+\begin{equation}
+  \lambda_0^2 \equiv \frac{1}{N}\sum_i\lambda_i^2
+\end{equation}
+to reduce the phase error between the $i=0$ and $i=N$ frequency bins.
+
+Now, we can approximate the integral in Equation \ref{eq:rmt_continuum} as a matrix equation:
+\begin{align}
+  \widetilde{F}_j &\approx \frac{1}{\sum_i \Delta\lambda^2_i}
+  \sum_i F_ie^{-2i\Phi_j(\lambda_i-\lambda_0^2)}\Delta\lambda_i^2
+  \nonumber \\ &\equiv
+  \frac{1}{N}\sum_iF_ie^{-2i\Phi_j(\lambda_i^2-\lambda_0^2)}\omega_i,
+  \label{eq:def_DRMT}
+\end{align}
+where $\widetilde{F}_j$ is the DRMT of $F$ at $\Phi_j$, $F_i$ are the spectrum values, and
+$\lambda^2_i$ are the bin-averaged values of the square wavelength (Equation \ref{eq:def_lambda2}).
+Equation \ref{eq:def_DRMT} also defines the weights
+\begin{equation}
+  \omega_i = \frac{N\Delta\lambda_i^2}{\sum_i\Delta\lambda^2_i}
+  \label{eq:def_omega}
+\end{equation}
+which are the ratios of the bin-widths in $\lambda^2$ to the total bandwidth of the spectrum. We
+notat that this is a particular case of Equation \ref{eq:def_dtrmt} whose weights are chosen to most
+accurately approximate the measure of the rotation measure transform (Equation \ref{eq:rmt_continuum}).
+
+The matrix $\B{W}$, defined as
+\begin{equation}
+  W_{ij} = e^{-2i\Phi_j(\lambda_i^2-\lambda_0^2)}\omega_i
+  \label{eq:w_ij}
+\end{equation}
+allows us to write Equation \ref{eq:def_DRMT} in matrix form as $\widetilde{\B{F}} =
+\B{W}\cdot\B{F}$. This highlights the computational benefit that we need only calculate the matrix
+$\B{W}$ one for each class of spectra $\B{F}$.
+
+\subsection{Example Spectra}
+
+\figuremacroW{5sources}{0.6}{fig:example_drmt}{
+  (Top Panel) Simulated spectrum with five ``sources" with randomly chosen fluxes and rotation
+  measures. Each channel is injected with 10Jy noise. (Bottom Panel) The magnitude of the DRMT of
+  the spectrum in the top panel in black, with red triangles corresponding to the simulated $\Phi$ /
+  flux pairs overlaid. The range of $\Phi$ values shown is restricted to $|\Phi| \le 50\ {\rm
+  m}^{-2}$ to better show the kernel of the DRMT.
+}{Example rotation measure spectrum calculated with the DRMT}
+As a proof of concept, we simulate a mock spectrum containing five ``point sources,'' each with a
+randomly selected flux and rotation measure, shown in the top panel of Figure
+\ref{fig:example_drmt}. The simulated spectrum $S_i$ is calculated as
+\begin{equation}
+  S_i = \sum_{j=1}^5 A_je^{-2i\Phi_j\lambda_i^2} + n_i,
+\end{equation}
+where $A_j$ are the simulated fluxes, drawn from a chi-squared distribution with two degrees of
+freedom, $\Phi_j$ are the simulated rotation measures, drawn from a normal distribution whose mean
+is zero and width is $25\ {\rm m}^{-2}$, $n_i$ is the injected noise, drawn from a mean-zero normal
+distribution with a width of 10 Jy, and the spectrum is calculated on frequencies $\nu_i$ (and their
+corresponding square wavelengths $\lambda_i^2$), which are evenly spaced on 0.1 to 0.2 GHz, with
+1000 channels.
+
+Figure \ref{fig:example_drmt} displays excellent isolation of each $\Phi$ component and demonstrates
+the recovery of an input model. Normally, a physical source will not exhibit such a complex rotation
+measure structure, but this simulation is designed to highlight the strengths of the DRMT, rather
+than be physically representative.
+
+\subsection{Inverse Transform}
+
+In general, the transformation matrix $\B{W}$ (Equation \ref{eq:w_ij}) is singular, prohibiting an
+exact expression for the inverse DRMT. Hence, we must supply an approximation for the inverse
+rotation measure transform,
+\begin{equation}
+  F(\lambda^2) = \frac{1}{\pi}\int \widetilde{F}(\Phi)e^{+2i\Phi\lambda^2}\D{\Phi}
+  \label{eq:def_iRMT}
+\end{equation}
+
+which should follow the same conventions as the rotation measure transform. The matrix
+\begin{equation}
+  \widetilde{\B{W}}_{ij} = \frac{1}{\pi}e^{+2i\Phi_i\lambda_j^2}\Delta\Phi
+  = 
+  \frac{1}{\pi}\frac{\sum_k\Delta\lambda_k^2}{N\Delta\lambda^2_{max}}e^{+2i\Phi_i(\lambda_j^2-\lambda_0^2)},
+  \label{eq:w_ij-1}
+\end{equation}
+defined such that $\B{F} \approx \widetilde{\B{W}}\cdot\widetilde{\B{F}}$ is an approximation to
+Equation \ref{eq:def_iRMT}. A direct consequence of the singularity of $\B{W}$ is that the product 
+\begin{equation}
+  \sum_j W_{ij}\widetilde{W}_{jk} \approx \frac{\omega_i}{\omega_{max}}\delta_{ik}
+\end{equation}
+is not the identity matrix, but converges to the identity matrix in the limit where the spacing in $\lambda^2$
+becomes even. In this special case, the DRMT reduces to the DFT, as expected. We also note that in
+this special case, the DRMT is unitary.
+
+\subsection{Noise Characteristics}
+
+Parseval's theorem states that power must be conserved between a function and its Fourier transform
+--- the rotation measure transform is no different. Rewritten to adhere to the conventions of
+rotation measure synthesis, Parseval's theorem requires 
+\begin{equation}
+  \int|F(\lambda^2)|^2\D{\lambda^2} = \frac{1}{\pi}\int|\widetilde{F}(\Phi)|^2\D{\Phi},
+  \label{eq:parseval}
+\end{equation}
+where the factor of $\pi^{-1}$ accommodates the abnormal Fourier convention of rotation measure
+synthesis. With the substitutions $\lambda^2\to x$ and $\Phi\to\pi k$, Equation \ref{eq:parseval}
+reduces to the conventional notation for a Fourier transform defined as $\tilde{f}(k) = \int
+f(x)\exp\{-2\pi ikx\}\D{x}$.
+
+Because the transfer matrix for the DRMT in Equation \ref{eq:w_ij} is non-unitary ($\B{W}^\dagger
+\ne \B{W}^{-1}$), the DRMT will not satisfy Parseval's theorem exactly. However, just as we
+approximate $\B{W}^{-1}$ in Equation \ref{eq:w_ij-1}, we can approximate the noise characteristics
+of the DRMT by enforcing Parseval's theorem in the limit where the $\lambda_i^2$ are uniformly
+spaced.
+
+We begin our approximation of Parseval's theorem by discretizing the right-hand side of Equation
+\ref{eq:parseval}, and expanding $\widetilde{F}$ in terms of the DRMT of the original spectrum:
+\begin{equation}
+  \sum_i|\widetilde{F}_i|^2 = N \sum_i \left|F_i\right|^2\omega_i^2.
+  \label{eq:parseval_discrete}
+\end{equation}
+In the limit $\omega_i\to1$, this expression behaves as expected and gives the usual statement of
+Parseval's theorem for a DFT. Otherwise, we can approximate Equation \ref{eq:parseval_discrete} by
+providing an upper limit,
+\begin{equation}
+  \sum_i|\widetilde{F}_i|^2 \le N\omega_{max}^2\sum_i\left|F_i\right|^2,
+  \label{eq:noise}
+\end{equation}
+where $\omega_{max}$ is the maximum fractional bin width for $\lambda^2$ spectrum, corresponding
+with the lowest frequency bin.
+
+The relationship in Equation \ref{eq:noise} allows us to estimate the noise properties of the DRMT
+in terms of the original spectrum. If a spectrum has uniform noise with variance
+$\sigma^2_{\lambda^2}$, then the DRMT of that wignal will also have uniform noise with variance
+$\sigma^2_\Phi \le N\omega_{max}^2\sigma_{\lambda^2}^2$.
+
+Though the noise level of the DRMT is uniform, the noise in each $\Phi$ sample will not necessarily
+be independent. Since the kernel of the DRMT, 
+\begin{equation}
+  K_j = \sum_i e^{-2i\Phi_j\lambda_i^2}\omega_i
+  \label{eq:kernel}
+\end{equation}
+only reduces to a delta function when the $\lambda_i^2$ are uniformly spaced, the noise will have
+some covariance given by the matrix $C_{ij} = K_iK_j^*$. As the spacings in $\lambda^2$ become
+uniform $(\omega_i\to1)$, the covariance will vanish in all but its off-diagonal terms
+$(C_{ij}\to\delta_{ij})$, since the DRMT reduces to a DFT.

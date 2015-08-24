@@ -1,0 +1,109 @@
+\section{Polarization Calibration in Redundant Arrays}\label{sec:redcal}
+
+Since the field of view of PAPER cannot be dominated by a single source, we turn to broader, more
+statistical measures to calibrate against. The first is that a handful of calibrator sources,
+Pictor A, and Fornax A to name two, are only weakly polarized, allowing their constituent
+unpolarized signals to dominate the emission in $\mathcal{V}_{xx}$ and $\mathcal{V}_{yy}$. This
+allows us to calibrate the $xx$ and $yy$ polarizations with only an unpolarized model. Once the
+antenna-dependent gains are solved for, we apply those to $\mathcal{V}_{xy}$ and $\mathcal{V}_{yx}$.
+
+This calibration scheme is incomplete, leaving an uncalibrated phase between the two
+cross-polarized visibilities. To solve for this phase difference, we make a final assumption, that
+$V=0$, and solve for the phase which minimizes $\mathcal{V}_V \equiv
+\mathcal{V}_{xy}-\mathcal{V}_{yx}$. In other words, the assumption that $V=0$ allows us to assume
+that $\mathcal{V}_{xy}$ and $\mathcal{V}_{yx}$ are redundant.
+
+To understand the process of calibrating for the cross-polarization phase difference, we review
+redundant calibration in general, focusing on PAPER's implementation in particular. We extend this
+into polarization, explaining the impetus for solving for a single cross-polarization calibration
+term.
+
+If the signal in two visibilities labeled $12$ and $34$ is redundant and calibration terms are 
+antenna-based, then we can solve the equation 
+\begin{equation}
+  g_1g^*_2\mathcal{V}_{12} = g_3g_4^*\mathcal{V}_{34}
+\end{equation}
+by minimizing the value
+\begin{equation}
+  \chi^2 = \sum_{(i,j),(k,l)\in\mathcal{R}}
+    \left|g_ig_j^*\mathcal{V}_{ij} - g_kg_l^*\mathcal{V}_{kl}\right|^2,
+    \label{eq:def_redcal}
+\end{equation}
+where \nomenclature[Rc]{$\mathcal{R}$}{Set of redundant baselines}$\mathcal{R}$ is the set of redundant baselines 
+in an array. A full description of redundant calibration can be found in \citet{Liu2010}, and a
+clever implementation of it can be found in \citet{Zheng2014}.
+
+\figuremacroW{AntennaGrid.eps}{0.6}{fig:red_array}{
+}{Map of redundant spacings in PSA32}
+
+A full minimization of Equation \ref{eq:def_redcal} requires using all redundant baselines in an
+array, a computationally costly task. We restrict ourselves to three redundant types, a subset of
+$\mathcal{R}$, labelled by their grid-spacings as $(0,1)$,$(\pm1,1)$ in Figure \ref{fig:red_array},
+which shows a cartoon map of the PAPER array.
+
+We are restricted in our choice of a subspace of $\mathcal{R}$. Consider the subspace of all
+baselines with grid spacing $(0,1)$. Each row of the array may be calibrated relative to itself, but
+there are no terms in \label{eq:def_redcal} which link different rows. If we add all baselines with
+$(1,1)$ to this subset, then we can link rows, but the solutions for the top-left and bottom-left
+antennae are under-constrained. Adding the $(-1,1)$ baseline type fixes this problem and illuminates
+the two related criteria for the subspace of $\mathcal{R}$ necessary to fully solve for redundant
+calibration: the subset $\mathcal{R}'$ must extend through all antennae twice, and it also must 
+allow for closure quantities to be calculated. As a reminder, the phase of all baselines in a closed
+loop of antennae must add to zero ---  this is called a closure quantity. A general rule is to draw
+closed loops with elements of $\mathcal{R}'$, shown in Figure \ref{fig:red_array} as a cyan triangle
+made of two $(0,1)$ baselines, and one each of $(1,1)$ and $(-1,1)$. 
+
+Having chosen a subset of $\mathcal{R}$, we further simplify the procedure by linearizing Equation 
+\ref{eq:def_redcal}, computing the logarithm of the visibilities. Finally, we model the phase as a 
+line (an electrical delay $\tau_i$), representing Equation \ref{eq:def_redcal} as
+\begin{equation}
+  \log\left(\frac{\mathcal{V}_{ij}}{\mathcal{V}_{kl}}\right) 
+  = 
+  \log g_i + \log g_j + \log g_k + \log g_l 
+  +
+  2\pi i\nu(\tau_i-\tau_j-\tau_k+\tau_l).
+  \label{eq:redcal_vis}
+\end{equation}
+This equation sacrifices an unbiased, optimal solution for computational ease. The real part of the
+log of the ratio $\mathcal{V}_{ij}/\mathcal{V}_{kl}$ is simply a function of the antenna gains, and
+the imaginary part is simply a function of the electrical delays.
+
+As a final simplifying step, we choose a fiducial baseline from each type to serve as the denominator 
+of the ratio in Equation \ref{eq:redcal_vis}. This eases the computational burden from order $N_{ant}^4$, the
+number of baselines squared, to order $N_{ant}^2$. This step essentially reduces the size of the 
+matrix representing the addition of gains (or delays) from $N_{ant}\times N_{ant}^4$ to 
+$N_{ant}\times N_{ant}^2$ --- the system of equations is still over-constrained, but now we have
+less work to do.
+
+Thus we solve for calibration parameters which force the array to be redundant. There are two terms
+per polarization which cannot be calibrated in this way, though. The first is obvious: an array-wide
+flux scale, setting the calibration of the $xx$-polarization, say, to the sky. We solve for these by
+assuming that $I$ dominates the signal in $xx$ and $yy$, and setting the flux to a model of Pictor A
+\cite{Jacobs2013b}. The second, less obvious terms remaining are the delays of the fiducial
+baselines we chose, which we decompose into a fiducial east-west and a fiducial north-south
+baseline. These final terms are also found by fitting a model of Pictor A to all of the now-redundant visibilities.
+
+Now, both the $xx$ and the $yy$ polarizations are calibrated. If we assume that the gains and delays
+are antenna-based, we can apply them to the $xy$ and $yx$ polarizations. This leaves one final term:
+a cross polarization delay. Up until this point in the redundant calibration process, each polarization 
+of the array has been treated independently. To set the $x$ and $y$ delays to the same reference, we
+must add information to our calibration schema.
+
+To solve for the cross-polarization delay, we assume that $V=0$ at these frequencies, so we can
+treat the $xy$ and $yx$ visibilities as redundant. Then, as before, we solve for the delay which
+minimizes $\mathcal{V}_V$, 
+\begin{equation}
+  \mathfrak{Im}\left\{\log\mathcal{V}_{xy} - \log\mathcal{V}_{yx}\right\} = 2\pi i \tau_{xy}\nu.
+  \label{eq:def_crosspol}
+\end{equation}
+Since all baselines are calibrated to be redundant at this point, we use all available data to solve
+for $\tau_{xy}$ and apply it to fully calibrate the redundant array.
+
+It should be noted that this method is similar to that presented in \citet{Cotton2012}, with two
+differences. First, \citet{Cotton2012} suggests maximizing the sum on the left-hand side of Equation
+\ref{eq:def_crosspol}, which pushes all available signal into $\mathcal{V}_U$, allowing some to
+remain in $\mathcal{V}_V$. In general, one cannot make the assumption that $V=0$, but at the low
+frequencies measured by PAPER, no circularly polarized emission has been measured to date. Second,
+\citet{Cotton2012} uses this method on a per-baseline basis, not assuming a redundant array, which
+we clearly do. The use of multiple baselines to solve for a single calibration term increases the
+signal-to-noise of the measurements of that calibration term.

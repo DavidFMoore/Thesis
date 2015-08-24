@@ -1,0 +1,25 @@
+\chapter{Simulations}
+\label{chap:Simulations}
+
+To better grasp the effects of $Q\to I$ leakage into the 21cm signal, we generate several
+random realizations of the sky, each consisting of many polarized point sources. Each source passes
+through a Faraday screen with some rotation measure, chosen from a distribution based on current
+measurements. Next, we simulate that source for a single baseline. Finally, we calculate the power
+spectrum measured by that visibility. Only one visibility needs to be simulated, because the
+delay-spectrum approach makes use of the fact that each baseline measures the 21cm EoR with a range
+of $k$-modes determened by the baseline length, orientation, and bandwidth.
+
+Rather than creating an exact simulation of the physical sky, we create a simulation whose
+statistical properties are physically motivated. This choice reflects a desire for simple, easliy
+tunable parameters for the simulation. In that same spirit, we model all sources simply as point
+sources with a Poisson angular distribution. The simulation's primary concern  with the spectral information
+of polarized foregrounds allows us to justify neglecting the angular terms. This is equivalent to
+assuming for all the relevant $k$-modes, $k_{||} \gg k_{\perp}$. Emphasis on the $k_{||}$, or
+line-of-sight, spectral modes also motivates our decision to model the sky as nuemerous point
+sources. For a more detailed discussion of diffuse polarized emission, we direct the reader to
+\citet{Jelic2010}.
+
+\input{Pspec/Simulations/Parameters}
+\input{Pspec/Simulations/PowerSpectra}
+\input{Pspec/Simulations/ConsistencyChecks}
+\input{Pspec/Simulations/Mitigation}

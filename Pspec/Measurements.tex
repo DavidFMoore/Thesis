@@ -1,0 +1,80 @@
+\chapter{Power Spectra} \label{chap:PowerSpectra}
+
+To directly measure the level of polarized power described and simulated in the previous two
+sections, we turn to data taken during the EoR2011 observing campaign defined in Table
+\ref{tab:deploy}. While the primary objective of this campaign was to measure the mostly unpolarized
+signature of neutral Hydrogen in the early universe \cite{Parsons2014, Jacobs2014}, it could not
+reach the sensitivity levels required to characterize or even detect the power spectrum. Hence, it
+is a useful study for characterizing foregrounds. All four polarization products were correlated specifically to
+characterize the level of polarized power which could corrupt 21cm EoR power spectrum measurements.
+
+\figuremacroW{UVCoverage.eps}{1.0}{fig:uv_coverage}{
+  (Top Panel) Antenna positions, referenced to the top, left antenna. (Bottom Panel) $uv$-coverage
+  for the entire array in black. The $uv$-coverage of the subset of antennae used for this analysis 
+  is shown in cyan. To give a sense of scale between the $u$- and $v$-axes, concentric circles with
+  radii of $2\lambda$, $5\lambda$, $10\lambda$, $20\lambda$, $50\lambda$, and $100\lambda$ are shown.
+  Since the power spectrum is computed for each integration, there is no Earth-rotation synthesis.
+}{Antenna positions and $uv$-coverage}
+As as brief reminder of Section \ref{sec:deploy} and Table \ref{tab:deploy}, this data was
+taken during Winter of 2011 and Spring of 2012, spanning eighty-two nights of observations.
+PAPER's configuration for this season was in an $8\times4$ grid. Since the antennae are
+arranged in a redundant grid, we can label the subsets of redundant baselines by their grid
+spacings. For instance, a baseline composed of two adjacent antennae in the same row can be written
+$(0,1)$. Similarly, a baseline composed of two adjacent antennae in the same column can be written
+as $(1,0)$. For the results presented here, and in the two sister papers to this work,
+\cite{Jacobs2014, Parsons2014}, only baseline types $(0,1)$, $(1,1)$, and $(-1,1)$ are considered. 
+The row-spacings in this configuration were 30m, chosen to reduce the extent of the foreground wedge 
+without incurring the any antenna-to-antenna cross talk. The column spacings were 4m, maximizing 
+the redundancy between baselines $(0,1)$ and $(1,1)$ or $(-1,1)$. Figure \ref{fig:uv_coverage} shows
+a map of the antenna spacing, as well as the $uv$-coverage of the array. The four-degree offset of
+the columns from true north is due to the projection of the tangent plane to the Earth at the
+array location to UTM plane 34.
+
+Data was taken continuously from 6pm SAST until 6am SAST each night during this campaign. To remove
+effects of the sun, we only consider data when the sun is below -5$^\circ$ in altitude. We restrict
+the number of nights due to some systematic errors which corrupt the data after April 1, 2012
+--- Julian Date 2456018. A catastrophic event occurred on this date,\footnote{Because I observed
+this data remotely, I can only guess, but my money is on a lightning strike.} and most of the data
+taken after it was unusable. 82 nights of data survived quality checks and are used for this
+analysis. 
+
+\figuremacroW{FOV.eps}{1.0}{fig:fov}{
+  Effective integration time per pointing (Equation \ref{eq:teff}), as a function of position on the sphere.
+}{Effective integration time for each pointing on the sphere}
+We focus our efforts on the range in LST from 1h00m until 8h00m, which maximizes the total
+integration time available, but minimizes the effects of systematics. Since PAPER is a drift-scan
+array, this sets both the pointing and the field of view. Figure \ref{fig:fov} shows a map of effective 
+integration time per pointing, defined as 
+\begin{equation}
+  t_{eff}(\alpha,\delta) = \sum_{i} t_{int} A(\alpha,\delta,t_i)
+  \label{eq:teff}
+\end{equation}
+where the sum extends over the each integration in the season. This metric is defined to give the total 
+integration time when integrated over position on the sphere. The total field of view surveyed is 2.39 sr. 
+
+Finally, we restrict the final analysis to two bands, though the full range of frequencies is used 
+throughout much of the analysis. We label the lower one Band I, and the upper, Band II. Band II 
+corresponds with that used for the results in \citet{Parsons2014}, and Band I is chosen to correspond 
+to the lowest band in \citet{Jacobs2014}. Many of the observational parameters defining these two bands 
+are presented in Table \ref{tab:obsparams}.
+
+\begin{table}\begin{center}
+  \begin{tabular}{c c c c c c c}
+    Band & $\nu_0$ [MHz] & $\Delta\nu$ [MHz] & $z$ & $A_{eff}\ [{\rm m}^2]$ & $T_{sys}$ [K] & $\mathcal{A}_-/\mathcal{A}_+$ \\
+    \hline\hline
+    I  & 126 & 7.9 & 10.3  & 4.47 & 836 & $3.3\times10^{-3}$ \\
+    II & 164 & 9.4 &  7.66 & 5.80 & 505 & $2.2\times10^{-2}$
+  \end{tabular}
+  \caption[Observational parameters]{\label{tab:obsparams} Observational parameters for the two sets of power spectra
+  presented. Given are the central frequency $\nu_0$, the effective bandwidth $\Delta\nu$, the
+central redshift of observation $z$, the effective area of the antennae $A_{eff}$, and the ratio
+which paramterizes $Q\to I$ leakage, $\mathcal{A}_-/\mathcal{A}_+$ (Section \ref{sec:BeamLeakage}).}
+\end{center}\end{table}
+This Chapter outlines the processing and analysis of the polarization properties of this
+data. Section \ref{sec:data} describes the analysis and quality checks this data underwent; Section
+\ref{sec:results} presents the power spectra of these data, and finally, Section \ref{sec:updates}
+gives the physical properties of polarized point sources that these data imply.
+
+\input{Pspec/Measurements/DataProcessing}
+\input{Pspec/Measurements/PowerSpectra}
+\input{Pspec/Measurements/Updates}

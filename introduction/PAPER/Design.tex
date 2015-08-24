@@ -1,0 +1,97 @@
+\section{Instrument Design}\label{sec:design}
+
+\figuremacroW{RFI.eps}{0.6}{fig:RFI}{
+  Comparison of RFI environments in South Africa (dark grey) and Green Bank, West Virginia (light 
+  grey). The value shown is the probability that a datum survives RFI excision.
+}{Latency of RFI in South Africa and West Virginia}
+
+PAPER is located in the Karoo desert, in the Northern Cape province of South Africa, around 60km west of Carnarvon, at
+latitude and longitude of $30^\circ43'17.5''{\rm S}$, $21^\circ25'41.9''{\rm E}$. The array sits
+approximately 1km east of the KAT7 array, and roughly 0.5km south of the precursor to the Square
+Kilometer Array, MeerKAT.\footnote{www.ska.ac.za} Such a remote location is chosen to isolate PAPER
+from human-generated radio frequency interference
+(RFI)\nomenclature[Zr]{RFI}{Radio Frequency Interference}.
+Figure \ref{fig:RFI} compares the latency of RFI with the site in South Africa to that of the
+radio-quiet zone in Green Bank, West Virginia, where we operate a test array. Though the South
+African site has a pristine RFI environment, certain frequencies must be discarded at all times ---
+most notably, for the Orbcomm constellation of tracking satellites at 137 MHz, and for the
+International Space Station at 150 MHz. 
+
+\figuremacroW{SexyDipole.eps}{0.6}{fig:sexydipole}{
+  Photograph of a PAPER element, showing the groundscreen and the sleeved dipole.
+}{Photograph of a PAPER element}
+
+Celestial signal enters through a dipole hoisted above a wire-mesh groundscreen. Four mesh flaps
+positioned at roughly a $45^\circ$ angle above the groundscreen increase the response of the dipoles
+towards zenith. The dipole is placed within a sleeve, which broadens the response over a wider range
+of frequencies, and allows for better impedance matching of the element over such a wide band.
+All electrical elements of the antenna are isolated from one another by plastic fittings, which are 
+transparent to radio frequencies. Figure \ref{fig:sexydipole} shows a photograph of a PAPER element.   
+
+\figuremacroW{PAPERBeam.eps}{1.0}{fig:beam}{
+  (Left panel) East-west cuts through zenith of the PAPER beam, at 127 MHz (cyan) and 164 MHz (black). In these units,
+  isotropic emission would have 0 dBi at all angles. These are the two
+  central frequencies of the results in Chapter \ref{chap:PowerSpectra}. (Right panel) Effective
+  area of an antenna as a function of frequency.
+}{Primary beam}
+
+The groundscreen is designed to have a relatively low effective area so that the first nulls of the
+dipole response occur below the horizon. Since the location of these nulls is highly
+frequency-dependent, they can introduce systematic errors to the high $k_{||}$ modes reserved for
+EoR analysis. Such a small effective area results in a large field of view. Figure \ref{fig:beam} shows an axial cut through
+the beam at two frequencies and the effective area $A_{eff}$ of the element, defined as
+$A_{eff}\Omega = \lambda^2$\nomenclature[Ra]{$A_{eff}$}{Effective area of an antenna}, where $\Omega$
+is the field of view.
+
+\figuremacroW{BandPass.eps}{0.6}{fig:bandpass}{
+  Model of the PAPER bandpass, normalized to peak at one.
+}{PAPER bandpass}
+The first stage of amplification occurs at the dipole, boosting the signal by 60 dB. Signal then
+propagates along 75$\Omega$, coaxial cable\footnote{The same coming out of the back of your TV!}. The
+length of all coaxial cables is set to be roughly equal to minimize the differences of signal travel
+time along these cables, which lessens the calibration burden. These coaxial cables pass into
+an RFI-shielded enclosure containing receivers and the digital equipment. A final amplification
+stage (40 dB), located inside the RFI-enclosure, corrects for signal loss along the cables, and an analog bandpass filter is applied.
+This bandpass is designed to have a flat frequency response from 120 MHz to 180 MHz, and attenuate
+signal in the FM band below around 107 MHz and also attenuate signal at 200 MHz, which contains the total
+power signal. A plot of the bandpass (gain as a function of frequency) is shown in Figure
+\ref{fig:bandpass}.
+
+\figuremacroW{PaperFlowChart}{0.6}{fig:AandD}{
+  Flow chart of analog and digital systems.
+}{Flow chart of analog and digital systems}
+Next, the signal is digitized with a sampling rate of 100 MHz. It is then passed through a F-engine,
+which computes the Fourier transform using a four-tap, polyphase filter bank. Since the sampling
+rate is below the frequencies allowed by the bandpass filter, we measure an aliased copy of the
+frequency spectrum, in the second Nyquist zone. Because the frequency channels are aliased and
+reversed, the DC signal is contained in the 200 MHz frequency bin.
+The integration time of each Fourier transform is set to be around 10 seconds. The Fourier-transformed 
+signal is then distributed over 10GbE to the X-engine, which cross-multiplies each signal and computes 
+the visibility for each antenna pair. The visibilities are finally written in MIRIAD format
+\cite{MIRIAD} and stored for analysis. Figure \ref{fig:AandD} shows a flowchart which summarizes 
+the propagation of signal through the analog and digital systems.
+
+For the EoR2012 and EoR 2013 campaigns described in Table \ref{tab:deploy}, there is a final
+process after digitization and correlation. Since the data rate goes as the number of baselines
+(roughly, the number of antennae squared) campaigns with many-element arrays will have untenably large data
+rates. The extreme case is the EoR2013 campaign with 128 antennae. With 1024 frequency channels per 
+10 second integration for each of $10^4$ baselines, this campaign has a data rate of over 200 Mbps.
+The total data volume of a 120 day season at this rate would be 127 TB, which, with storage costs of
+\$150/TB, costs \$19,000 just to keep.
+
+To mitigate the ``big data'' problems of the latter observing seasons, we implement a data
+compression system. Data is piped over 1GbE into a large RAID array, and once the night's data is
+taken, a small cluster of compute nodes performs a low-pass filter and decimation on the data,
+outputting a smaller, more readily analyzed dataset. The algorithm for the compression process 
+is described in detail in Section \ref{sec:data}. This reduces the data rate (and the data volume)
+by roughly a factor of twenty.
+
+\figuremacroW{DataFlow.eps}{1.0}{fig:datamap}{
+  Map of the data flow. Data is taken on site in the Karoo desert, and shipped to Philadelphia via
+  Cape Town (CPT). Data may then be served from Philadelphia to other institutions in the United
+  States, such as the University of California (UCB).
+}{Map of data flow.}
+Once the data is compressed, it is stored on small, portable disks and shipped to its final resting
+place, a computer cluster in Philadelphia. From this location, it can be processed using a larger
+cluster ({\tt folio.sas.upenn.edu}) and served elsewhere in the United States. Figure 
+\ref{fig:datamap} shows a map of this process.

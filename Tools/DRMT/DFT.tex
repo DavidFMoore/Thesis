@@ -1,0 +1,91 @@
+\section{Comparison with the Discrete Fourier Transform}
+
+Using the tools developed in the previous section, we investigate the validity of setting $w_i=1$ in
+Equation \ref{eq:def_dtrmt}. This is equivalent to examining the validity of the approximation that
+the spacings in $\lambda^2$ may be approximated as even.
+
+There are two effects that may arise from setting $w_i=1$. First, the samples in $\Phi$ may not be
+independent, that is, the uneven sampling of $\lambda^2$ widens the native sinc window of the DFT.
+Second, because the data are improperly weighted, the low-frequency samples, where the $\lambda^2$
+sampling function is least dense is weighted unnaturally low. This causes the DFT to underestimate
+the noise in the RMT.
+
+The effects of these errors may be parameterized by the measure of the DRMT, $\omega_i$, defined in
+Equation \ref{eq:def_omega}. This quantity is maximized in the lowest frequency bins (Equation
+\ref{eq:def_dlam2}). We can use this value, $\omega_{max}$ as a measure of the uniformity of
+spacings in $\lambda^2$. This value can be parameterized by the fractional bandwidth of the 
+measurement ($f_\nu$)\nomenclature[Rf]{$f_\nu$}{Fractional bandwidth}, defined for spectra ranging in
+frequency from $\nu_0(1-f_\nu/2)$ to $\nu_0(1+f_\nu/2)$. The maximum deviation from even spacings
+can be written in terms of $f_\nu$ as
+\begin{equation}
+  N\omega_{max} = \frac{N\Delta\lambda^2_{max}}{\sum_i\Delta\lambda^2_i}
+    = \frac{(1-f_\nu/2)^2}{(1-f_\nu/2)},
+\end{equation}
+where we employ Equation \ref{eq:def_dlam2} to approximate the spacings $\Delta\lambda^2$ and
+noticed that $\sum_i\Delta\lambda^2_i = \lambda_{max}^2 - \lambda_{min}^2$. As $f_\nu\to0$,
+$N\omega_{max}\to 1$, and the DRMT will reduce to a DFT, validating the assumption made to set
+$w_i$ in Equation \ref{eq:def_dtrmt} to 1. Allowing ten percent tolerance on $N\omega_{max}$ allows
+all bands with $f_\nu < 0.07$ to be well approximated by the DFT.
+
+\figuremacroW{kernels.eps}{1.0}{fig:kernels}{
+  A comparison of the two methods of the RMT. Each plot shows the squared magnitude of the kernel of
+  the DRMT (cyan) and the approximate DFT (black). The three panels show three representative bands
+  with central frequency $\nu_0=150 {\rm MHz}$ and different fractional bandwidths $f_\nu$. 
+    (Top) $f_\nu=1$
+    (Middle) $f_\nu=0.8$
+    (Bottom) $f_\nu=0.5$.
+    Only 100 bins of the kernel are shown to better show structure near the central peak.
+}{Kernels of the DRMT for a few values of $f_\nu$}
+
+Figure \ref{fig:kernels} shows the kernel (Equation \ref{eq:kernel}) for the transform over three
+bands with varying fractional bandwidths. Each spectrum is computed with $\nu_0 = 150\ {\rm MHz}$
+and $N=1000$ channels, though these numbers do not affect the level of disagreement between the DRMT
+and the standard method. As $f_\nu\to0$, the kernels of these two methods converge to a delta
+function, the kernel of a true DFT.
+
+We will compare the use of $\omega_i$ set by Equation \ref{eq:def_omega} to setting $w_i=1$ by 
+two metrics --- the with of the kernel, and the noise equivalent bandwidth. We will compute these as
+functions of the fractional bandwidth $f_\nu$, noting that for the limiting case, when $f_\nu=0$,
+the DRMT reduces to the DFT. The first metric, the FWHM, demonstrates the transforms ability to
+isolate distinct rotation measure structures. In a true DFT, the FWHM of a transform is always one
+bin --- this is the simple statement that the kernel of a DFT in frequency space is a delta
+function. Away from that limit, the lower the FWHM, the less covariance between neighboring $\Phi$
+modes a transform allows. The second is a measure of the statistical uncertainty in the transformed 
+measurement. For a true DFT, this is always one, but in the regime with unevenly spaced $\lambda^2$
+samples, its meaning is more complicated. In general, higher values of the noise-equivalent
+bandwidth indicate lower levels of uncertainty in the measurement. 
+
+\figuremacroW{FWHM_vs_fnu.eps}{0.6}{fig:fwhm}{
+  Full width at half maximum (FWHM) of the kernel of the DRMT (cyan) and the kernel of the approximate DFT
+  (black). The FWHM is found by interpolating the value where kernel approaches 0.5 --- this
+  interpolation accounts for both the non-integer values, and the deviation from one as $f_\nu\to0$.
+}{Full width at half maximum of the DMRT kernel vs. $f_\nu$}
+To further examine the kernels of these two transforms, we plot the full width at half maximum
+(FWHM) of the kernels as functions of $f_\nu$. We interpolate the kernel to find the precise value
+of the FWHM --- this produces non-integer values. As $f_\nu\to0$, we approach one, the value taken
+by a DFT. The slight offset from one is due to the interpolation. As $f_\nu\to1$, the FWHM of the DRMT
+becomes $2/3$ that of the approximate DFT. 
+
+\figuremacroW{EffectiveBandwidth.eps}{0.6}{fig:neqbw}{
+  Noise equivalent bandwidth (Equation \ref{eq:neqbw} of the DRMT is shown in cyan, of the approximate DFT in black. 
+  That the bandwidth exceeds one reflects the choice of $\Delta\Phi$ from the largest $\lambda^2$ bin. Dashed, 
+  black lines show the allowable range in $\eta$, for any choice of $\Delta\Phi$.
+}{Effective bandwidth of the DRMT vs. $f_\nu$}
+Another measure of the transform is the noise-equivalent bandwidth of the kernel, defined for a
+kernel $K_i$ as
+\begin{equation}
+  \eta = \frac{\left|\sum_i K_i\right|^2 }{\sum_i \left|K_i\right|^2}
+  \label{eq:neqbw}
+\end{equation}
+This quantity depends on the choice of $\Phi_j$. As we discussed in Section \ref{sec:mechanics}, the
+available range in $\Phi$ is well determined in the limit of evenly spaced $\lambda^2$, but outside of 
+that limit, the available range is not constrained. We choose to sample $\Phi$ based on the largest
+spacings in $\lambda^2$, but this neglects the higher $\Phi$ modes which are measured in the highest
+frequency bins. This effect allows the noise-equivalent bandwidth $\eta$ to exceed one, which
+typically is forbidden. Figure \ref{fig:neqbw} shows $\eta$ as a function of $f_\nu$, alongside the
+allowed ranges of that quantity. The DRMT shows a factor of 1.7 increase in this quantity when compared to the 
+approximate DFT.
+
+The DRMT outperforms the approximate DFT in both metrics, indicating that the proper choice of a
+metric ($w_i$ in Equation \ref{eq:def_dtrmt}) can lead to more precise measurements of the rotation
+measure structures of polarized spectra.

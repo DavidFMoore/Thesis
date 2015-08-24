@@ -1,0 +1,99 @@
+\section{Characterizing Fluctuations of the Spin Temperature}
+\label{sec:measuring}
+
+We begin by defining the correlation function \nomenclature[G]{$\xi(\B{r})$}{Correlation function of
+spin temperature field} to a temperature field $T(\B{x})$:
+\begin{equation}
+  \xi(\B{r}) = \frac{1}{\mathbb{V}} \int T(\B{x})T^*(\B{x}-\B{r}) \D{^3x}, 
+  \label{eq:correlation}
+\end{equation}
+where $\mathbb{V}$ is the cosmological volume over which the field is sampled, and the limits of the
+integral extend over $\mathbb{V}$. This is more appropriately viewed as a power spectrum, which is
+simply the Fourier transform of the correlation
+function\nomenclature[Rp]{$P(\B{k})$}{Power Spectrum of
+Spin Temperature}
+\begin{equation}
+  P(\B{k}) = \int \xi(\B{r})e^{-i\B{k}\cdot\B{r}}\D{^3r}, 
+  \label{eq:def_pk}
+\end{equation}
+where $\B{k}$ is the wave-number, typically measured in $h{\rm Mpc}^{-1}$.\footnote{Note the
+  difference in Fourier convention between the theorist's power spectrum and that of an
+interferometer.}
+Due to the convolution theorem, this is simply
+\begin{equation}
+  P(\B{k}) = \left|\widetilde{T}(\B{k})\right|^2,
+\end{equation}
+where we have defined the Fourier-transformed temperature field as 
+\begin{equation}
+  \widetilde{T}(\B{k}) = \frac{1}{\mathbb{V}}\int T(\B{x})e^{-i\B{k}\cdot\B{x}}\D{^3x}.
+  \label{eq:def_Tk}
+\end{equation}
+The power spectrum defined here is the goal of our measurements and the quantity which most easily
+allows us to compare different models of reionization and track the evolution of neutral hydrogen in
+the intergalactic medium at different scales.
+
+Isotropy demands that $P(\B{k})$ is rotationally invariant, which implies that the power spectrum is
+only dependent on the magnitude of the $k$-mode, i.e. $P(\vec{k}) = P(k)$. Because of this, it is
+customary to spherically average the power spectrum with log-spaced bins, defining the quantity
+$\Delta^2(k)$\nomenclature[G]{$\Delta^2(k)$}{Spherically-averaged power spectrum}, often called the
+``dimensionless" power spectrum\footnote{Theorists tend to normalize the power spectrum by the
+global spin temperature, making this a truly dimensionless quantity. Since the global spin 
+temperature is as interesting and as unknown as the power spectrum, we do not use this
+normalization. Our values of $\Delta^2(k)$ will have units of temperature squared.} as
+\begin{equation}
+  \Delta^2(k) \equiv \frac{1}{(2\pi)^3}\int P(\B{k}) k^3\D{\log{k}}\D{\Omega} 
+    = \frac{k^3}{2\pi^2}P(k)
+    \label{eq:def_k3pk}
+\end{equation}
+
+It is our task to define a method by which we can detect $P(\B{k})$.  We begin by inspecting the visibility 
+(Equation \ref{eq:visdef}) and comparing it with the expressions in Equations \ref{eq:def_pk} and \ref{eq:def_Tk}. 
+
+In the flat sky limit, neglecting calibration terms (including the primary beam which will be
+discussed later), the visibility reads
+\begin{equation}
+  V(u,v,\nu) = \int I(l,m,\nu) e^{-2\pi i (ul+vm)}\D{l}\D{m}.
+\end{equation}
+As we will discuss in Section \ref{sec:interferometry}, this is the two-dimensional Fourier transform 
+over direction cosines $l$ and $m$.
+
+First, we note that the specific intensity of the observation, $I(l,m,\nu)$, is directly
+proportional to the spin temperature field $T(\B{x})$. The constant of proportionality and 
+the $k$-modes sampled by an observation are set by the limits of the observation, and will be
+discussed. 
+
+If we can assume that the measured range in $l$ or $m$, call it $\Delta\theta$ is small, then the
+comoving distance subtended by $\Delta\theta$ can be written as a linear scaling, 
+$r_{com} \approx X\Delta\theta$. We note that $X$ is simply the comoving distance to redshift $z$, 
+and can be found by integrating $c/H(z')$ with respect to $z'$ from redshift 0 to $z$. In general, 
+this expression is complicated, but for redshifts 5-15, this can be written in terms of a simple 
+power law.
+\begin{equation}
+  X = 6.5\times10^3\left(\frac{\Omega_m}{0.27}\right)^{-1/2}
+  \left(\frac{1+z}{10}\right)^{0.2}\ h^{-1}{\rm Mpc}\ {\rm rad}^{-1},
+  \label{eq:def_X}
+\end{equation}
+where $\Omega_m$ is the cosmic matter density\nomenclature[G]{$\Omega_m$}{Cosmic matter density in
+units of the critical density $\rho_c=3H^2/8\pi G$}. We use WMAP7 values for cosmological paramters
+\cite{Komatsu2009} to derive this number. This follows the expression in \citet{FOB}.
+
+Having given a prescription to convert a measured quantity into the two transverse cosmological
+distances, we now turn to the line of sight distance. Taking advantage of the one-to-one mapping
+from the redshift of a 21cm line to the distance to it, we write the distance spanned by bandwidth
+$\Delta\nu$ as $\Delta D \approx (dr_{com}/dz)(dz/d\nu)\Delta\nu$. Defining the slope 
+$\Delta D \equiv Y\Delta\nu$, we find another simple, linear, scaling relation: 
+\begin{equation}
+  Y = 1.7\times10^{-2}\left(\frac{1+z}{10}\right)^{1/2}\left(\frac{\Omega_m}{0.27}\right)^{-1/2}\
+  h^{-1}{\rm Mpc}\ {\rm GHz}^{-1}.
+  \label{eq:def_Y}
+\end{equation}
+
+This discussion can be summarized into three main points:
+\begin{enumerate}
+  \item The sky intensity $I(l,m,\nu)$ is proportional to the spin-temperature field. 
+  \item Angles on the sky can be converted into transverse $k$-modes.
+  \item The frequency dimension measures line-of-sight $k$-modes.
+\end{enumerate}
+We have given approximate proportionality constants between measured $l,m,\nu$ coordinates and 
+the cosmological $x,y,z$, and a more detailed discussion of power spectral inference will be given
+in Section \ref{sec:DelaySpectrum}.

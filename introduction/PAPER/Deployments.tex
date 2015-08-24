@@ -1,0 +1,50 @@
+\section{Deployments of the PAPER Array}\label{sec:deploy}
+
+\begin{table}\begin{center}
+  \begin{tabular}{ c || c c c c c}
+    & Julian Date & $N_{ant}$ & $N_{corr}$ & Configuration & Publications \\
+    \hline\hline
+    PSA32   & 2455460-469, 538-544 &  32 &  32 & Imaging                       & \cite{Jacobs2011} \\
+    PSA64   & 2455743-747, 817-822 &  64 &  64 & Imaging                       & \cite{Jacobs2013b, Pober2013, Stefan2013} \\
+    EoR2011 & 2455903-6006         &  32 &  64 & $8\times4$ Grid               & \cite{Jacobs2014, Moore2014, Parsons2014} \\
+    EoR2012 & 2456261-383          &  64 & 128 & $8\times8$ Grid               & --- \\
+    EoR2013 & 2456620-637          & 128 & 512 & $16\times7$ Grid, 16 Outliers & --- \\
+  \end{tabular}
+  \caption[PAPER campaigns]{\label{tab:deploy} PAPER Campaigns from 2009 through 2014. $N_{ant}$ is
+  the number of antennae, and $N_{corr}$ is the number of inputs to the correlator.}
+\end{center}\end{table}
+
+Table \ref{tab:deploy} summarizes PAPER's five major campaigns since I joined the group in
+2009. The first two, PSA32 and PSA64 span an entire year, but due to lack of internet connectivity
+to site, consisted of two week-long seasons, separated by about six months. These two campaigns were
+designed to characterize foregrounds, so the configuration of antenna was designed to maximize
+$uv$-coverage. Data from PSA32 yielded a new catalog of sources in the southern hemisphere
+\cite{Jacobs2011}. 
+
+In the PSA64 campaign, we doubled both the number of antennae and the number of
+inputs to the correlator. Single-polarization data provided confusion-limited images which yielded
+one of the first measurements of the foreground ``wedge'' \cite{Pober2013}, described in Section \ref{sec:StatusQuo},
+and shown in Figure \ref{fig:wedge}. It also provided precision measurements of the flux of several calibration sources \cite{Jacobs2013b}, and a detailed analysis of the spectral structure of Centaurus A
+\cite{Stefan2013}. All four polarization products were correlated on subarrays of 32 antennae to
+give data for full-Stokes images.
+
+In 2011, because we had reached the confusion limit in our images, we reconfigured the array into a
+grid pattern. \citet{PAPERSensitivity} show the sensitivity benefits of an antenna configuration
+which maximizes the number of redundant baselines. The argument can be summarized by noting that
+averaging redundant baselines reduces the variance of $T(\B{k})$ by $1/n$, where $n$ is the number of
+measurements, but averaging the power spectrum of baselines in the same annulus of constant $k$
+reduces the variance of $P(k)$ by $1/n$. Hence, redundant baselines reduce the uncertainty in the
+power spectrum by $1/n$, while non-redundant spacings reduce it by $1/\sqrt{n}$. With this fact in
+mind, and also considering the necessity of characterizing the polarized power spectrum
+\cite{Moore2013}, we arranged a subset of 32 antennae into an $8\times4$ grid, and took data for
+about six months. This campaign was our first long integration designed to measure the 21cm EoR
+power spectrum. It yeilded three papers: the first limits on X-ray heating of the IGM
+\cite[][Figure \ref{fig:parsons2014}]{Parsons2014}, sensitivity limits on multiple redshift bins \cite{Jacobs2014}, and a
+characterization of polarized foregrounds \cite{Moore2014}, the main result of this thesis.
+
+Since the EoR2011 campaign, we have doubled the number of inputs to the correlator each year, and in
+2013, we increased the number of antennae to 128. In this last campaign, we placed a small subset of
+antennae along the perimeter of a 300m circle, centered on the grid. This allows us to increase the
+imaging power of the array, allowing for more accurate foreground characterization and mitigation. 
+Work is currently underway to analyze the data from these campaigns, but to date, results have
+yet to be published. 

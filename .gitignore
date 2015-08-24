@@ -1,0 +1,4 @@
+*.aux
+*.log
+thesis.{ps, bbl, blg, brf, idx, ilg, ind, lof, log, lot, nlo, nls, out, toc}
+data/Beam.npz

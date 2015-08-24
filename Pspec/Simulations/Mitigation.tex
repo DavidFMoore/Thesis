@@ -1,0 +1,38 @@
+\section{Mitigating Leakage}
+\label{sec:sim_mitigation}
+
+Section \ref{sec:sim_results} predicts an excess polarized signal due only to point sources of
+around $10^4\ {\rm mK}^2$ at $k\sim 0.15\ h{\rm Mpc}^{-1}$ for most treatments of the simulation.
+While the exact levels of these predictions may be subject to some error, the need certainly arises
+for some removal scheme. This removal must suppress power from polarized foregrounds by around four
+orders of magnitude in the power spectrum.
+
+\figuremacroW{DeltakGoodK_rm.eps}{0.6}{fig:rm_srcs}{
+}{Figure \ref{fig:k3pk_goodk}, with sources perfectly removed}
+To investigate the effects of modelling and removing polarized sources, we rerun the simulation,
+excluding the brightest polarized sources. Figure \ref{fig:rm_srcs} shows the median value of
+several simulations of the $k$-bin nearest $0.25\ h{\rm Mpc}^{-1}$, having removed the brightest
+1000, 2000, 5000, and 10,000 sources. These limits in numbers of sources correspond to unpolarized 
+flux-limits of 1300, 900, 460, and 240 mJy, respectively. Polarized flux limits are roughly $2\%$ of
+these. We remove these sources from treatment A of
+the simulation, which includes around 21,000 sources. Despite having removed nearly one-third of
+the sources, the leaked power still exceeds $10\ {\rm mK}^2$, the expected level of the 21cm EoR
+power spectrum.
+
+To remove enough flux to consistently fall below the expected EoR signal, we need to remove a large 
+majority of polarized point sources. We recomputed the simulations with a lower minimum flux (60
+mJy), expecting a similar result, but found that we increased the power in this $k$-bin by only one
+or two ${\rm mK}^2$. For total power to fall below $10\ {\rm mK}^2$, more sources required removal.
+We exclude further investigation of this analysis for three reasons. First, current measurements do
+not constrain $dN/dS$ to the levels necessary to accurately model such low-flux sources. Second,
+including lower-flux sources does not significantly affect the result that the result that the
+expected polarized power spectrum will be of the order of $10^4$-$10^6\ {\rm mK}^2$. Third, the
+variance in power from one simulation to the next was large enough that the two treatments of the
+simulation --- even with 10,000 sources removed --- could not be considered significantly different.
+
+The onerous levels of source-removal suggest that a different mitigation scheme be considered.
+Future instruments may take polarization into consideration in their design. Leakage can be
+mitigated with more circular beams, and circular feeds avoid the $Q\to I$ leakage entirely. Even
+with existing data, rotation measure synthesis \cite{BrentjensDeBruyn} could potentially provide the
+ability to separate sources with distinct rotation measure structure to be separated from the EoR
+signal.

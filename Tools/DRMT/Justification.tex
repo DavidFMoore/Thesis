@@ -1,0 +1,60 @@
+\section{Background and Justification}
+
+One of the key science goals for the Square Kilometre Array is to investigate the nature of galactic
+and cosmic magnetism \cite[][e.g.]{Beck2013b}. A powerful probe for characterizing those magnetic fields is the Faraday
+rotation of polarized emission, discussed in Section \ref{sec:FaradayRotation}. As a brief reminder,
+the polarization vector of emission passing through an ionized, magnetized plasma will incur a
+polarization-dependent phase rotation given by 
+\begin{equation}
+  (Q + iU)_{meas} = e^{-2i\Phi\lambda^2}(Q+iU)_{inc},
+  \label{eq:phaserot}
+\end{equation}
+where $Q$ and $U$ are the Stokes parameters, $\lambda$ is the wavelength of the emission, the
+subscripts $inc$ and $meas$ denote the incident and measured polarization angles, and $\Phi$ is the
+rotation measure, defined as
+\begin{equation}
+  \Phi = \lambda^2 \frac{e^3}{(m_ec^2)^2}\int B_{||}(s)n_e(s)\D{s}.
+\end{equation}
+The rotation measure is the line of sight component of the magnetic field times the number density
+of electrons, integrated along the line of sight to the emitting source.
+
+\citet[][abbreviated to BdB]{BrentjensDeBruyn} present a novel approach to isolating the rotation
+measure structure of a polarized source: rotation measure synthesis. Instead of the usual route of 
+fitting a quadratic function in $\lambda^2$ to the polarization angle, taken in several older studies
+\cite[][e.g.]{Taylor2009}, BdB take advantage of the Fourier relationship between $\Phi$ and
+$\lambda^2$ in Equation \ref{eq:phaserot}. They prescribe a method of disentangling the $\Phi$
+structure, analogous to a Fourier transform. In the continuum limit, this transform is written as 
+\begin{equation}
+  \widetilde{F}(\Phi) = \int P(\lambda^2)e^{-2i\Phi\lambda^2}\D{\lambda^2},
+  \label{eq:rmt_continuum}
+\end{equation}
+where $P(\lambda^2)\equiv Q(\lambda^2)+iU(\lambda^2)$ is the total polarized flux, and
+$\widetilde{F}(\Phi)$ is the rotation measure transform
+(RMT)\nomenclature[Zr]{RMT}{Rotation measure
+transform} of the spectrum.
+
+In general, low frequency arrays measure spectra that are spaced constantly in frequency. This
+type of sampling, while relatively easy to produce, prohibits the estimation of Equation
+\ref{eq:rmt_continuum} by a conventional discrete Fourier transform
+(DFT)\nomenclature[Zd]{DFT}{Discrete
+Fourier transform}. BdB and others \cite[][e.g.]{Beck2012} suggest working in the limit where the spacings in
+$\lambda^2$ remain roughly constant over the spectrum, in which case, a valid approximation of the
+RMT can be written as the sum 
+\begin{equation}
+  F_{approx}(\Phi) \approx 
+  \left(\sum_i w_i\right)^{-1}
+  \sum_i w_iF_ie^{-2i\Phi\lambda^2_i},
+  \label{eq:def_dtrmt}
+\end{equation}
+where the weights $w_i$ can be taken all to be 1. Unfortunately, this approximation breaks down at
+low frequencies, in which $\lambda^2$ rapidly changes across a normal observing bandwidth. To give a
+sense of the rapidity of this change, we give a simple example band which may be representative of
+those measured with instruments like PAPER, LoFAR \cite{LOFAR}, GMRT, and the MWA \cite{MWA}. That
+band extends from 140 to 180 MHz, with 100 evenly spaced channels. The difference in observed
+wavelength-squared will vary from 0.012 ${\rm m}^2$ (in the highest frequency bin) to 0.026 ${\rm
+m}^2$ (in the lowest) --- around a factor of two!
+
+The breakdown of the assumption that evenly spaced frequencies are evenly spaced in $\lambda^2$ leads
+us to revise the standard prescription for the RMT. This assumption is implicit in the setting of
+$w_i$ to one, since it implies that the measure of each frequency bin in Equation \ref{eq:def_dtrmt}
+is equal.

@@ -1,0 +1,105 @@
+\section{Beam Leakage}
+\label{sec:BeamLeakage}
+
+Since the 21cm EoR power spectrum is largely unpolarized, we ask the question, why care about
+polarized emission? In short, Faraday-rotated, polarized sources will exhibit the spectral structure
+reserved solely for the EoR and noise (Section \ref{sec:StatusQuo}). Any $Q\to I$ leakage will
+damage prospects of making a clean detection of the 21cm EoR power spectrum. Hence, we begin our
+investigation of $Q\to I$ leakage.
+
+The two most prominent ways in which polarized sky emission can leak into an interferometric
+estimate of Stokes $I$ are leakages due to non-orthogonal and rotated feeds, and beam ellipticity
+--- an asymmetry in the two linear polarizations of a primary beam which causes unpolarized signals
+to appear polarized, and vice versa. The first is a well-understood question, discussed at length in
+the series of papers by Hammaker, Bregman, and Sault \cite{HBS1,HBS2,HBS3,HBS4,HBS5}. This type of
+leakage can be corrected by the proper linear combination of visibilities. Hence, we will omit
+discussion of this, and focus entirely on the latter issue. Unlike misaligned feeds, Beam leakage 
+cannot be calibrated away. To begin, we will examine the contents of a visibility and relate them 
+to the intrinsic Stokes parameters.
+
+We begin by expanding the terms for the $I$ and $Q$ visibilities, from Equation
+\ref{eq:def_stokes_vis}, noting that they are not exact representations of the Stokes parameters
+they approximate:
+\begin{gather}
+  \mathcal{V}_{I} = \mathcal{V}_{xx} + \mathcal{V}_{yy} 
+    = \int \left(A_{xx} + A_{yy}\right)Ie^{-2\pi i \vec{b}\cdot\hat{s}}\D{\Omega}
+    + \int \left(A_{xx} - A_{yy}\right)Qe^{-2\pi i \vec{b}\cdot\hat{s}}\D{\Omega};
+  \\
+  \mathcal{V}_{Q} = \mathcal{V}_{xx} - \mathcal{V}_{yy} 
+    = \int \left(A_{xx} + A_{yy}\right)Qe^{-2\pi i \vec{b}\cdot\hat{s}}\D{\Omega}
+    + \int \left(A_{xx} - A_{yy}\right)Ie^{-2\pi i \vec{b}\cdot\hat{s}}\D{\Omega}.
+\end{gather}
+$\mathcal{V}_I$ is the Fourier transform of $I$, weighted by the sum of the $xx$ and $yy$ beams
+(call it $A_+$), and that of $Q$, weighted by the differenced beam ($A_-$). $\mathcal{V}_Q$ is
+symmetric to $\mathcal{V}_I$. Na\"{i}ve addition of the Stokes visibilities clearly produces a
+mechanism for $Q\to I$ leakage.
+
+If we allowed ourselves the ability to image visiblities, we could simply add a linear combintation
+of images to acheive ``pure'' Stokes parameters, but if we restrict ourselves to visibilities, this
+process, now a convolution, is impossible without a densely-sampled $uv$-plane. The requirement of
+densely-sampled $uv$-plane is often not satisfied, especially for the array used for the duration of 
+this thesis certainly falls into this category. More discussion on 
+the benefits and consequences of this effect can be found in Section \ref{sec:SparseUV}.
+
+Having established this particular mechanism for $I\to Q$ leakage, we now ask how much of $Q$'s power is
+contained in the power of $\mathcal{V}_I$, which yeilds an estimate of the fraction of our power
+spectra are corrupted by beam leakage.
+
+To find this estimate, let us first make a three assumptions: 
+\begin{enumerate}
+  \item The flux contained in $I$ and $Q$ are Gaussian, random fields.
+  \item The fields $I$ and $Q$ are uncorrelated.
+  \item The varaiance of $Q$ is some fraction $p^2$ that of $I$, and $p \ll 1$.
+\end{enumerate}
+Despite the obvious exceptions to these three assumptions, we proceed with our estimate of the
+leakage power, sacrificing accuracy for an analytic solution, and thus, intuition. The second
+assumption allows us to separate the contributions from $I$ and $Q$ when squaring $\mathcal{V}_I$,
+allowing us to write 
+\begin{equation}
+  \left|\mathcal{V}_I\right|^2 = \int |A_+|^2\D{\Omega} \star P_i + \int|A_-|^2\D{\Omega}\star P_Q, 
+\end{equation}
+where $P_I$($P_Q$) is the power spectrum of $I$($Q$), and $\star$ denotes a convolution. The first
+assumption sets $P_I$ and $P_Q$ to be constant, since the power spectrum of a Gaussian, random field is
+flat, and the third assumption allows us to write the simple expression for the power spectrum of
+$\mathcal{V}_I$,
+\begin{equation}
+  \left|\mathcal{V}_I\right|^2 \propto \int |A_+|^2\D{\Omega} + p^2\int|A_-|^2\D{\Omega};
+\end{equation}
+and similarly for $Q$, 
+\begin{equation}
+  \left|\mathcal{V}_Q\right|^2 \propto \int |A_-|^2 \D{\Omega} + p^2\int |A_+|^2\D{\Omega}.
+\end{equation}
+We now ask what the ratio $|\mathcal{V}_Q|^2/|\mathcal{V}_Q|^2$ is --- this allows us to answer the
+question, what fraction of what I measure in $Q$ is present in what I measure for $I$. Defining $\mathcal{A}_\pm$ to be the power spectrum of $A_\pm$, we can write this ratio as 
+\begin{equation}
+  \frac{\left|\mathcal{V}_Q\right|^2}{\left|\mathcal{V}_I\right|^2}
+    = \frac{\mathcal{A}_+ + p^2\mathcal{A}_-}{p^2\mathcal{A}_+ + \mathcal{A}_-}
+    \approx \frac{\mathcal{A}_-}{\mathcal{A}_+},
+    \label{eq:beam_metric}
+\end{equation}
+where the approximation is the first-order Taylor expansion of the ratio in $p$, which has been
+measured to be much smaller than one at higher frequencies \cite{Tucci2012}, and been
+measured to decrease at lower frequencies \cite[][e.g.]{Bernardi2009}.
+
+\figuremacroW{BeamPlusMinus.eps}{1}{fig:beam_sum_diff}{
+  (Right Panel) Summed PAPER beam \cite{Pober2012}, $A_{xx} + A_{yy}$, at 164 MHz, normalized to peak at two.
+  (Left Panel) Differenced PAPER beam, $A_{xx} - A_{yy}$, where each component $A_p$ is normalized
+  to peak at one. 
+}{Sum and Difference of PAPER Beam}
+We can apply these parameters to the measured PAPER beam \cite{Pober2012}, whose sum and difference
+are shown in Figure \ref{fig:beam_sum_diff}. We find the metric for
+leakage at 164 MHz to be
+\begin{equation}
+  \frac{\mathcal{A}_-}{\mathcal{A}_+} = 2.1\times10^{-3},
+\end{equation}
+--- this is roughly the fractional level of contamination we'd expect in the $I$ power spectrum. In
+fact, this metric can be a function of frequency --- the PAPER beam is most matched at 150 MHz, and
+we would expect the leakage to be least at that frequency, and increase as we approach the edges of
+the band. The measured values, shown in Figure \ref{fig:beam_leakage}, confirm our intuition,
+showing that the minimum leakage occurs at roughly the central frequency of 156 MHz, where the PAPER
+antenna's impedence matching is optimized.
+\figuremacroW{BeamLeakage.eps}{0.6}{fig:beam_leakage}{
+  Fractional beam leakage, defined by Equation \ref{eq:beam_metric}, as a function of frequency for
+  the PAPER beam. This metric of leakage takes its minumum value at 156 MHz, near where the PAPER
+  antenna is optimized for impedence matching. 
+}{Metric of beam leakage vs. frequency}

@@ -1,0 +1,162 @@
+\section{Spin Temperature}\label{sec:SpinTemp}
+
+We begin our investigation into the utility of the hyperfine transition of HI as a probe of the EoR
+by solving the radiative transfer equation for a simple model of a neutral IGM. This is done in an
+attempt to gain intuition about the processes which generate 21cm emission, and to allow for a
+discussion of the environments in which it is produced. Much of this discussion will follow
+\citet{FOB} and class notes from Adam Lidz, but specific results will be individually cited.
+
+The relative occupancy of hyperfine states in hydrogen gas can be characterized by the spin
+temperature $T_{s}$\nomenclature[Rt]{$T_s$}{Spin Temperature}, defined in a Saha-like equation 
+\begin{equation}
+  \frac{n_1}{n_0} = 3\exp\left\{\frac{T_*}{T_s}\right\}.
+\end{equation}
+Here, $n_1$ and $n_0$ are the density of hydrogen in the triplet and singlet states, respectively;
+the factor of three represents the threefold degeneracy of the triplet state to the singlet state,
+and $T_*$ is the line-temperature, defined such that $k_BT_* = h\nu_{21}$. For 21cm emission, $T_* =
+68\ {\rm mK}$.
+
+The intensity of 21cm emission can be calculated via the radiative transfer equation,
+\begin{equation}
+  \dfdx{I_\nu}{\tau} = - I_\nu + s_\nu.
+  \label{eq:RTE}
+\end{equation}
+With the usual notation, $I_\nu$ is the intensity of 21cm emission; $\tau_\nu$ is the optical depth,
+here a proxy for distance along the line of sight; and $s_\nu = j_\nu/\alpha_\nu $ is the source function.
+
+By an argument of dimensional analysis (${\rm d}E = j_\nu{\rm d}V{\rm d}\Omega{\rm d}\nu{\rm d}t$),
+we can write the emission coefficient in terms of the density of hydrogen atoms in the triplet state
+$n_1$, the line-profile of the emission line $\Phi(\nu) \approx \delta(\nu-\nu_{21})$, and the
+Einstein coefficient for the transition rate $A_{10}$:
+\begin{equation}
+  j_\nu = \frac{h\nu}{4\pi}n_1A_{10}\Phi(\nu).
+  \label{eq:jnu}
+\end{equation}
+In a similar fashion, we can write the absorption coefficient in terms of the Einstein coefficient
+for photoabsorption, $B_{01}$, and stimulated emission $B_{10}$:
+\begin{equation}
+  \alpha_\nu = \frac{h\nu}{4\pi}\Phi(\nu)(n_0B_{01} - n_1B_{10}).
+\end{equation}
+We can write all Einstein coefficients in terms of the emission rate $A_{10}$ to write 
+$\alpha_\nu$ in the more managable form,
+\begin{equation}
+  \alpha_\nu = 
+  3n_0A_{10}\frac{\lambda^2}{8\pi}\Phi(\nu)\left(1-e^{T_*/T_s}\right).
+\end{equation}
+Finally, we write the source function, easing the burden by assuming that $T_s \gg T_*$:
+\begin{equation}
+  s_\nu = \frac{j_\nu}{\alpha_\nu}
+  = \frac{2k_B}{\lambda^2}T_s.
+  \label{eq:source_function}
+\end{equation}
+In the Rayleigh-Jeans limit, the spin temperature is the source function for the temperature of 21cm
+emission within a cloud of hydrogen gas.
+
+Solutions to the radiative transfer equation (always in the Rayleigh-Jeans limit) take the form
+\begin{equation}
+  T = T_{ex}(1-e^{-\tau_\nu}) + T_{bg}e^{-\tau_\nu},
+\end{equation}
+where $T_{ex}$ is the temperature associated with the source function $s_\nu$, and $T_{bg}$ is the
+temperature of background radiation --- in our case, the temperature of the CMB at redshift $z$. In the limit
+where the optical depth is small, which we will justify shortly, the solution to the radiative transfer equation
+becomes
+\begin{equation}
+  T = T_s\tau_\nu + T_{bg}(1-\tau_\nu),
+  \label{eq:RTE_tau}
+\end{equation}
+where we take advantage of the source function's being the spin temperature.
+
+The optical depth, $\tau_\nu$, can be calculated by integrating the absorption coefficient along the
+line of sight. This can be written in terms of the more cosmologically interesting quantities:
+the neutral fraction of hydrogen $x_{HI}$, the matter overdensity field $\delta$, the density of Hydrogen
+$n_H$, the Hubble parameter $H(z)$\nomenclature[Rh]{$H(z)$}{Hubble parameter}, and the peculiar velocity 
+of the Hydrogen cloud per unit length along the line of sight, $dv_{||}/dr_{||}$.
+\begin{equation}
+  \tau_\nu = \int \alpha_\nu\D{s} = 9.2\times10^{-3}(1+\delta)(1+z)^{3/2}\frac{x_{HI}}{T_s}
+  \left[\frac{H(z)/(1+z)}{dv_{||}/dr_{||}}\right]
+  \label{eq:def_opticaldepth}
+\end{equation}
+The fiducial value of $10^{-2}$ justifies the assertion that $\tau_\nu \ll 1$, which we used to derive
+Equation \ref{eq:RTE_tau}. Such a small optical depth also provides a justification for preferring 
+the hyperfine transition over Lyman-$\alpha$ as a probe of the EoR.
+
+We can give an approximate solution for the contrast in brightness of 21cm emission to that of the
+CMB by inserting Equation \ref{eq:def_opticaldepth} into Equation \ref{eq:RTE_tau} and rearranging
+terms. Noting that $T_{bg} = T_{CMB}(1+z)$, where $T_{CMB}$ is the current temperature of the CMB
+(2.4 K), we write the brightness contrast as
+\begin{align}
+  \delta T \equiv& \frac{T_S - T_{CMB}(1+z)}{(1+z)}
+  \nonumber \\ \approx&
+  9\ {\rm mK}\ x_{HI}(1+\delta)(1+z)^{1/2}
+  \left[1 - \frac{T_{CMB}(1+z)}{T_s}\right]
+    \left[\frac{H(z)/(1+z)}{dv_{||}/dr_{||}}\right]
+  \label{eq:def_Tcontrast}
+\end{align}
+
+The point of writing this rather tedious calculation is to elucidate the processes that
+generate 21cm radiation, and how we may detect it. There are three salient points: first, we detect the
+brightness contrast between 21cm radiation and the CMB; second, the spin temperature provides the
+source of that contrast, so the brightness contrast yields information on the astrophysical
+processes which drive the spin temerature; and third, the brightness contrast is proportional to the
+neutral fraction, so the cosmic ionization history can be derived from measurements of the
+brightness contrast over many redshifts. While cosmological parameters may be derived from the
+brightness contrast \cite{McQuinn2006}, there is also a wealth of rich astrophysics to be gleaned
+from the evolution of the spin temperature. 
+
+Thorough discussions of the evolution of the spin temperature may be found in \citet{FOB} and
+\citet{Pritchard2012}, which we summarize here. First, we will discuss the evolution of the spin
+temperature's global average, and then discuss the fluctuations.
+
+There are two main physical processes which drive the evolution of the spin temperature. The first
+is collisional excitation of HI --- as an HI atom scatters off of another species of particle
+(usually another HI atom), some of the kinetic energy of the collision is transferred to excite the
+hyperfine structure of the atom. This couples the spin temperature field to the underlying baryon
+density field ($\delta$ in Equation \ref{eq:def_Tcontrast}). This coupling depends on the
+density of the baryon field, which varies due to the growth of structure and the expansion of the
+universe. It also depends on the kinetic energy of that field, typically represented by the kinetic
+temperature of the gas.
+
+The second process that drives the evolution of the spin temperature is a coupling to the underlying
+UV radiation field. A UV photon will excite the electron in an HI atom from the 1S state in the
+hyperfine singlet state into the 2P state. When the electron decays back into the 1S state, it
+may not return to the hyperfine singlet state, but to the hyperfine triplet state. This is called
+the Wouthuysen-Field effect \cite{Wouthuysen1952, Field1958}. This effect introduces astrophysics
+into the spin temperature by allowing it to be affected by UV emitters --- early stars, galaxies,
+quasars, and small black holes. Because of this, the spin temperature is an excellent probe of the
+early universe. 
+
+\figuremacroW{GlobalSignal.eps}{0.6}{fig:globalsignal}{
+  Mean brightness contrast versus redshift and frequency for a fiducial model of reionization. ``Turning
+  points'' are labelled and explained in the text. The blue region shows where the brightness
+  contrast is seen in absorption; red, in emission. Figure credit: \citet{Harker2012}.
+}{Global 21cm signal vs. $z$, from \citet{Harker2012}}
+The interplay of these two processes can be summarized by the ``turning points'' of the global
+spin temerature \cite[][e.g.]{Harker2012,Mirocha2013,Liu2013}. These are the points in time at which
+the time-derivative of the brightness contrast is zero, i.e. the spin temperature transitions from
+increasing to decreasing. Figure \ref{fig:globalsignal} shows a sample
+model of the evolution of the global spin temperature, to which we refer to explain the ``turning
+points.'' (A) At around a redshift of 80, the spin temperature becomes uncoupled to the gas kinetic
+temperature, mostly due to the baryonic density growing smaller by cosmic expansion. It recouples to
+the CMB temperature, increasing the spin temperature. (B) As the first stars begin emitting UV photons, sometime around redshift 50,
+they decrease the spin temperature through the Wouthuysen-Field effect. (C) X-ray heating of the IGM, probably from accreting black holes, raises the spin
+temperature at around redshift 20. (D) The spin temperature begins to fall due to the start of
+reionization around redshift 13. (E) reionization ends --- since the neutral fraction
+is nearly zero by redshift 6, the brightness contrast also falls to zero.
+
+Information from the EoR can be obtained from the global signal between redshifts of 13-6, but a much
+richer story can be told by looking at fluctuations in the spin temperatue during the EoR. These
+fluctuations are characterized by a power spectrum, described in the next section. The power
+spectrum of the spin temperature will clearly depend on the underlying baryonic power spectrum ---
+it depends explicitly on the baryon density field (Equation \ref{eq:def_Tcontrast}. But the power
+spectrum of spin temperature fluctuations is much more complex, due in part to the growth of ionized
+structures surrounding UV emitters. An over-simplified explanation is that ``bubbles'' of ionized
+hydrogen within the neutral hydrogen field arise as an X-ray or UV emitter ionizes its surrounding
+gas. As these bubbles first form, they introduce small-scale structure to the spin temperature
+field, steepening the power spectrum. As they  grow, they flatten the slope of the power spectrum. 
+As they merge, they introduce small-scale structure, causing the power spectrum to re-steepen towards 
+high wavenumber. Finally, as reionization comes to completion, the amplitude of the power spectrum
+goes to zero.
+
+Measuring both the mean spin temperature and fluctuations in the spin temperature field will allow
+us to discover both the timing of reionization and the nature of reionizing sources. This will give
+us a clearer picture of cosmic history and potentially uncover new physics.

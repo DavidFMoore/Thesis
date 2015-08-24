@@ -1,0 +1,174 @@
+\section{The Delay Spectrum\label{sec:DelaySpectrum}}
+
+At this point, we can discuss what may be the secondmost important tool used in this thesis ---
+interferometry being the first --- the delay spectrum method to power spectrum estimation. The
+development of the delay spectrum approach was first presented in \citet{DelaySpectrum}, and has
+since been implemented in a number of papers \cite{Parsons2014, Jacobs2014, Moore2014}.
+
+When I began work on this thesis, I would have considered the delay spectrum a novel approach (and
+it was!), and I would have presented it in constrast to what was then the ``standard method''
+\cite[][e.g.]{FOB, Lidz2008, Bowman2009}. Since its inception, however, the three major players on
+the 21cm EoR stage have all diverged in their methods, each further from early approaches than the
+last, so I will present the delay spectrum approach from first principles.
+
+To summarize the process, we will attempt to measure the three-dimensional power spectrum of a
+temperature field (Section \ref{sec:measuring}) from some function of the visibility equation 
+(Secion \ref{sec:interferometry}). Calculating power spectra directly from visibilities is a method
+that was first used\footnote{And in my opinion, perfected.} to
+compute the two-dimensional $C_\ell$ spectrum for the CMB using the DASI experiment \cite{Kovac2002}
+using a full covariance analysis of the visibilities \cite{White1999}. We aim to extend some of
+their work into the third dimension in the sense that we will be using visibilities as direct
+tracers of a power spectrum, but will wildly simplify the analysis with approximations of the
+primary beam and the signal. The two main points are these:
+\begin{enumerate}
+  \item Transverse wavemodes $k_\perp \propto \ell$ are measured by the Fourier transform along the
+    two dimensions on the sky. Since the visibility natively measures these modes, it natively
+    measures the Fourier-transformed intensity or temperature field of the sky.
+  \item The line-of-sight $k$-modes, $k_{||}$, may be measured by the Fourier-dual varaible to
+    frequency, since we compute a one-to-one mapping of frequency to cosmological distance.
+\end{enumerate}
+
+We'll start with the flat-sky approximation of the visibility:
+\begin{equation}
+  \mathcal{V}(u,v,\nu) = \int A(l,m,\nu)I(l,m,\nu)e^{-2\pi i (ul+vm)}\D{l}\D{m}.
+\end{equation}
+Guided by the the one-to-one mapping between cosmological distance and frequency, we 
+can compute the Fourier transform with respect to frequency of the visibility (i.e. the delay
+transform of Section \ref{sec:DDR}) as 
+\begin{equation}
+  \widetilde{\mathcal{V}}(u,v,\eta) = \int A(l,m,\nu)I(l,m,\nu)
+    e^{-2\pi i(ul+vm+\eta\nu)}\D{l}\D{m}\D{\nu}.
+  \label{eq:def_delaytransform}
+\end{equation}
+If we restric our efforts to a single baseline, this cannot exactly represent a three-dimensional
+Fourier transform. The frequency-dependence of $u$ and $v$ sampled by a single baseline prohibits a
+totally independent transform along the $\nu$ axis\nomenclature[G]{$\eta$}{Fourier-dual variable to
+frequency}. The kernel of this transform would be given by
+the expression
+\begin{equation}
+  K(\eta|\vec{b}) = \int \tilde{A}\left(
+    u-\nu\frac{b_x}{c},
+    v-\nu\frac{b_y}{c},\nu\right)
+    e^{-2\pi i\nu\eta}
+    \D{\nu},
+\end{equation}
+where the integral is computed over the bandwidth of the observation and $\tilde{A}$ is the
+Fourier transform of the primary beam over $l$ and $m$. This kernel approaches a delta function as
+$\nu(b_x/c)$ approaches $0$, or to first order in the magnitude of $\vec{b}$, as 
+$\Delta\nu|b|/c \ll 1$. Intuitively, the baseline length cannot change appreciably across the
+bandwidth, and more formally, the phase along the components of $k_\perp$ must remain coherent along
+the frequency direction. Figure \ref{fig:delay_kernel} shows the path of a baseline along the
+$k_\perp$-$\nu$ plane alongside a fringe in $k_\perp$. In this figure, as baslines cross the fringes
+in blue, the baseline does not integrate over $\vec{k}$ in phase, and the delay transform loses its
+correspondence with a Fourier transform in frequency.
+\figuremacroW{BaselineTrack.eps}{0.6}{fig:delay_kernel}{
+  Baseline tracks through the $k_\perp$-$\nu$ plane. From left to right, the baseline lengths are
+  30, 100, 200, 350, and 500 m. Shown in blue is a fringe in $k_\perp$.
+}{Baseline track through the $k_\perp$-$\nu$ plane.}
+
+Moving forward with the assumption that our baselines are small enough that a delay transform
+approximates a Fourier transform along the frequency axis, we convert the units of a visibility to
+temperature, always in the Rayleigh-Jeans limit, as
+\begin{equation}
+  \widetilde{\mathcal{V}}(u,v,\eta) \approx 
+  \frac{2k_B}{\lambda^2}
+  \int A(l,m,\nu)T(l,m,\nu)
+    e^{-2\pi i(ul+vm+\eta\nu)}\D{l}\D{m}\D{\nu}.
+  \label{eq:def_visT}
+\end{equation}
+where an assumption is made that the intensity-to-temperature conversion remains constant over the
+band. We cross-multiply two instances of the visibility to give
+\begin{align}
+  \left|\widetilde{\mathcal{V}}(u,v,\eta)\right|^2 
+  \approx 
+  \left(\frac{2k_B}{\lambda^2}\right)^2
+  \int 
+  A(l,m,\nu)A(l',m',\nu')
+  T(l,m,\nu)T(l',m',\nu')
+  \times
+  \nonumber \\ \times
+  e^{-2\pi i(u(l-l')+v(m-m')+\eta(\nu-\nu'))}
+    \D{l}\D{m}\D{\nu}
+    \D{l'}\D{m'}\D{\nu'}.
+\end{align}
+We can assume that the primary beam is a tophat function in $l$, $m$, and $\nu$, and that it spans an area
+$\Omega$\nomenclature[G]{$\Omega$}{Angular extent of the primary beam} in $l$ and $m$, and
+$\Delta\nu$\nomenclature[G]{$\Delta\nu$}{Bandwidth} in $\nu$. These assumptions allow us to remove
+the primary beam from within the integral and set limits to the integral:
+\begin{align}
+  \left|\widetilde{\mathcal{V}}(u,v,\eta)\right|^2 
+  \approx 
+  \left(\frac{2k_B}{\lambda^2}\right)^2
+  \int^{(\sqrt{\Omega},\sqrt{\Omega},\Delta\nu)}_{(0,0,0)}
+    \D{l'}\D{m'}\D{\nu'}
+  \int^{(\sqrt{\Omega},\sqrt{\Omega},\Delta\nu)}_{(0,0,0)} 
+    \D{l}\D{m}\D{\nu}
+  \nonumber \\ \times
+  T(l,m,\nu)T(l',m',\nu')
+  e^{-2\pi i(u(l-l')+v(m-m')+\eta(\nu-\nu'))}.
+\end{align}
+Changing variables $(l,m,\nu)\to(l_r,m_r,\nu_r)\equiv(l-l',m-m',\nu-\nu')$ and integrating over the
+dummy variables ($l_r$, e.g.) yields
+\begin{align}
+  \left|\widetilde{\mathcal{V}}(u,v,\eta)\right|^2 
+  \approx 
+  \Omega\Delta\nu
+  \left(\frac{2k_B}{\lambda^2}\right)^2
+  \int^{(\sqrt{\Omega},\sqrt{\Omega},\Delta\nu)}_{(-\sqrt{\Omega},-\sqrt{\Omega},-\Delta\nu)}
+  \xi_{21}(l_r,m_r,\nu_r)
+  e^{-2\pi i(ul_r+vm_r+\eta\nu_r)}
+  \D{l_r}\D{m_r}\D{\nu_r},
+  \label{eq:Vsquared-nosinc,uvnu}
+\end{align}
+where $\xi_{21}$ is the correlation function of the temperature field, defined in Equation
+\ref{eq:correlation}. As in \citet{PAPERSensitivity}, we use the subscript $21$ to denote quantities
+derived explicitly for measuring 21cm reionization. Following Equation \ref{eq:correlation}, we
+note that $\Omega\Delta\nu$ is the cosmological volume over which we are sampling in the native
+units of an interferometer.
+
+At this point we invoke the interpretations of the three axes and their duals, $(u,v,\eta)
+\rightleftharpoons (k_x,k_y,k_z)$, that they measure the cosmological wavemodes given in Section
+\ref{sec:measuring}. This allows us to change units according to the Jacobian
+\begin{equation}
+  J = \begin{pmatrix}
+      X&0&0\\0&X&0\\0&0&Y
+  \end{pmatrix}
+  \label{eq:lmnu_jacobian},
+\end{equation}
+where $X$ and $Y$ are defined such that $2\pi(ul+vm+\eta\nu) = k_xx/X+k_yy/X+k_zz/Y$ for comoving
+coordinates $x,y,z$. The specific values for $X$ and $Y$ are given in Equations \ref{eq:def_X} and
+\ref{eq:def_Y}, respectively. This coordinate transformation allows us to write Equation
+\ref{eq:Vsquared-nosinc,uvnu} in terms of the familiar quantities
+\begin{equation}
+  \left|\widetilde{\mathcal{V}}(u,v,\eta)\right|^2 
+  \approx 
+  \frac{\Omega\Delta\nu}{X^2Y}
+  \left(\frac{2k_B}{\lambda^2}\right)^2
+  \int^{(X\sqrt{\Omega},X\sqrt{\Omega},Y\Delta\nu)}_{(-X\sqrt{\Omega},-X\sqrt{\Omega},-Y\Delta\nu)}
+  \xi_{21}(\B{r})
+  e^{-i\B{k}\cdot\B{r}}
+  \D{^3r}
+  \label{eq:Vsquared-nosinc}
+\end{equation}
+If we can assume that the limits of the integral span many phase-wrappings of $\B{k}\cdot\B{r}$
+--- for instance, if $\sqrt{\Omega} \ll 1/(2Xk_x)$ --- then the integral becomes a power spectrum,
+and we can write Equation \ref{eq:Vsquared-nosinc} as 
+\begin{equation}
+  \left|\widetilde{\mathcal{V}}(u,v,\eta)\right|^2 
+  \approx 
+  \frac{\Omega\Delta\nu}{X^2Y}
+  \left(\frac{2k_B}{\lambda^2}\right)^2
+  P_{21}(\B{k}),
+  \label{eq:Vsquared}
+\end{equation}
+where $\B{k}$ is chosen by the $(u,v,\eta)$ coordinate in the correct coordinate system. Finally, by
+noting that the comoving area subtended by the primary beam is $X^2\Omega \equiv D^2$ and the
+comoving distance spanned by the band is $Y\Delta\nu \equiv \Delta D$, then we can write the power
+spectrum of 21cm fluctuations in terms of the visibility and the cosmological distances measured as 
+\begin{equation}
+  P_{21}(\B{k}) = 
+    \left(\frac{\lambda^2}{2k_B}\right)^2
+    \frac{(\Omega\Delta\nu)^2}{D^2\Delta D}
+    \left|\widetilde{\mathcal{V}}(u,v,\eta)\right|^2
+  \label{eq:def_vis2pk}
+\end{equation}

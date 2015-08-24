@@ -1,0 +1,198 @@
+% ----------------------------------------------------------------------
+%                   LATEX TEMPLATE FOR PhD THESIS
+% ----------------------------------------------------------------------
+
+% based on Harish Bhanderi's PhD/MPhil template, then Uni Cambridge
+% http://www-h.eng.cam.ac.uk/help/tpl/textprocessing/ThesisStyle/
+% corrected and extended in 2007 by Jakob Suckale, then MPI-CBG PhD programme
+% and made available through OpenWetWare.org - the free biology wiki
+% Modified to conform with University of Pennsylvania Thesis Requirements 
+% by Alan Meert & David F. Moore, 2013, Dept. of Physics and Astronomy
+
+%: --------------------------------------------------------------------------
+%: Style file for Latex
+%: Specify openright if printing double-sided, openany if single-sided
+%: --------------------------------------------------------------------------
+\documentclass[11pt, openany, oneside]{Latex/Classes/PhDthesisPSnPDF}
+\usepackage{lipsum} % this just creates filler text when needed
+\usepackage{pdflscape}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+
+%: --------------------------------------------------------------------------
+%: The end user may modify these files to personalize and define macros
+%: --------------------------------------------------------------------------
+\usepackage{Latex/StyleFiles/UserDefs} % Define any user-defined Macros and functions in this file.
+\include{Latex/Macros/MacroFile1} % Some prewritten Macros for Use in Latex
+
+%: ----------------------------------------------------------------------
+%:                  User information
+% -----------------------------------------------------------------------
+
+% DISSERTATION TITLE
+\title{Polarization and its Discontents} %The title of your thesis
+% Optional Sub-title
+\SubTitle{How Polarized Foregrounds Affect 21cm Epoch of Reionization Measurements} %comment if you don't want a subtitle
+
+% PDF information
+\PDFSubject{Physics}
+\PDFkeywords{Reionization}
+
+%YOU 
+\author[damo@sas.upenn.edu]{David F. Moore} %[your email address]{your name}
+
+% Degree information
+\DegreeDate{2014} % expected year of graduation.
+\degree{Doctor of Philosophy}
+
+%YOUR DEPARTMENT and UNIVERSITY
+\collegeordept{\href{http://www.physics.upenn.edu}{Physics and Astronomy}}
+\university{\href{http://www.upenn.edu}{University of Pennsylvania}}
+
+%YOUR ADVISOR
+\supervisor[Assistant Professor, Physics and Astronomy]{James E. Aguirre}
+
+% Your Department Graduate chair
+\gradchair[Professor, Physics and Astronomy]{Marija Drndi\'{c}}
+
+% Additional Comitee Members [title]{Name}
+% Up to 6 members are allowed, comment out unusued members
+% Members beyond 6 require modification of class file.
+\firstcomittee[Professor, Physics and Astronomy]{Gary Bernstein}
+\secondcomittee[Assistant Professor, Physics and Astronomy]{Adam Lidz}
+\thirdcomittee[Associate Professor, Physics and Astronomy]{Elliot Lipeles}
+\fourthcomittee[Associate Professor, Physics and Astronomy]{Masao Sako}
+
+
+% Copyright statement of your choice
+\CopyrightStatement{This work is licensed under the Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 License.\newline
+\noindent To view a copy of this license, visit
+{\tt http://creativecommons.org/licenses/by-nc-sa/4.0/}
+}
+
+
+%Include only those chapters you want to compile.
+%\includeonly{
+%    %frontmatter/dedication,
+%    %frontmatter/acknowledgement,
+%    %frontmatter/abstract,
+%    %frontmatter/preface,
+%    introduction/introduction,
+%    %Pspec/Pspec,
+%    %Tools/Tools,
+%    %conclusion/conclusion,
+%    %backmatter/glossary,
+%}
+
+%: --------------------------------------------------------------
+%:                  BEGIN THE DOCUMENT!!!
+% --------------------------------------------------------------
+\begin{document}
+
+% sets line spacing
+\renewcommand\baselinestretch{1.2}
+\baselineskip=18pt plus1pt
+
+%: ------------------------------------------------------------------------
+%:                  FRONT MATTER: dedications, abstract,..
+% -------------------------------------------------------------------------
+
+%: ----------------------- generate cover page ----------------------------
+\maketitle  
+
+%: ----------------------- generate copyright page ------------------------
+\makecopyright  
+
+%: ----------------------- Include a Dedication ---------------------------
+\include{frontmatter/dedication}
+
+%: ----------------------- Include an Acknowledgement ---------------------
+\include{frontmatter/acknowledgement}
+
+%: ----------------------- abstract ---------------------------------------
+\include{frontmatter/abstract}
+
+%: ----------------------- generate Table of Contents ---------------------
+\setcounter{secnumdepth}{3} % organisational level that receives a numbers
+\setcounter{tocdepth}{3}    % print table of contents for level 3
+\tableofcontents            % print the table of contents
+% levels are: 0 - chapter, 1 - section, 2 - subsection, 3 - subsection
+
+
+%: ----------------------- generate list of tables ------------------------
+\listoftables  % print list of tables
+
+%: ----------------------- generate list of figures ------------------------
+%{ \listoffigures \let\cleardoublepage\clearpage \mainmatter}	
+\listoffigures
+
+%: ----------------------- Preface -----------------------------------------
+%\include{frontmatter/preface}
+
+
+%: -------------------------------------------------------------------------
+%:                  MAIN DOCUMENT SECTION
+% --------------------------------------------------------------------------
+
+\mainmatter
+\include{introduction/introduction}	
+\include{Pspec/Pspec}
+\include{Tools/Tools}
+\include{conclusion/conclusion}  
+
+% --------------------------------------------------------------
+%:                  BACK MATTER: appendices, refs,..
+% --------------------------------------------------------------
+
+\backmatter
+
+%: ----------------------- glossary ------------------------
+
+% Tie in external source file for definitions: /backmatter/glossary.tex
+% Glossary entries can also be defined in the main text. See glossary.tex
+\include{backmatter/glossary} 
+
+\clearpage
+\begin{partChapter}
+\begin{multicols}{2} % \begin{multicols}{#columns}[header text][space]
+\begin{footnotesize} % scriptsize(7) < footnotesize(8) < small (9) < normal(10)
+
+\printnomenclature[1.5cm] % [] = distance between entry and description
+\label{nom} % target name for links to glossary
+
+\end{footnotesize}
+\end{multicols}
+\end{partChapter}
+
+
+% --------------------------------------------------------------
+%: ----------------------- bibliography ------------------------
+% --------------------------------------------------------------
+
+\clearpage
+\begin{partChapter}
+\begin{multicols}{2} % \begin{multicols}{ # columns}[ header text][ space]
+\begin{tiny} % tiny(5) < scriptsize(7) < footnotesize(8) < small (9)
+
+\bibliographystyle{Latex/Classes/PhDbiblio-intext-twoauth}
+\renewcommand{\bibname}{References} % changes the header; default: Bibliography
+
+\bibliography{./backmatter/references} % adjust this to fit your BibTex file
+
+\end{tiny}
+\end{multicols}
+\end{partChapter}
+
+
+%: ----------------------- Index ------------------------
+%\clearpage
+%\begin{partChapter}
+%\printindex
+%\end{partChapter}
+
+
+%: --------------------------------------------------------------
+%:                     END OF DOCUMENT!!!
+% --------------------------------------------------------------
+\end{document}

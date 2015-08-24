@@ -1,0 +1,92 @@
+\section{Observational Prospects}
+\label{sec:StatusQuo}
+
+Now that we have discussed the scientific goals of 21cm EoR observations, we turn to two state of the
+art measurements. These two datasets are taken with the PAPER experiment, the primary instrument
+used for the result of this thesis, described in detail in Chapter \ref{chap:PAPER}. One of these
+measurements is the power spectrum of foregrounds; the other is an upper limit on the EoR power
+spectrum, Combined, they provide context for the work in this thesis, and help elucidate some of the observational 
+challenges.
+
+\subsection{Foregrounds}
+
+Perhaps the biggest hurdle to measuring the 21cm EoR power spectrum is mitigating the
+contributions of foregrounds to the power spectrum. As a general rule, the synchrotron emission 
+from our galaxy and extragalactic radio sources are around $10^4$ to $10^5$ times brighter 
+than the expected level of the spin temperature at peak reionization. To give representative values, 
+the expected brightness temperature of a neutral hydrogen bubble at redshift of 10 is about 30 mK 
+(Equation \ref{eq:def_Tcontrast}), but the contributions of foregrounds fall in the hundreds of
+degrees Kelvin. 
+
+There are two main strategies for excavating the 21cm signal from underneath the foregrounds,
+model subraction, and avoidance. Modelling and subtracting source spectra allows observers to
+access the underlying EoR power spectrum, but requires a high level of precision in both the model
+spectrum and instrumental calibration terms \cite[][e.g.]{Bowman2009,Datta2010}. While some
+strategies require precise imaging of sources, many have simply removed the few brightest principal
+components from their spectra \cite[][e.g.]{Liu2009b}. This method has been used with some success
+\cite{Dillon2014,Paciga2013}, but as \citet{Paciga2013} demonstrated, blind subtraction of principal
+components can also remove components of the EoR power spectrum, severely decreasing sensitivity. 
+
+The second strategy for dealing with foregrounds is through avoidance. Synchrotron emission
+generally follows a spectral power law, and thus will accumulate in the lowest bins of $k_{||}$,
+while the 21cm EoR signal falls in higher $k_{||}$ modes as well. Hence, foregrounds may be avoided
+by focusing analysis only on the highest $k_{||}$ modes.
+
+\figuremacroW{PoberWedge.eps}{1.0}{fig:wedge}{
+  Power spectrum of foregrounds, in ${\rm mK}^2\ (h^3{\rm Mpc}^{-3})$. The data presented were taken
+  for four hours during the PSA64 season (Table \ref{tab:deploy}). Smooth spectrum foreground
+  emission is contained within a foreground ``wedge,'' delimited by the baseline length. A white
+  line shows the baseline length, and an orange line shows the baseline length plus a 50 ns buffer.
+  This buffer encloses the foreground emission, convolved by the kernel of the power law spectra
+  typical to radio sources. Figure taken directly from \citet{Pober2013}.
+}{Measurement of foregrounds in the $k_\perp$-$k_{||}$ plane, from \citet{Pober2013}}
+A number of studies show evidence of a foreground ``wedge'' in the $k_\perp$-$k_{||}$ plane for
+smooth-spectrum foregrounds \cite[][e.g.]{Morales2012, DelaySpectrum, Liu2014}. This wedge 
+is due to the spectral response of an interferometer, and as we will show in Section \ref{sec:DDR},
+is set by the geometry of an interferometric array. Figure \ref{fig:wedge} shows the first
+observational confirmation of the ``wedge.'' The region above and to the left of the orange lines in
+Figure \ref{fig:wedge} is relatively free of contamination from foregrounds, and can be designated
+as the primary target for observations.
+
+A negative consequence of restricting analysis to high $k_{||}$ modes is the relative levels of the
+21cm EoR power spectrum and uncertainty due to thermal noise. Typically, observers target the
+spherically averaged power spectrum ($\Delta^2(k)$ in Equation \ref{eq:def_k3pk}), in which the 21cm
+EoR signal is relatively flat, and uncertainty due to thermal noise rises as $k^3$. Thus, observers
+target the lower $k_{||}$ modes of the upper triangle of Figure \ref{fig:wedge}. This effect
+provides the impetus for using short baselines for EoR analysis, since short baselines probe the
+lowest values of $k_\perp$, and restrict foregrounds to the smallest region in $k_{||}$.  
+
+Future observations and possible detections will likely use a combination of both strategies.
+\citet{Pober2014} show that the most highly sensitive modes to the power spectrum exist within the
+foreground wedge, and the best prospects for detection are those in which inter-horizon modes can be
+accessed.
+
+\subsection{Current Upper Limits to the Power Spectrum}
+
+To date, there are two prominent upper limits to the 21cm EoR power spectrum: \citet{Parsons2014},
+and \citet{Paciga2013}. Both of these measurements have overcome significant hurdles in foreground
+removal and avoidance (respectively), and show that great progress is being made to the detection of
+the 21cm EoR power spectrum. Since this thesis focuses on data taken with the PAPER array (Chapter
+\ref{chap:PAPER}), we will focus on the Parsons result, taken with the PAPER instrument.
+
+\figuremacroW{ParsonsResults.eps}{0.8}{fig:parsons2014}{
+  (Left Panel): Power spectrum measurements from the EoR2011 observing season. (Right Panel):
+  Spherically averaged power spectrum taken from that same data. Dashed, vertical lines show the
+  horizon limit for the $16\lambda$ baselines used for these measurements. Points and error bars
+  show covariance-removed data, and 95\% confidence intervals (See Section \ref{sec:data} and 
+  \ref{sec:covariance} for details). Cyan lines show the $2\sigma$ upper limit of data without the
+  covariance removal applied. Dashed, cyan lines show the level of thermal fluctuations, assuming
+  $T_{sys}=550\ {\rm K}$. The magenta line shows a fiducial 21cm EoR model, taken from
+  \citet{Lidz2008}.  Yellow triangles show the $2\sigma$ upper limits presented in
+  \citet{Paciga2013}. Figure taken directly from \citet{Parsons2014}.
+}{Best upper limits to date on the 21cm EoR power spectrum, from \citet{Parsons2014}}
+Figure \ref{fig:parsons2014} shows the power spectrum at a redshift of 7.7, measured in the EoR2011 Season 
+(Table \ref{tab:deploy}), alongside a fiducial model of the power spectrum \cite{Lidz2008}. While
+uncertainties from thermal noise, residual foregrounds, and other instrumental systematics prevent a
+detection of the power spectrum, this measurement can constrain the brightness contrast of the spin
+temperature to below (41 mK$)^2$ at $k = 0.27\ h{\rm Mpc}^{-1}$. This value allows for one of the
+first physical constraints to the history of the IGM, since it can rule out reionization scenarios
+in which the IGM cools adiabatically, with no heating from early ionizing sources. Essentially,
+restricting the brightness temperature to below $41\ {\rm mK}$ shows that X-ray heating of the IGM
+contributed to the bulk of reionization. Scenarios in which the IGM cools adiabatically are highly
+unlikely, but this measurement is one of the first observational confirmations of that statement.

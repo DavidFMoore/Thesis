@@ -1,0 +1,62 @@
+\section{Results}
+\label{sec:sim_results}
+
+\figuremacroW{SimulationResults}{0.9}{fig:sim_power_spectra}{
+  Power spectra for the three treatments of the simulation discussed in Section
+  \ref{sec:sim_params}. From top to bottom, the rows are treatments A, B, and C. The left column
+  shows the $I$ power spectrum, highlighting $Q\to I$ leakage. The right column shows the $Q$ power
+  spectrum. Three redshift bins are shown in all plots: $z=11.13$ (cyan), $z=9.77$ (black), and
+  $z=7.05$ (blue). Error bars show 95\% confidence intervals of several iterations of the
+  simulation. For a point of reference in the left column, a fiducial EoR model \cite{Lidz2008} is plotted in grey.   
+}{Power spectra for three treatments of the simulation}
+
+Figure \ref{fig:sim_power_spectra} the power spectra of several renderings of simulations 
+$A$, $B$, and $C$. We interpret the power spectrum of $\mathcal{V}_I$ outside the horizon 
+as the amount of polarized leakage corrupting the EoR signal ($Q\to I$ leakage), and the 
+power spectrum of $\mathcal{V}_Q$ is our best representation of the polarized signal. These 
+plots show the median power in each $k$ bin for 100 realizations of the simulation, with error bars
+showing the 1-$\sigma$ extend of the bandpowers for these realizations. These power spectra confirm
+the prediction made in Section \ref{sec:onesource} that $\lambda^2$ phase wrapping extends the
+foreground cutoff \cite[][e.g.]{PAPERSensitivity, Pober2013} to higher delay bins, corrupting some of the
+most sensitive regions of $k$ space for 21cm EoR analysis. They also demonstrate the prediction that
+high-redshift bins will be most affected.
+
+\figuremacroW{DeltakGoodK}{0.6}{fig:k3pk_goodk}{
+  $A$ (cyan), $B$ (blue), $C$ (black)
+}{$\Delta^2(k)$ at $k\approx 0.2\ h{\rm Mpc}^{-1}$ vs. redshift for three simuations}
+The severity of the leakage can be inferred from the power in the most EoR-sensitive $k$-bins which lie
+outside the horizon for small baselines ($0.2\ h{\rm Mpc}^{-1} \le k \le 0.3\ h{\rm Mpc}^{-1}$). Figure 
+\ref{fig:k3pk_goodk} shows $\Delta^2(k)$ in these bins as a function of redshift. The leaked power 
+ranges in the hundreds of $\rm{mK}^2$ to thousands, increasing from high frequency/low
+redshift to low frequency/high redshift. These simulations are about an order of magnitude above the
+level of the expected 21cm signal \cite{Lidz2008}. If we may take this simulation as an accurate
+prediction of the low-frequency sky's polarized emission, these results imply that na\"{i}vely
+adding $\mathcal{V}_{xx}$ and $\mathcal{V}_{yy}$, formed with an approximately 10\% asymmetric
+primary beam, incorporates enough bias from polarized leakage to completely obscure the 21cm signal.
+The levels of leakage in our simulations demand a strategy to model and remove point sources.
+
+We note that simply forming $\mathcal{V}_I$ will also remove a negligible component of the EoR
+signal via the same mechanism. In a sense, the $Q\to I$ leakage can be thought of as a rotation of
+power between the two Stokes parameters. Hence, for precision measurements of the EoR signal, this
+simple estimate may not be ideal. However, the effects of the $I\to Q$ leakage is small (compare the
+levels of $\mathcal{V}_Q$ and high $k$-modes of $\mathcal{V}_I$) and should not provide a
+significant hiderance to detection.
+
+Were a power spectrum computed from only one linearly polarized visibiltity ($xx$, for instance),
+all polarized power would corrupt the measurement. We have chosen to suppress the polarized leakage
+by adding the linearly-polarized visibilities $xx$ and $yy$. The leakage is dependent on the
+difference of the two beams (see discussion in Section \ref{sec:BeamLeakage}), and by having beams
+that are at most 10\% different suppresses the signal by around two to three orders of magnitude.
+Correcting for the beam-weighting in the image domain can further suppress the leakage, but errors
+in the beam model will introduce leakage in much the same manner. Hence, the constraint of having to
+suppress polarized leakage by four orders of magnitude causes the need for an accurate primary beam
+model to around the 1\% level in the case of imaging, or symmetric at the 1\% level if visibilities
+are used directly.
+
+We conlude this discussion by noting the large variance in simulted power. The results shown are the
+mean bandpowers  in $\Delta^2(k)$ for several realizations of the simulation. Taking so many
+realizations into account essentially maps out the posterior distribution of the $\Delta^2(k)$
+bandpowers. The $2\sigma$ width covers nearly two orders of magnitude, which indicates that the
+level of $Q\to I$ leakage is highly sensitive to the exact parameters drawn in any realization.
+The actual level of leakage measured will thus be highly dependent on a choice of field, and on
+the actual distributions of polarized fluxes and rotation measures.

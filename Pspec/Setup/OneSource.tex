@@ -1,0 +1,88 @@
+\section{The Power Spectrum of a Single, Polarized Source}
+\label{sec:onesource}
+
+We begin our investigation of the effects of polarized foregrounds on the 21cm EoR signal by
+examining the power spectrum of a single source at zenith, whose signal has the structure of a
+single Faraday screen. In doing so, we can develop an intuition for the rotation measures that affect
+cosmologically interesting $k$ modes of the power spectrum. By looking at what is effectively the
+impulse response of a Faraday screen on the power spectrum, it will be easier later to interpret a
+more complicated model.
+
+\figuremacroW{SingleSource.eps}{1}{fig:single_source}{
+  (Left Panel) Simulated visibilities with Faraday rotation, whose spectra can be written as
+  $\exp\{-2i\Phi\lambda^2\}$. The four visibilities show four rotation measures: black, $\Phi=3\
+  {\rm m}^{-2}$; cyan, $\Phi=10\ {\rm m}^2$; magenta, $\Phi=30\ {\rm m}^{-2}$; and blue, $\Phi=100\
+  {\rm m}^{-2}$. (Right Panel) Amplitudes of the corresponding, delay-transformed visibilities.
+}{Visibilities of single Faraday screens}
+The left-hand panel of Figure \ref{fig:single_source} shows the real component of visibilities containing a few linearly polarized sources behind Faraday screens, 
+$S(\nu) = \exp\{-2i\Phi\lambda^2\}$, where $\Phi$ is the rotation measure of the screen. Each 
+spectrum is normalized to contain one arbitrary unit of flux, and is located at zenith (delay of zero). 
+Note that at the highest $\Phi$ shown, the spectrum is not critically sampled at the lowest 
+frequencies. This is due to the uneven sampling of $\lambda^2$ across the band: as 
+$\Delta\lambda^2 \approx d\lambda^2/d\nu\ \Delta\nu \propto \Delta\nu/\nu^3$ increases, the 
+sensitivity to large rotation measures decreases. A more thorough discussion of this 
+effect can be found in Chapter \ref{chap:DRMT}.
+
+\figuremacroW{SingleSourceSpec.eps}{0.6}{fig:single_source_pspec}{
+  $k^2P(k)/2\pi^2$ for the four visibilities in Figure \ref{fig:single_source}. The $k$ with maximum
+  contamination for each rotation measure (Equation \ref{eq:bad_k}) is shown with a gray, horizontal
+  line.
+}{Delay spectra of visibilities with single Faraday screens}
+The right-hand panel of Figure \ref{fig:single_source} shows the Fourier Transform over frequency of
+the spectra in the left-hand panel. While this does not exactly represent the delay spectrum of a
+visibility --- there is no beam-weighting, and no $\exp\{-2\pi i\vec{b}\cdot\hat{s}\}$ component,
+which essentially defines the delay spectrum --- we interpret it as the delay structure introduced by
+a polarized source behind a Faraday screen. The results of these transforms over a subband
+representing a cosmological measurement are shown in Figure \ref{fig:single_source_pspec}. The most
+important feature of this plot is this: there is a single $k$-mode associated with each rotation
+measure at each redshift. We can construct an analytic estimate of this in the following
+manner.\footnote{There is an error in the published version of this paper \cite{Moore2013} which
+omits a factor of two. We present the correct calculation here. Another peer-reviewed, published
+paper \cite{Pen2009} also incorrectly calculates this scaling. Thanks to Gianni Bernardi for
+pointing this out and working through this with me.}
+
+First, we approximate the cosmological $k$-mode sampled as $\tau \approx k_{||}\ dr_{||}/d\nu$.
+Next, we recall the cosmological scaling from frequency into $h{\rm Mpc}^{-1}$,
+\begin{equation}
+  \dfdx{r_{||}}{\nu} = \dfdx{r_{||}}{z}\dfdx{z}{\nu}
+    = -\frac{c(1+z)}{H(z)\nu}, 
+\end{equation}
+where $H(z)$ is the Hubble parameter at redshift $z$.
+
+Finally, we find the $k_{||}$,$\Phi$ pair which maximizes the product of a delay mode and a rotation
+measure mode, 
+\begin{equation}
+  \int e^{-2\pi i(\nu\tau-\Phi\lambda^2/\pi)}\D{\nu} 
+  \equiv \int e^{-i (\varphi_k - \varphi_\Phi)}\D{\nu}.
+\end{equation}
+This occurs when $0 = \varphi_k - \varphi_\Phi$. Differentiating with respect to
+$\lambda^2$, since by one convention, this defines the rotation measure, and applying the chain rule
+several times, we arrive at the conclusion
+\begin{gather}
+  0 = \pdfdx{\varphi_k}{\lambda^2} - \pdfdx{\varphi_\Phi}{\lambda^2}
+ = \pdfdx{\varphi_k}{r_{||}}\pdfdx{r_{||}}{z}\pdfdx{z}{\nu}\pdfdx{\nu}{\lambda^2} - 2\Phi
+ \nonumber \\ =
+ k_{||}\left(-\frac{c(1+z)}{H(z)\nu}\right)\left(-\frac{1}{2}\frac{c}{\lambda^3}\right) - 2\Phi, 
+\end{gather}
+which yeilds the value of $k_{||}$ that $\Phi$ modes most approximate: 
+\begin{equation}
+ k_{||} = \frac{4}{c}\frac{H(z)}{(1+z)}\Phi\lambda^2. 
+ \label{eq:bad_k}
+\end{equation}
+This factor differs from \citet{Moore2013}, which was derived by simply setting $2\pi\tau\nu =
+2\Phi\lambda^2$ by a factor of two, and by the expression derived in Appendix C of \citet{Pen2009}
+by a factor of $c^{-2}$, which has a simple error in the derivation of $dr_{||}/d\nu$ which propagated
+through their calculations.
+
+\figuremacroW{bad_rm.eps}{0.6}{fig:bad_rm}{
+  The rotation measure which infects $k\approx0.25\ h{\rm Mpc}^{-1}$ is shown in black, with the rotation measures
+  maximally infecting $0.2\ h{\rm Mpc}^{-1} \le k \le 0.3\ h{\rm Mpc}^{-1}$ are shown in grey. This
+  is plotted as a function of frequency and redshift to highlight the fact that lower rotation
+  measures affect the same $k$ at lower frequencies or redshifts.
+}{Most degenerate rotation measure with $k_{||}
+\approx 0.25\ h{\rm Mpc}^{-1}$ vs. Frequency}
+Figure \ref{fig:bad_rm} shows the most-infecting rotation measure for wave-numbers 
+$0.2\ h{\rm Mpc}^{-1} \le k_{||} \le 0.3\ h{\rm Mpc}^{-1} $, which abut the horizon for many of
+PAPER's short baselines. These are the $k$-modes which both minimize thermal noise and avoid
+foreground signals, so for that reason, they are critical to the initial detection of a 21cm EoR
+power spectrum.

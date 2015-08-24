@@ -1,0 +1,80 @@
+\section{Recent Observations}\label{sec:PolStatus}
+The polarized sky at meter wavelengths is relatively uncharted
+territory, especially in the southern hemisphere.\footnote{\emph{coeli incogniti}} 
+Significant efforts have been made to characterize the polarized intensity of individual sources,
+the power spectrum of polarized emission, and the structure of
+magnetic fields of both our galaxy and extragalactic objects. Here, we will briefly describe the
+status of polarimetry at the time of writing this thesis. Many of these measurements were taken at
+1.4 GHz, and we must extrapolate their properties down to 150 MHz.
+
+\figuremacroW{WollebenMap.eps}{1.0}{fig:drao}{
+  Polarized intensity in galactic coordinates from the DRAO survey \cite{Wolleben2005}. We present
+  this to show the relative levels of polarized emission rather than the exact intensity. Lighter
+  regions have a higher polarized intensity than darker regions. 
+}{Map of polarized intensity from the DRAO survey, from \citet{Wolleben2005}}
+There are two nearly complete surveys of the polarized sky: the NRAO VLA Sky 
+Survey\nomenclature[Zn]{NVSS}{NRAO VLA Sky Survey} \cite[NVSS,][]{NVSS} and a survey using the Dominion 
+Radio Astrophysical Observatory of Canada\nomenclature[Zd]{DRAO}{Dominion Radio Astrophysical
+Observatory of Canada} \cite[DRAO,][]{Wolleben2005}, both at 1.4 GHz. The former constructed a catalog of
+polarized point sources, alongside their rotation measures. The latter, with its shorter baselines,
+was more able to measure the extended polarized emission mostly due to our own galaxy. Both the
+Very Large Array (VLA)\nomenclature[Zv]{VLA}{Very Large Array} and DRAO are located in the northern
+hemisphere, so much of the southern sky blocked by the Earth. Figure \ref{fig:drao} shows the map of
+polarized intensity derived from the DRAO survey\cite{Wolleben2005}. The polarized intensity in this map does 
+not match well with unpolarized intensity (see \citet{Haslam} or \citet{dOCMap} for examples). For 
+example, the north galactic spur is highly polarized in these maps\footnote{Mostly due to its 
+close proximity to us}, but the galactic plane is unpolarized due to turbulent magnetic fields. 
+
+A more recent measurement from \citet{Bernardi2013} surveys 2400 square degrees, a stripe centered
+at the PAPER latitude, so within the PAPER field of view. These observations, alongside 
+\citet{Wolleben2005} and other measurements \cite[][e.g.]{Jelic2014}, indicate that qualitatively, 
+the majority of polarized emission is contained in diffuse structures. \citet{Bernardi2013} does 
+measure one point source, PMN J0351-2744, whose flux at 184 MHz is 320 Jy, and whose rotation measure is 
+$+33\ {\rm m}^{-2}$. The discovery of this single source will be used to constrain the mean polarized 
+flux at these frequencies in the analysis of Section \ref{sec:updates}. 
+
+To better characterize the relative levels of diffuse and point-like polarized emission, groups have
+measured its angular power spectrum. The first relevant upper limits were provided by
+\citet{Pen2009} using the Giant Metrewave Radio Telescope
+(GMRT)\nomenclature[Zg]{GMRT}{Giant
+Metrewave Radio Telescope}. They found, for spherical harmonic multipoles $200\le \ell \le 5000$,
+and upper limit of around $C_\ell \lesssim 100\ {\rm mK}^2$. More recent work by
+\citet{Bernardi2010} detected polarized power at the same level at $\ell \lesssim 1000$ using the
+Westerbork Synthesis Radio Telescope (WSRT)\nomenclature[Zw]{WSRT}{Westerbork Synthesis Radio
+Telescope}, with no significant detection of power above $\ell$ of 1000. \citet{Bernardi2010} did
+not detect emission directly attributable to polarized point sources. 
+
+\figuremacroW{CellCompare.eps}{0.6}{fig:cell_compare}{
+  Recent measurements of low-frequency polarized power spectra. The thick black points show the
+  \citet{Bernardi2010} measurements of a field around 3C196, and the solid, magenta line shows the
+  upper limit of \citet{Pen2009}. The Haslam map at 408 MHz \cite{Haslam}, scaled by a polarization
+  fraction of $0.3\%$ is shown by thin, blue points, and a power-law extrapolation is shown with a
+  dotted line above $\ell = 200$. This fraction was chosen to agree with the low-$\ell$ points in
+  the Bernardi measurement. At high-$\ell$, the upper limits do not constrain the level of polarized
+  emission.
+}{A comparison of recent polarized power spectrum measurements}
+Figure \ref{fig:cell_compare} gives a summary of the low-frequency measurements of polarized power
+spectra. In addition to the \citet{Pen2009} and \citet{Bernardi2010} measurements, It also 
+shows the angular power spectrum of \citet{Haslam}, scaled by a mean
+polarized fraction of $0.3\%$, which roughly causes it to agree with the two measurements. This
+scaling requires a large degree of depolarization of the synchrotron emission from an ordered
+magnetic field --- the assumption we used in calculating the expression for the expected
+polarization fraction for synchrotron radiation earlier in this section (Equation
+\ref{eq:polfrac_theory}.
+
+A recent simulation \cite{Jelic2010} attempted to further constrain the problem by fully simulating
+a full-Stokes realization of galactic synchrotron emission over a $10^\circ\times10^\circ$ field of
+view. They present a realistic spectrum of the mean temperature of polarized emission, but do not
+extend their analysis into the power spectrum. They also predict a polarization fraction
+from diffuse emission much higher than the limited available measurements allow.
+
+\figuremacroW{Oppermann.eps}{1.0}{fig:oppermann}{
+  Map of Faraday depths, from \citet{Oppermann2012}, shown in galactic coordinates.
+}{Map of Faraday depths, from \citet{Oppermann2012}}
+Finally, we turn to measurements of Faraday depth. The most comprehensive study is a meta-analysis
+by \citet{Oppermann2012}, which synthesizes a full-sky map of Faraday depth (Figure
+\ref{fig:oppermann}) from existing measurements, mostly from the NVSS polarization survey
+\cite{NVSS, Taylor2009}. The quadrupole pattern of rotation measure indicates a large-scale ordering
+of the galactic magnetic field \cite{Kronberg2011,Pshirkov2011}, though turbulence of the magnetic
+field within the plane diminishes this effect. A recent study \cite{Oppermann2014} finds that the
+dominant contribution to the rotation measure of a source comes from magnetic fields within our galaxy.

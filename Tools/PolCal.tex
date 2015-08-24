@@ -1,0 +1,42 @@
+\chapter{New Methods for Polarization Calibration}\label{chap:PolCal}
+
+This chapter presents two novel approaches to polarization calibration, designed mainly for
+redundant, widefield arrays like PAPER. The two authoritative sources in interferometric
+polarization calibration are the series of papers by Hamacker, Bregman, and Sault \cite{HBS1,HBS2,HBS3,HBS4,HBS5} and
+Chapter three of \citet{TMS}. They present a calibration scheme in which instrumental
+polarization is represented in terms of a rotation matrix $\B{D}_i$, comprised of off-diagonal
+terms of the gain equation presented in Section \ref{sec:Polarimetry}, in Equation
+\ref{eq:def_gains}. In the Jones formalism, the measured electric field can be described by
+the equation 
+\begin{equation}
+  \begin{pmatrix}E_x\\E_y\end{pmatrix}
+= \begin{pmatrix}g_{ix} & 0 \\ 0 &  g_{iy}\end{pmatrix}
+  \begin{pmatrix}1&d_{iy}\\-d_{ix}&1\end{pmatrix}
+  \begin{pmatrix}\cos\psi & -\sin\psi \\ \sin\psi & \cos\psi\end{pmatrix}
+  \begin{pmatrix}E_\alpha\\E_\delta\end{pmatrix}
+\equiv
+  \B{G}_i\cdot\B{D}_i\cdot\B{P}\cdot\vec{E},
+  \label{eq:def_D}
+\end{equation}
+where all terms agree with Equation \ref{eq:def_gains}. The new, off-diagonal terms $d_{ix}$, e.g.
+may be written in term of the three Euler angles of the feed of an antenna \cite{TMS}, but in
+general, instrumental polarization arises in the analog electronics, and cannot be represented so
+simply.
+
+The cited sources give prescriptions for solving for the $4N_{ant}$ complex calibration terms as
+functions of both time and frequency, but these methods require two criteria which PAPER does not meet:
+\begin{enumerate}
+  \item The primary beam must be dominated by a single or few calibration sources. With PAPER's
+    nearly 1 sr beam, there will almost certainly be a plethora of sources with calibration-level
+    sensitivities.
+  \item The $uv$-coverage of the array must be filled to sufficiently isolate point sources,
+    creating a clarity of image which PAPER in its redundant configuration cannot provide.
+\end{enumerate}
+
+With these two criteria in mind, we must find non-traditional calibration methods. We present two:
+the first of which relies on the redundancy of identical baselines, and the second synthesizes images of
+only a few pointings on the sphere.
+
+\input{Tools/PolCal/CrossPolDelay}
+\input{Tools/PolCal/Beamforming}
+

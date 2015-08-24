@@ -1,0 +1,107 @@
+\section{A Thought Experiment}\label{sec:interferometry}
+
+In this section, we will introduce interferometry, and derive an expression for the visibility
+from first principles. While this material is used commonly enough and predates many
+references typically given, it is nonetheless useful to provide a reference for a more thorough
+discussion of this material, which serve as the sources for it. A more thorough and complete
+discussion of interferometry can be found in two books: \citet{WhiteBook} and \citet{TMS}.
+
+Suppose we have two telescopes --- label them $A$ and $B$ --- which are separated by some
+baseline vector $\vec{b}$\nomenclature[Rb]{$\vec{b}$}{Baseline (in meters)}. Next, suppose that a single
+plane wave at frequency $\nu$\nomenclature[G]{$\nu$}{Frequency} is indendent on
+these telescopes $A$ and $B$, with a propagation direction
+$-\hat{s}$\nomenclature[Rs]{$\hat{s}$}{Unit
+pointing vector}. For now, let's assume that
+these two telescopes are evenly sensitive to radiation coming from all directions --- we can add that
+complication later. We will also neglect projection effects of the electric field vector on
+telescopes $A$ and $B$ until later --- we're only concerned with the phase information for now.
+
+We define the phase of the electric field so that at telescope $A$, it takes a value 
+\begin{equation}
+  E_A = E_0\exp\left\{-2\pi i\nu t\right\}, 
+\end{equation}
+which sets the value of the electric field at telescope $B$ to be
+\begin{equation}
+  E_B = E_0\exp\left\{-2\pi i\nu [t + (\vec{b}/c)\cdot\hat{s}]\right\}.
+\end{equation}
+The extra term in the phase, $(\vec{b}/c)\cdot\hat{s}$, represents the time-difference of a
+wavefront's arrival on telescope $A$ and $B$, and is thus defined as the delay. If we correlate the
+signals from the two telescopes in time, we extract the delay thus:
+\begin{align}
+  \left\langle E_A E_B^* \right\rangle_t &= 
+    \lim_{T\to\infty} \frac{1}{2T}\int^T_{-T} E_A(t)E_B(t)\ {\rm d}t \\ 
+    &= |E_0|^2\exp\left\{-2\pi i \nu (\vec{b}/c)\cdot\hat{s}\right\}.
+\end{align}
+
+The next stage of complication is to allow plane waves to come from all directions. In order to
+represent the response of telescopes $A$ and $B$ to the entire celestial sphere, we integrate
+over the sphere, and allow $|E_0|^2 \propto I$, the intensity of the incident emission, to vary as a
+function of direction:
+\begin{equation}
+  \left\langle E_A E_B^*\right\rangle_t
+  = \int I(\hat{s})\exp\left\{-2\pi i\nu(\vec{b}/c)\cdot\hat{s}\right\}\ {\rm d}\Omega.
+  \label{eq:visdef_nobeam}
+\end{equation}
+We can leave the details of the projection of the sphere onto our antennae for later, but this
+equation reveals the two fundamental aspects of interferometry:
+\begin{enumerate}
+  \item There is a Fourier relationship between the intensity of celestial emission, $I(\hat{s})$,
+    and the inteferometric response $\langle E_A E_B^*\rangle_t$.
+  \item The dual variable to sky position $\hat{s}$ (in the Fourier sense) is the baseline vector
+    between two antennae, measured in units of wavelength.
+\end{enumerate}
+
+Before attempting to create an image from the interferometer's response, we will add two final
+complications. First, we define a coordinate system. The antenna locations are defined in a
+topocentric coordinate system $(u,v,w)$, with $u$ the local easting, $v$ is the local northing, 
+and $w$ is pointed towards zenith. This coordinate system is fixed to the earth at the location of
+the observer. The upper half of the celestial sphere is characterized by the
+coordinates $(l,m)$, where at zenith, $l$ points in the direction of $u$. The relevant terms of
+equation \ref{eq:visdef_nobeam} are the measure, 
+\begin{equation}
+  {\rm d}\Omega = \frac{{\rm d}l{\rm d}m}{\sqrt{1-l^2-m^2}}, 
+\end{equation}
+and the delay,
+\begin{equation}
+  (\vec{b}/\lambda)\cdot\hat{s} = ul + vm + w(1-\sqrt{1-l^2-m^2}). 
+\end{equation}
+It is typical to assume that the array of antennae is coplanar, so we can set $w=0$, and define
+baselines as being in the $uv$-plane. It is also typical to use the flat-sky approximation for these
+coordinates, setting the measure ${\rm d}\Omega \simeq \D{l}\D{m}$, but we will forgo this
+approximation.
+
+The penultimate complication we will add (the final complication, polarization, gets its own
+section) is the spatial response pattern of an antenna, $A(l,m)$\nomenclature[Ra]{$A(l,m)$}{Primary
+beam}, called the primary beam. The
+primary beam attenuates the signal received by the electric field, modifying $E_i \to A_iE_i$.
+We assume that all antennae are identical, so we can combine the product $A_iA_j$ into a single
+primary beam $A$, which attenuates the intensity of incident radiation, rather than the electric
+field.
+
+Finally, we can name the interferometer's response, and define the visibility
+\nomenclature[Rv]{$V(u,v,\nu)$}{Visibility}(a word studiously
+avoided until now) as
+\begin{equation}
+  V(u,v,\nu) = \int A(l,m)I(l,m)e^{-2\pi i (ul + vm)}\frac{\D{l}\D{m}}{\sqrt{1-l^2-m^2}}.
+  \label{eq:visdef}
+\end{equation}
+
+Images may be recreated from the visibilities by an inverse Fourier transforms over all visibilties
+in an array:
+\begin{equation}
+  \frac{A(l,m)\widetilde{I}(l,m)}{\sqrt{1-l^2-m^2}} 
+  = \int \Sha(u,v)V(u,v)e^{+2\pi i\nu(ul+vm)}\D{u}\D{v}.
+  \label{eq:sha_def}
+\end{equation}
+A couple of items to note in Equation \ref{eq:sha_def}\nomenclature[Gz]{$\Sha(u,v)$}{Sampling function in the
+$uv$-plane}: first, the reconstructed image
+$\widetilde{I}$ is attenuated by the beam-response pattern and the measure\footnote{Typically, 
+the factor of $(1-l^2-m^2)^{-1/2}$ is absorbed into the beam response $A(l,m)$. Henceforth, we will
+follow this convention.} Second (and more importantly) the sampling function $\Sha(u,v)$, which is
+defined as being 1 in the $uv$ points that an array samples and 0 elsewhere, prohibits the full
+Fourier spectrum from being included in the reconstructed image. The effect is that the true image
+$I$ is convolved with what is defined as the dirty beam, the Fourier-transform of the sampling
+function. Because $\Sha(u,v)$ contains zeros, a complete deconvolution of the reconstructed image
+from the dirty beam is impossible.
+
+

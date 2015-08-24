@@ -1,0 +1,130 @@
+\section{The Time and Frequency Dependence of Visibilities}
+\label{sec:DDR}
+
+In this section, we go through a thorough investigation of the $\vec{b}\cdot\hat{s}$ term in
+Equation \ref{eq:visdef}. The discussion here will largely follow Parsons and Backer 2009 \cite{Parsons2009} 
+and Appendix $A$ of Parsons, et al. 2014 \cite{Parsons2014}. It will also serve as a precursor to Section
+\ref{sec:DelaySpectrum} and be used as a reference for discussing the compression
+techniques in Section \ref{sec:data}.
+
+We begin by expanding $(\vec{b}/c)\cdot\hat{s}$ in the bases defined in Section
+\ref{sec:Polarimetry}, using the equatorial to topocentric rotation matrix $\B{R}$. We note that in
+topocentric coordinates, $\hat{s} = \begin{pmatrix}0&0&1\end{pmatrix}^T$, since the $uv$-plane is
+defined to be tangent to the celestial sphere at $\hat{s}$. Written in this basis,
+\begin{gather}
+\vec{b}\cdot\hat{s} 
+  = \begin{pmatrix}b_x&b_y&b_z\end{pmatrix}
+    \begin{pmatrix}
+      \sin H & -\sin\delta\cos H &  \cos\delta\cos H \\
+      \cos H &  \sin\delta\sin H & -\cos\delta\sin H \\
+      0      &  \cos\delta       &  \sin\delta
+    \end{pmatrix}
+  \begin{pmatrix}0\\0\\1\end{pmatrix}
+   \nonumber \\ = 
+ b_x\cos\delta\cos H -b_y\cos\delta\sin H +b_z\sin\delta,
+\end{gather}
+where $H$ is the hour angle of the pointing, and $\delta$ is the declination. We notice that the
+phase of a visibility is $2\pi i \nu(\vec{b}/c)\cdot\hat{s}$, and define a time-constant of the
+visibility, $\tau_g =
+(\vec{b}/c)\cdot\hat{s}$\nomenclature[G]{$\tau_g$}{Geometric delay}, called the geometric delay. This is simply the time
+delay of the signal between the two antennae in a basline. This argument indicates that the
+geometric delay is bound between the positive and negative baseline lengths, $-|\vec{b}| \le \tau_g
+\le |\vec{b}|$, whose values are realized when $\hat{s}$ aligns with the basline vector, i.e. the
+interferometer is pointing along the bore sight of its baseline.
+
+Neglecting calibration terms, we may write the visibility (Equation \ref{eq:visdef}) in terms of
+$\tau_g$:
+\begin{equation}
+   V = \int A(\hat{s},\nu)I(\hat{s},\nu)e^{-2\pi i \nu\tau_g}\D{\Omega}.
+  \label{eq:vis_taug}  
+\end{equation}
+Noting the similariry of Equation \ref{eq:vis_taug} to a Fourier transform with respect to $\nu$, we
+define the delay transform as the inverse Fourier transform of a visibility with respect to
+frequency\nomenclature[Rv]{$\widetilde{V}(\tau)$}{Delay-transformed visibility}:
+\begin{equation}
+  \widetilde{V}(\tau) = \int V e^{+2\pi i\nu\tau}\D{\nu}
+    = \int A(\hat{s},\nu)I(\hat{s},\nu)e^{-2\pi i \nu(\tau_g-\tau)}\D{\Omega}\D{\nu},
+  \label{eq:def_DelayTransform}
+\end{equation}
+the convolution of the beam-weighted image with a delta-function kernel, peaked at $\tau_g$. Written
+more explicitly in terms of the convolution operation $\star$, we have 
+\begin{equation}
+  \widetilde{V} = \widetilde{A}(\tau) \star \widetilde{I}(\tau) \star \delta\left(\tau-\tau_g\right).
+\end{equation}
+To build intuition about this tranform, we can neglect the primary beam $A$, and assume that the
+only incident radiation is due to a flat-spectrum point source, i.e. 
+$I(\hat{s},\nu) = I_o\delta(\hat{s}-\hat{s}_0).$ This assumption reduces Equation
+\ref{eq:def_DelayTransform} simply to $\widetilde{V}(\tau) = I_0\delta(\tau-\tau_g(\hat{s}_0))$, exhibiting
+the important property of the delay spectrum, that it isolates smooth-spectrum, point sources in a
+space accessible to all baslines individually. The isolation of smooth-spectrum point soures is
+demonstrated in Figure \ref{fig:src_delay} --- this figure also demonstrates the restriction of
+smooth-spectrum emission to within the horizon limit of a baseline.
+
+\figuremacroW{delay_wfall.eps}{1.0}{fig:src_delay}{
+  Delay spectra of baslines of different lengths of five simulated sources. Four of these sources
+  have smooth, power law spectra, and one (which ``turns on'' at 0.8 days) with a non-smooth
+  spectrum. Horizon limits for the four baslines are shown by black, dashed lines --- these
+  correspond to the baseline lengths of 32 m (top left), 64m (top right), 128 m (bottom left), and
+  256 m (bottom right). Visibilities are computed over the PAPER band, spanning frequencies of 100
+  MHz to 200 MHz. Color scale denotes the flux, with red showing the brightest sources
+  and blue showing the dimmest, but the absolute scaling of the flux scale is arbitrary. Figure credit: \citet{DelaySpectrum}.
+}{Delay spectra of sources for several baseline lengths, from \citet{DelaySpectrum}}
+
+Once we understand that the geometric delay of a source changes with time,\footnote{Many sources
+(\cite{TMS}, e.g.) call this the fringe. We will accept this nomenclature, reserving the term
+``delay rate" for the time-dependence of the geometric delay, rather than the visibility. Hence, a
+fringe-rate transform will be the Fourier transform w.r.t. time of a visibility, but the delay-rate
+transform will be that of a delay-transformed visiblity. The difference is subtle, and won't appear
+in this work, but nonetheless, it is great enough to warrant two different names for the two
+different transforms.} we can apply a similar technique in the time-domain. We
+define the fringe-rate transform of a visibility thus\nomenclature[Rv]{$\widehat{V}(\nu,f)$}{Fringe-rate
+transformed visibility}:
+\begin{equation}
+  \widehat{V}(\nu,f) = \int V(\nu,t) e^{-2\pi i ft}\D{t}
+  \label{eq:def_DR}
+\end{equation}
+Assuming again that we may neglect calibration terms and may only focus on a single,
+smooth-spectrum, point source, we find the fringe-rate transform isolates sources in the similar manner
+as a delay transform:
+\begin{align}
+  \widehat{V}(\nu,f) &= 
+  \int \left[\int I_0\delta(\hat{s}-\hat{s}_0)e^{-2\pi i \tau_g\nu}\D{\Omega}\right]e^{-2\pi i ft}\D{t}
+  \nonumber \\
+  &\propto \int e^{-2\pi i(\tau_g\nu + ft)}\D{t}
+  \approx \delta\left(f+\dfdx{\tau_g}{t}\nu\right),
+  \label{eq:prep_fringe_rate}
+\end{align}
+where $\tau_g$ is evaluated at $\hat{s}_0$ after the integration with respect to the sky coordinates
+is performed. This allows us to immediately read off the fringe-rate of a source,
+\begin{equation}
+  f_0(\hat{s}) = \nu\dfdx{\tau_g}{t} = 
+  -\omega_\oplus\cos\delta\left((\nu/c)b_x\cos H + (\nu/c)b_y\sin H\right),
+  \label{eq:def_fringe_rate}
+\end{equation}
+where $\omega_\oplus = -dH/dt$\nomenclature[G]{$\omega_\oplus$}{Angular frequency of the Earth's
+rotation}, the angular frequency of the earth's rotation.
+
+Notice that $b_x\cos H + b_y \sin H$ is simply the east-west portion of the
+basline (in topocentric coordinates), and the linear velocity of the earth's rotation at latitude
+$\delta$ is proportional to $\omega_\oplus\cos\delta$ --- the fringe-rate is simply the dot product
+of the basline with the angular velocity of the earth!
+
+To complete the analogy with the delay transform, we note that the fringe rate of a source is
+limited to $-(\nu/c)b_{E}\cos\delta \le f_0/\omega_\oplus \le (\nu/c)b_E$, where $b_E$ is the
+topocentric, east-west component of the basline. 
+
+\figuremacroW{introduction/Interferometry/figures/DelayDelayRate.eps}{0.8}{fig:ddr}{
+  (Left Panel) Delay, in nanoseconds, of a 32m (106ns), east-west baseline at the latitude $-31^\circ43'17.5''$. The
+  delay ranges from $\pm|\vec{b}|$ and is constant along the north-south axis. (Right panel) Fringe
+  rate of that same baseline, in mHz.
+}{Delay and delay rate}
+\figuremacroW{DDR_limits.eps}{1.0}{fig:ddr_limits}{
+  (Left Panel) Delay spectrum of one day's worth of PAPER data vs. time. A solid black lines showing the
+  horizon limit of the 30 m baseline used to take this data. (Right Panel) Delay rate spectrum of
+  the same data vs. frequency. Again, black lines denote the horizon limits of the fringe rate. In
+  both plot, the colorscale denotes flux, with red being the brightest, but the absolute flux scale
+  is arbitrary. 
+}{Limits of delay and delay rate from PAPER data}
+Figures \ref{fig:ddr} and \ref{fig:ddr_limits} show the limits of the delay and fringe rate
+transform. Figure \ref{fig:ddr} shows the mapping of delay and fringe rate onto the sky, and Figure
+\ref{fig:ddr_limits} shows evidence for the horizon limits in PAPER data.

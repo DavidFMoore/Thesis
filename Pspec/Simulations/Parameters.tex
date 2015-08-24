@@ -1,0 +1,200 @@
+\section{Parameterizing the Polarized Sky}
+\label{sec:sim_params}
+
+\subsubsection*{Source Positions}
+Source positions are distributed uniformly over the sphere. A single source's altitude $\theta$ is
+drawn from a distribution in which $\cos\theta$ is uniform on $[0,1]$. A source's azimuthal angle
+$\phi$ is drawn independently from $\cos\theta$, uniform on $[0,2\pi)$. This choice of source
+position distributions conserves number of sources per unit area across the sky, and is equivalent
+to drawing both direction cosines, $(l,m) = (\sin\theta\cos\phi, \sin\theta\sin\phi)$, from a
+uniform distribution on $[-1,1]$.
+
+\subsubsection*{Flux Counts}
+In order to achieve realistic source fluxes and source counts, we base the distributions from which
+we draw various parameters on previous radio surveys. For the source fluxes, we aim to agree with
+the VLA Large Sky Survey \cite[henceforth, called
+VLSS]{VLSS}\nomenclature[Zv]{VLSS}{VLA Large Sky
+Survey} and the Sixth Cambridge Survey
+\cite[henceforth, called 6C]{Hales1988}\nomenclature[Zs]{6C}{Sixth Cambridge Survey} surveys, summarized alongside a full polarization
+survey in Table \ref{tab:surveys}.
+\begin{table}
+  \begin{center}
+    \begin{tabular}{c c c c c}
+      {\bf Survey Name} & {\bf Frequency} & {\bf Survey Area} & {\bf Full Stokes?} & Citation\\ 
+      \hline\hline
+      VLSS &  74 MHz & $\delta > -30^\circ$ &  No & \citet{VLSS} \\
+      6C   & 151 MHz & 0.82 sr              &  No & \citet{Hales1988} \\
+      NVSS & 1.4 GHz & $\delta > -30^\circ$ & Yes & \citet{NVSS} \\
+    \end{tabular}
+  \end{center}
+  \caption[Summary of three, low-frequency surveys]{\label{tab:surveys} Summary of three,
+  low-frequency surveys.}
+\end{table}
+We can take 6C source counts at face value, since it was measured in the PAPER band at 151 MHz.
+However, we must extrapolate the VLSS source counts from the observed 74 MHz into the paper band. We
+perform this extrapolation, following \citet{Cohen2004}, by applying a spectral index of -0.79 to the
+amplitude of the source counts.
+
+Above some limiting flux $S_{min}$, the differential number counts in ($dN/dS$) found in the 6C survey 
+may be characterized by a double power law, turning over at some knee flux $S_0$:
+\begin{equation}
+  \dfdx{N}{S} = \begin{cases}
+    4000\ S_0^{-0.76}S^{-1.75}\ {\rm Jy}^{-1}{\rm sr}^{-1} & S_{min} \le S < S_0 \\
+    4000\ S^{-2.81}\ {\rm Jy}^{-1}{\rm sr}^{-1} & S_0 \le S
+  \end{cases}.
+\end{equation}
+Following the 6C results, we choose the turning point $S_0$ to be 0.88 Jy. The number of sources
+simulated (20,531) is chosen by the size of the PAPER beam at 151 MHz (0.76 sr) and a flux range
+over which to integrate. In general, this operation can be expressed by the integral
+\begin{equation}
+  N = \Omega \int_{S_{min}}^{S_{max}} \dfdx{N}{S}\D{S},
+\end{equation}
+where $S_{min}$ and $S_{max}$ are the limiting fluxes of the survey, and $\Omega$ is the survey's field of
+view. We choose to include sources in between 100 mJy and 10 Jy. This choice provides a reasonable
+dynamic range of sources. Below the lower limit, the 6C sources are unreliable due to
+signal-to-noise issues and confusion\footnote{Below a certain flux, I expect to
+find more than one source per resolution element --- this uncertainty in the number of sources per
+pointing adds to the variance of my measurement.}, and above 10 Jy, we expect that sources may be 
+easily identified and removed.
+
+By setting our lower cutoff too high, are we omitting much of the power contained in our
+measurement? If we were to blindly extrapolate the 6C source counts below the lower limit of the catalog, we
+would add a negligible amount of power. Integrating $S^2\ dN/dS$ down to some minimum flux estimates
+the contribution of the sources above that flux to the total variance of the flux. Performing this
+operation to the 6C source counts, we find that we are including $\sim70\%$ of the total variance.
+Extending the minimum flux would indeed add more power to the simulation, but it would not
+drastically alter these results.
+
+The VLSS source counts follow a single power law, given by 
+\begin{equation}
+  \dfdx{N}{S} = 4865\ S^{-2.3}\ {\rm Jy}^{-1}{\rm sr}^{-1},
+\end{equation}
+where the spectral index of -0.79 has been applied. For these, we choose minimum and maximum fluxes
+of 0.8 Jy and 100 Jy, respectively, rejecting sources well below the lower limit of the catalogue,
+and providing a reasonable dynamic range for the included sources. Integrating over the PAPER beam
+provides 11,262 sources.
+
+Qualitatively, the source counts for these two surveys differ in two ways. The 6C survey yields
+more, dimmer sources, where the VLSS survey yields fewer, brighter sources. By examining the
+difference in polarized power from these two source counts, we may answer the question ``Is $Q\to I$
+leakage due mostly to a few, bright sources, or is it due to a forest of unresolved, dim sources?''
+
+It is worth noting the robustness of these two source counts with respect to independent
+measurements --- both agree with the results of a recent survey from the Murchison Widefield Array
+\cite{Williams2012}, an instrument similar in many regards to PAPER.
+
+\subsubsection*{Spectral Indices}
+All sources are assigned a spectral index, which is drawn from a normal distribution with mean -0.8,
+and standard deviation 0.1. This roughly agrees with the findings of \citet{Helmboldt2008}.
+
+\subsubsection*{Polarized Fractions}
+Instead of drawing polarized sources from a measured polarized flux distribution, we simply
+down-weight the total intensity by some polarized fraction ($\Pi$), chosen to reflect the studies 
+of \citet{Tucci2012}. We sample the $\Pi$ from a log-normal distribution whose mean is $2.01\%$ and
+whose standard deviation is $\log(3.845\%)$. Because the log-normal distribution has no upper bound,
+and it is unreasonable to find sources with a high polarized fraction\footnote{In fact, it is
+impossible to measure $\Pi > 1$!}, we truncate the distribution at $30\%$. As we will investigate in
+Section \ref{sec:updates}, this upper limit is considerably higher than what has been measured
+at 150 MHz. Following the aforementioned study, we do not impose any correlation between source flux
+and polarization fraction.
+
+It has been noted that, among other effects, bandwidth depolarization causes the polarized fraction
+to decrease at lower frequencies \cite{Law2011}. This, alongside the GMRT measurements
+\cite{Pen2009}, indicates that these distributions, taken at 1.4 GHz, may overestimate the
+distribution at 150 MHz. We neglect this instinct that we are overestimating the polarized flux,
+taking the 1.4 GHz measurements at face value, since the mean polarization fraction can be thought
+of as a scale factor to the overall power spectrum.
+
+\subsubsection*{Polarization Angles}
+The polarization angle of each source is chosen to be uniformly sampled on $[0,\pi)$, which assumes no correlation in the polarization angles of individual extragalactic sources. Section \ref{sec:Consistency} 
+will investigate the validity of this claim.
+
+\subsubsection*{Rotation Measures}
+
+We draw our distribution of rotation measures on the map presented in \citet{Oppermann2012}. To
+mimic the effects of depolarization due to a finite spacial resolution \cite{Law2011}, we apply a
+low-pass filter to the rotation measure map. Projecting the map into a spherical harmonic basis, we
+keep only those modes below the resolution of our simulated instrument. In the case of this
+simulation, we choose to keep only $\ell \le 100 = 2\pi |\vec{b}/\lambda|$. This averages the
+polarization vectors in much the same way as a synthesized beam, and its effect is to essentially
+remove outliers in the rotation measure distribution, to which instruments like PAPER may not be
+sensitive. We then randomly draw rotation measures from the empirical cumulative distribution
+function of rotation measures, computed from the filtered, \citet{Oppermann2012} maps. Aside from low-pass
+filtering, no spatial information from the data is used. Section \ref{sec:Consistency} briefly
+discusses the negligible consequences of spatially correlating rotation measures.
+
+\figuremacroW{SimParams.eps}{1}{fig:sim_params}{
+  Distributions of simulated parameters. (Top Left) Euclidean normalized source counts for the sources produced 
+  in simulations $A$ (blue) and $B$ (black). Over plotted in cyan and gray, respectively, are the
+  analytical distributions from which they are drawn. (Top Right) Distribution of polarized
+  fractions used, with the log-normal distribution over-plotted in gray. (Bottom) Empirical
+  distribution of rotation measures, generated from a spatially low-pass-filtered map
+  \cite{Oppermann2012}. 
+}{Distributions of simulation parameters
+$S$, $\Pi$, and $\Phi$.}
+Histograms of the empirical distributions of rotation measure, polarized fraction, and source counts may be
+found in Figure \ref{fig:sim_params}. Over-plotted on all are the distributions from which they are
+drawn. Figure \ref{fig:sim_polflux} shows the empirical distribution of polarized flux, using the
+NVSS and 6C surveys --- these distributions should be convolutions of the power law source counts
+and the log-normal polarized fraction. These distributions qualitatively agree with the total power 
+source counts: the 6C survey produces dimmer sources, while NVSS produces fewer.
+\figuremacroW{SimPolFlux.eps}{0.6}{fig:sim_polflux}{
+  Euclidean-normalized, differential source counts for polarized flux in simulations $A$ (blue)
+  and $B$ (black).
+}{Distribution of polarized flux in two
+simulations}
+
+We calculate visibilities for a single 30m, east-west baseline, corresponding to the most common spacing in
+the maximum-redundancy PAPER array \cite{PAPERSensitivity, Parsons2014}. The choice of baseline
+orientation is arbitrary, and since we are only modelling point sources, the choice of baseline
+length will only set the horizon limit of the power spectrum. Since the delay affected by a rotation
+measure is independent of a choice of baseline (Equation \ref{eq:bad_k}), choosing a relatively
+short baseline length will isolate smooth-spectrum foregrounds at lower $\tau$ and highlight Faraday leakage.
+
+The full measurement equation for the visibility with linear polarization $p$ ($\mathcal{V}_p$) used 
+in this simulation is
+\begin{align}
+  \mathcal{V}_p = \sum_{j=1}^{N_{src}}
+    A_p(l_j, m_j, \nu)
+    S_j^{150}
+    \left(\frac{150\ {\rm MHz}}{\nu}\right)^{\alpha_j}
+    e^{ -2\pi i\nu(ul_j + vm_j)}
+    \left(1 \pm \Pi_j e^{-2i(\Phi_j\lambda^2 + \chi_j)} \right),
+    \label{eq:sim_vis}
+\end{align}
+where each source $j$ is assigned a flux ($S_j$), a polarized fraction ($\Pi_j$), a spectral index
+($\alpha_j$), a position $(l_j,m_j)$, rotation measure ($\Phi_j$), polarization angle ($\chi_j$),
+and is weighted by the model primary beam in that linear polarization ($A_p$). To include both $I$
+and $Q$ emission, $xx$ visibilities receive the $+$, while $yy$ visibilities recieve the $-$. They
+are then summed and differenced to yield $\mathcal{V}_I$ and $\mathcal{V}_Q$. A sample $Q$ visibility 
+is shown in Figure \ref{fig:sample_Q_sim}.
+\figuremacroW{SampleQSim}{0.6}{fig:sample_Q_sim}{
+  The real part of a sample $Q$ visibility, given by Equation \ref{eq:sim_vis}, and generated using
+  the parameters shown in Figure \ref{fig:sim_params}. 
+}{Sample simulated $Q$ visibility.}
+
+We choose not to include the parallactic rotation of $Q$ and $U$ (see Section
+\ref{sec:Polarimetry}), implying that the $Q$ we label for this simulation is fixed to topocentric,
+azimuth and altitude coordinates. This choice clarifies equations and allows for an ease of
+understanding which would be obfuscated by writing equatorially defined $Q$ and $U$.
+
+\begin{table}
+  \begin{center}
+    \begin{tabular}{c c c c}
+      {\bf Label} & {\bf Source Counts} & {\bf $N_{src}$} & {\bf Rotation Measure Distribution}\\ 
+      \hline\hline
+      A & 6C   & 20,531 & Oppermann \\
+      B & NVSS & 11,262 & Oppermann \\
+      C & 6C   & 20,531 & 2$\times$Oppermann \\
+    \end{tabular}
+  \end{center}
+  \caption[Simulation treatments]{\label{tab:sims} Three simulation treatments used in this section.}
+\end{table}
+
+Finally, we take advantage of our built-in tunable parameters and present three treatments of the
+simulation, summarized in Table \ref{tab:sims}. Simulation $A$ serves as a baseline measurement,
+with reliable $6C$ source counts and the conservative, low-pass filtered Oppermann rotation measure
+distribution. Simulation $B$ uses NVSS source counts, asking is $Q\to I$ leakage is dominated by a
+few, bright sources, rather than the forest of dim sources in 6C. Simulation $C$ uses the 6C source
+counts, but doubles the Oppermann rotation measures, asking how large rotation measures affect $Q\to
+I$ leakage.

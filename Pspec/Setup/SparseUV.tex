@@ -1,0 +1,30 @@
+\section{Sparse $uv$ Sampling and Wide-field Polarimetry}
+\label{sec:SparseUV}
+
+One advantage of the delay spectrum approach (Section \ref{sec:DelaySpectrum}) is that it relaxes
+the requirement of gridding in the $uv$-plane. Each baseline is assigned a position in the
+$uv$-plane ab initio, and visibilities from similar baselines may be coherently added without
+imaging. This allows for sparse sampling in the $uv$-plane without damaging effects from sidelobes
+or missing data, problems other methods may experience. Since the delay spectrum rotates a
+power-spectrum estimate into the native coordinate system of an interferometer, there are no
+inherently missing frequency-data. \citet{PAPERSensitivity} present the sensitivity benefits of a sparse,
+redundant array configuration, but other techniques aim to uniformly sample the $(u,v,\nu)$
+cube, mitigating the systematic effects of computing a Fourier Transform across unevenly sampled data.
+
+An obvious disadvantage of having sparesely-sampled data is poor imaging. Not only does sparse
+sampling provide a highly-irregular synthesized beam, but it also limits the available information
+for a full reconstruction of the image. Without adjacent $uv$-samples, a full, accurate
+deconvolution by a wide beam simply has inssufficient information. As seen in Section
+\ref{sec:BeamLeakage}, the inability to correct for beam effects will provide a significant source
+of systematic error via polarized leakage.
+
+By choosing to wield the full power of the delay spectrum approach and redundant sampling, an
+observer is forced to add visibilities with no beam weighting. The beam information supplied by
+adjacent $uv$-samples simply does not exist, and without transforming into the image plane, is
+unrecoverable. Hence, the imperative to investigate the implications of a lack of beam-weighting,
+the na\"{i}ve construction of the $I$ visibility, arises.
+
+Together, redundant sampling and the delay spectrum approach give a 21cm EoR experiment incentive to
+add raw visibilities, subjecting it to potential leakage. An elliptical primary beam givees a
+mechanism whereby polarized emission can corrupt an estimate of the total power. To what degree does
+polarized emission corrupt an estimate of the 21cm EoR signal?

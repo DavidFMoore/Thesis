@@ -1,0 +1,97 @@
+\section{Beamforming}\label{sec:Beamforming}
+
+We now discuss a method for calibrating the off-diagonal gain terms. Typical measurements require a
+single calibration source to dominate emission in a field of view. With a wide field imager, this
+requirement can never be met. We discuss a method to artificially restrict the field of view, only
+imaging a few points on the sky at once. 
+
+We begin by modelling a calibrator as a point source at position $\hat{s}$ with Stokes parameters
+$I$, $Q$, $U$, and $V$. We employ Equations \ref{eq:def_Vxx}, \ref{eq:def_Vxy}, \ref{eq:def_Vyx}, 
+and \ref{eq:def_Vyy} to represent a visibility containing only this source as a matrix equation,
+\begin{align}
+  \begin{pmatrix}\mathcal{V}_{xx}\\\mathcal{V}_{xy}\\\mathcal{V}_{yx}\\\mathcal{V}_{yy}\end{pmatrix}
+    &= e^{-2\pi i(\vec{b}_{ij}\cdot\hat{s})} \times
+  \nonumber \\
+  &\begin{pmatrix}A_{xx}&&&\\&A_{xy}&&\\&&A_{yx}&\\&&&A_{yy}\end{pmatrix}
+  \begin{pmatrix}
+    1 &  1 & 0 &  0 \\
+    0 &  0 & 1 & -i \\
+    0 &  0 & 1 &  i \\
+    1 & -1 & 0 &  0 
+  \end{pmatrix}
+  \begin{pmatrix}
+    1 &         0 &          0 & 0 \\
+    0 & \cos2\psi & -\sin2\psi & 0 \\
+    0 & \sin2\psi &  \cos2\psi & 0 \\
+    0 &         0 &          0 & 1 
+  \end{pmatrix}
+\begin{pmatrix}I\\Q\\U\\V\end{pmatrix}.
+  \label{eq:def_vismat_full}
+\end{align}
+This equation has neglected gain terms not associated with the primary beam. In contrast with the
+discussion in Section \ref{sec:Polarimetry}, we allow the gain matrix $\dvec{G}_{ij}$ to have
+sixteen, independent components, rather than forcing it to be diagonal. Furthermore, we write
+Equation \ref{eq:def_vismat_full} in terms of a vector the source's stokes parameters $\vec{M}$, a
+vector of visibilities $\vec{\mathcal{V}}_{ij,t}$, a diagonal matrix containing the elements of the
+beam, $\dvec{A}_t$, and a transfer matrix $\dvec{W}_t$, and the fringe, 
+$\exp\{-2\pi i(\vec{b}\cdot\hat{s})\}$:
+\begin{equation}
+  \vec{\mathcal{V}}_{ij,t} 
+  = e^{-2\pi i(\vec{b}_{ij}\cdot\hat{s})}
+  \dvec{G}_{ij}\cdot\dvec{A}_t\cdot\dvec{W}_t\cdot\vec{M}. 
+  \label{eq:def_beamformmodel}
+\end{equation}
+We explicitly label the time-dependent quantities with subscript $t$. Modelling multiple point
+sources is as simple as summing over different models $M$, with different transfer matrices and
+beams,
+\begin{equation}
+  \vec{\mathcal{V}}_{ij,t} 
+  = \dvec{G}_{ij} \cdot
+  \sum_s e^{-2\pi i(\vec{b}_{ij}\cdot\hat{s})}
+  \dvec{A}_{t,s}\cdot\dvec{W}_{t,s}\cdot\vec{M}_s. 
+  \label{eq:def_beamformmodel}
+\end{equation}
+
+Our task is to solve for the sixteen components of $\dvec{G}_{ij}$. We do this by assuming that
+$\vec{\mathcal{V}}_{ij}$ is comprised of only our model, a sum of point sources, and thermal noise.
+This allows us to solve for the components of $\dvec{G}_{ij}$ in the least squares sense, minimizing
+\begin{equation}
+  \chi^2 = \sum_t \left|
+    \vec{\mathcal{V}}_{ij} 
+    - \dvec{G}_{ij}\sum_s e^{-2\pi i(\vec{b}_{ij}\cdot\hat{s})}
+    \dvec{A}_{t,s}\cdot\dvec{W}_{t,s}\cdot\vec{M}_s
+  \right|^2.
+  \label{eq:beamform_chi2}
+\end{equation}
+For simplicity, we will drop the subscripts $i$ and $j$, which until now have denoted the
+visibility's baseline label. We do this noting that this calibration solution is
+baseline-independent. In an additional measure of notational simplicity, we redefine the model
+visibility $\vec{M}'_t \equiv \sum_s \exp\{-2\pi
+i(\vec{b}\cdot\hat{s})\}\dvec{A}_{t,s}\cdot\dvec{W}_{t,s}\cdot\vec{M}_s$ as the time-dependent model
+visibility. These simplifications reduce the chi-squared expression to
+\begin{equation}
+  \chi^2 = \sum_t \left|\vec{\mathcal{V}}_t - \dvec{G}\cdot\vec{M}_t'\right|^2.
+\end{equation}
+
+The values of $\dvec{G}$ which minimize $\chi^2$, found by setting $d\chi^2/dG_{\alpha\beta}^* = 0$ is 
+\begin{equation}
+  \dvec{G} = \left(\sum_t \vec{M}_t'\otimes\vec{M}_t'^\dagger\right)^{-1}
+             \cdot  
+             \left(\sum_t \vec{V}_t \otimes\vec{M}_t'^\dagger\right),
+\end{equation}
+where $\otimes$ represents the Kronecker outer product, defined in Section \ref{sec:Polarimetry}.
+
+In order for $\sum_t \vec{M}_t'\otimes\vec{M}_t'^\dagger$ to be non-singular, a full Stokes model of
+a polarized source must be included. Otherwise, one may approximate the inverse of that matrix by
+assuming that model Stokes parameters $Q$, $U$, and $V$ are much smaller than $I$.
+
+Including multiple sources in the model $\vec{M}_t'$ will increase the accuracy of the calibration.
+By including many sources, we model both the sources in question and sidelobes from nearby sources
+--- this provides accurate source spectra for each pointing. With redundant arrays like PAPER, a
+single pointing on the sky may include emission from multiple sources. Modelling this effect will
+clearly increase the accuracy of both the calibration and the measurement of source spectra. 
+
+To date, no calibrators are sufficiently accurately measured for use in this method, so this method has yet to be
+implemented. Once a more accurate model of the polarized sky in the southern hemisphere is made,
+future instruments will be able to use this method to calibrate off-diagonal polarization
+calibration terms without the computationally costly and oftentimes uncertain imaging deconvolution.

@@ -1,0 +1,221 @@
+\section{Data Processing}\label{sec:data}
+
+\subsection{RFI Excision}
+We begin with an excision of RFI from the raw data, a three step process. First, we flag known
+frequency channels containing nearly constant RFI --- for example, the 137 MHz bin contains the
+continuous signal from a constellation of communications satellites. Next, we difference the data in
+time and frequency, flagging the data which produces $6\sigma$ outliers. Finally, we remove a
+fiducial foreground model, the process of finding this model is described in Section
+\ref{sec:rm_fg}, and flag $4\sigma$ outliers of the residuals. The flags generated from
+this process were used in the production of Figure \ref{fig:RFI}. A single set of flags is generated
+for all times and frequencies for the entire array for each night of data taking.
+
+\subsection{Compression}\label{sec:compress}
+
+The volume of raw data generated in the EoR2011 season exceeds 10 TB, which is unwieldy for 
+the level of computation required. While the relatively short integration times of 10s and
+relatively narrow channel widths of 50 kHz are useful for reducing the attrition of data due to RFI
+excision, these rates highly oversample both the frequency structure of foregrounds and EoR signal
+and the temporal structure of anything tied to the sky. To remedy the abundance of oversampled ---
+and thus redundant --- data, we employ a compression technique, first described in
+\citet{Parsons2014}, which critically samples the data in both time and frequency.
+
+This compression algorithm hinges on two results from Section \ref{sec:DDR}:
+\begin{enumerate}
+  \item The delay of a smooth-spectrum point source is restricted to the range $\tau \le |b|/c$,
+    where $|b|$ is the baseline length.
+  \item Similarly, the fringe-rate of a source is restricted to the range $ -(\nu b_E/c) \omega_\oplus
+    \cos\delta_0 \le f \le (\nu b_E/c) \omega_\oplus$, where $b_E$ is the east-west component of the
+    baseline, $\omega_\oplus$ is the angular speed of the Earth's rotation, and $\delta_0$ is the
+    latitude of the array.
+\end{enumerate}
+These two properties of drift-scan interferometers allow us to set limits on the fringe rate and
+delay at which celestial emission can enter the signal --- this in turn allows us to set minimum
+integration times and channel widths which preserve that emission. 
+
+To set this minimum sampling rate in time, we inspect the maximum fringe rate, $ (\nu
+b_E/c)\omega_\oplus$. We define the delay rate as the frequency-integrated fringe rate --- this
+allows us to simultaneously compute this alongside the delay. Hence, the maximum delay rate allowed
+by celestial emission is $(b_E/c)\omega_\oplus$. The maximum delay rate across the entire PAPER
+array occurs in the 210m east-west baselines (between the leftmost and rightmost columns in Figure
+\ref{fig:uv_coverage}): 9.6 mHz. The Nyquist-Shannon sampling theorem dictates that an sampling time of
+33s can completely describe this structure.
+
+Though the maximum delay can be set as low as the horizon, we intend to preserve supra-horizon modes
+containing high-$k_{||}$ EoR modes. However, we achieve maximum sensitivity to these modes on the
+shortest baselines, and use the longest only for foreground characterization. Hence, we set the
+limit in delay to the horizon limit of the longest baseline in the array. This requires a sampling
+rate in frequency of 713 kHz. Setting the maximum delay allows supra-horizon modes to enter into the
+visibilities of short-baselines, including cosmological modes up to $0.38\ h{\rm Mpc}^{-1}$.
+
+\figuremacroW{ddr_compression.eps}{0.6}{fig:compress}{
+  Delay / Delay rate transform of one days' worth of raw PAPER visibilities from a 30m baseline. The
+  relatively fine sampling in frequency and time result in large ranges of delay and delay rate
+  (respectively). A dashed, cyan box shows the skypass filter in delay, and the magenta, in delay
+  rate. The fluxscale, in $\log_{10}({\rm Jy})$, is shown on the right. The skypass filters are
+  designed to preserve all smooth-spectrum, celestial emission for the entire PAPER array, with
+  baselines ranging from 30m (shown) up to 300m. For this short baseline, sky emission is contained
+  within a relatively small range around 0 delay and 0 delay rate.
+  Figure credit: \citet{Parsons2014}
+}{Range of skypass filters for delay/delay rate compression, from \citet{Parsons2014}}
+Figure \ref{fig:compress} shows the extent of the skypass filters --- defined as one on the
+intervals that contain emission (shown in the preceding discussion) and zero elsewhere. The skypass
+filters are shown atop the delay/delay rate transform of a visibility, confirming the claims about
+foreground signal's extent in these directions made in the text.
+
+One serious hurdle to overcome in this compression process is the spectral and temporal structure
+introduced by nonuniform RFI flagging. To accommodate the scattering of signal into high delay/delay
+rate bins, we first deconvolve the data by the sampling function using a variation on the CLEAN
+algorithm, discussed in Section \ref{sec:rm_fg}. The difference between this implementation of the
+algorithm and the foreground-removal strategy discussed in Section \ref{sec:rm_fg} is that we add
+the CLEAN components back into the residual spectra. This is the most computationally costly step.
+
+Once the CLEAN deconvolution has been performed, we simply decimate the data, re-sampling the data at
+the rates described in the preceding paragraphs. While we could sample each baseline type with its
+own integration time and channel width, we set the limits based on the longest baselines --- this
+both ensures a conservative application of this new procedure and allows for ease of data analysis
+and storage.  
+
+We implement the compression algorithm each night on the data using a 35 node computer cluster
+located on site. This allows us to perform all preprocessing steps up until this point, including
+compression, in real time as the data is taken. This algorithm reduces both the data rate and data 
+volume by a nearly factor of twenty, reducing storage costs and required computational power.
+
+\subsection{Crosstalk Removal} 
+
+For our purposes, crosstalk may be defined as a additive offset to the visibilities, which is stable
+on long timescales. To remove crosstalk, we simply subtract the nightly average of each baseline
+from each integration of that baseline.
+
+\subsection{Calibration}
+
+Calibration is a two step process. First, we solve for the antenna-based gains and delays which
+enforce redundancy among redundant baselines. This procedure is described in greater detail in
+Section \ref{sec:redcal}. We treat the $xx$ and $yy$ polarizations of the array separately in this
+analysis, linking the two calibrations with a cross-polarization delay and the assumption that all
+calibration terms are antenna-dependent. Next, we solve for the remaining four calibration terms 
+--- an overall flux scale for the $x$ and $y$ polarizations, and the delay of fiducial baselines ---
+by fitting visibilities to a model of Pictor A \cite{Jacobs2013b}. 
+
+We compute the calibration parameters using a relatively small amount of data --- for two hours
+when Pictor A is overhead during a single day. We then apply these calibration terms to the
+entire seasons' data. \citet{JacobsPHD} and \citet{Parsons2014} have shown that calibration terms
+remain constant for long timescales, and we take advantage of the remarkable stability of PAPER's
+calibration\footnote{To me, that PAPER's calibration terms are stable for these long timescales is
+  one of the more magical things about the instrument. I've even successfully applied calibration 
+  terms from one observing season to another!} to ease the computational burden of calibration. We
+could solve for all calibration terms on smaller timescales but we have found that this only causes
+slight improvements to the variance in our data. In practice, the errors caused by such a cavalier
+calibration effort can be absorbed into the uncertainty of the data, causing a roughly $5\%$ 
+increase in $T_{sys}$.
+
+\subsection{Foreground Removal}\label{sec:rm_fg}
+
+The final step before averaging multiple days is to remove a foreground model from the raw
+visibilities. Rather than removing a number of previously-identified sources from the data 
+--- this leaves us vulnerable to calibration errors as well as errors in the primary beam 
+model --- we employ a non-parametric method to remove foregrounds modelled on each visibility 
+itself. Since most foreground sources are smooth spectrum and can be modelled as point sources, we
+model them as delta functions in delay (See Section \ref{sec:DDR}). Rather than fitting for antenna 
+gains and delays, a primary beam model, and the source flux at each frequency, we only fit for 
+a single parameter: the flux in a given delay mode of a visibility.
+
+To fit these fluxes, we use a version of the CLEAN algorithm \cite{Hogbom1974}, reduced to one
+dimension, and extended to allow complex flux values. We find the peak in the delay
+spectrum of a single integration for one baseline, and subtract the kernel of the sampling function,
+weighted by the flux of that peak, from the delay spectrum. We iterate this process until the
+variance of the residual spectrum is $10^{-8}$ times that of the original spectrum. We
+restrict the algorithm to peaks found within the horizon limits, described in Section \ref{sec:DDR},
+which enforces that smooth-spectrum foreground sources be removed. This procedure both removes
+foregrounds and deconvolves from the spectral sampling function created from the flagging of RFI.
+
+In the limit where all spectral bins contain data, this is simply a notch filter which nulls
+inter-horizon delay modes.
+
+\subsection{Averaging Multiple Days}\label{sec:LSTbin}
+
+As a final excision of spurious signals (most likely due to RFI), for each day, we flag outlying
+measurements in each bin of LST and frequency. We use measurements of $T_{sys}$ outlined in the Section
+\ref{sec:Tsys} to estimate the variance in each bin, flagging $3\sigma$ outliers.
+
+If the data followed a complex normal distribution, consistent with pure, thermal noise, then we
+would expect this procedure to flag one measurement per frequency/LST bin, causing a slight
+miscalculation of statistics post flagging. Most notably, this causes an underestimate in the
+variance of the power spectrum. To counteract this effect, we calculate the ratio of the variance of
+a normal distribution truncated at $\pm3\sigma$ to the variance of its parent distribution
+($97.3\%$). Henceforth, we will increase all errors in the power spectrum by a factor of
+$1.03\approx1/97.3\%$ to accommodate for this error. 
+
+We compute the mean of the RFI-removed data for each bin of LST and frequency, creating a dataset
+comprised of a single, fiducial day. We continue analysis on this averaged dataset. 
+
+\subsection{Final Processing}
+
+After visibilities are averaged in LST, a final round of crosstalk removal is performed. Again, we
+simply subtract the daily average from the data. Much of the crosstalk lies beneath the sensitivity
+level of only one day's worth of data, and appears in the LST-averaged dataset. Recomputing the
+mean with the increased sensitivity of an averaged dataset allows for a more accurate removal.
+
+In the penultimate processing step, we pass the data through a second low-pass filter in time. Sections
+\ref{sec:DDR} and \ref{sec:compress} describe the celestial limits of the fringe rate for drift-scan
+arrays ($f$) as $b_E\omega_\oplus\cos\delta_0 \le f \le b_E\omega_\oplus$, where $b_E$ is the
+east-west component of the baseline, $\omega_\oplus$ is the angular velocity of the Earth's
+rotation, and $\delta_0$ is the latitude of the array. We filter the data in time using a boxcar
+filter, defined as one on $0\le f\le b_E\omega_\oplus$ and zero elsewhere. While this filter does
+null some celestial emission (roughly the area between the south celestial pole and the horizon),
+its effect is small, since the primary beam heavily attenuates these areas of the sky. We null these
+fringe rates as an additional step of cross-talk removal.
+
+Finally, we rotate the linearly polarized visibilities into Stokes visibilities, defined in
+Equation \ref{eq:def_stokes_vis}.
+
+\subsection{System Temperature} \label{sec:Tsys}
+
+Alongside the calculation of statistics for binning in LST and frequency, we take advantage of the
+nightly redundancy as a check on the data. Since PAPER is a tracking array, measurements taken at
+the same LST on different nights should be totally redundant. This redundancy allows us to measure
+the system temperature via fluctuations in signal in the same LST bin from day to day.
+
+First, we compute the variance in each frequency and LST bin over all nights of data
+($\sigma_{Jy}^2(\nu,t)$), and convert this variance into a measurement of the system temperature
+$T_{sys}$\nomenclature[Rt]{$T_{sys}$}{System Temperature}. This measurement is totally independent of
+the following power spectrum analysis, and can be used to quantify the level of systematic and
+statistical uncertainty in the power spectra. It compliments measurements of $T_{sys}$ in
+\citet{Parsons2014} and \citet{Jacobs2014}. The variance computed in each LST/frequency bin is
+converted into a system temperature in the usual fashion:
+\begin{equation}
+  T_{sys}(\nu,t) = \frac{A_{eff}}{k_B}\frac{\sigma_{Jy}}{\sqrt{2\Delta\nu t_{int}}},
+  \label{eq:tsys}
+\end{equation}
+where $A_{eff}$ is the effective area of the antenna (see Figure \ref{fig:beam}), $k_B$ is the
+Boltzmann constant, $\Delta\nu$ is the channel width, and $t_{int}$ is the integration time of the
+LST bin.
+
+\figuremacroW{Tsys_all.eps}{1.0}{fig:tsys}{
+  System temperature in Kelvin as a function of LST and frequency $\nu$, calculated by Equation
+  \ref{eq:tsys}. Black boxes enclose the range in LST and $\nu$ used to compute the power spectra.
+}{System temperature as a function of LST and $\nu$.}
+Figure \ref{fig:tsys} shows the measured system temperature for each frequency and LST bin collected
+during the EoR2011 observing season. To further summarize our data's variance, we can average
+$T_{sys}(\nu,t)$ over the time- and frequency-axes. The frequency-averaged system temperature is
+computed as 
+\begin{equation}
+  \langle T_{sys}\rangle(t) \equiv \frac{\int_{\Delta\nu}
+  W(\nu)T_{sys}(\nu,t)\D{\nu}}{\int_{\Delta\nu}W(\nu)\D{\nu}},
+  \label{eq:tsys_avg}
+\end{equation}
+where $W(\nu)$ is the spectral window function, and the integral is computed over the frequency band
+$\Delta\nu$. For our analysis, we use a Blackman-Harris window function \cite{Harris1978}, chosen to
+maximally suppress sidelobe levels. A similar expression may be written for the time-axis, where our
+window function is simply the number of redundant samples in each frequency channel.
+
+\figuremacroW{Tsys_lst.eps}{0.6}{fig:tsys_avg}{
+  (Top Panel) band-averaged system temperature (Equation \ref{eq:tsys_avg}) as a function of LST for
+  Bands I and II in black and blue, respectively. The shaded grey region indicates the range in LST
+  used to compute the power spectra. (Bottom Panel) Time-averaged system temperature, averaged over
+  LST 1h00m until 8h00m. The shaded grey and blue regions show the spectral window functions for
+  Bands I and II, respectively. 
+}{$T_{sys}$, averaged in frequency and time}
+Figure \ref{fig:tsys_avg} shows the system temperature averaged over frequency and LST ranges used
+to compute the power spectra. $T_{sys}$, averaged in both frequency and time for both bands are
+reported in Table \ref{tab:obsparams}

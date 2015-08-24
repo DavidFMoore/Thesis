@@ -1,0 +1,176 @@
+\section{Polarization at Meter Wavelengths} \label{sec:FaradayRotation}
+
+Nearly all celestial emission at meter wavelengths comes from the synchrotron radiation of
+electrons. Synchrotron emission is natively polarized, so it stands to reason that all emission
+at radio frequencies is polarized. These polarized, radio sources yield a wealth of astrophysics in
+their own right, but since we are interested in detecting the 21cm EoR power spectrum, we focus on
+polarized sources' impact on its detection.
+
+This section will discuss the provenance of polarized sources, give a summary of the current
+understanding of the polarized sky at meter wavelengths, and then discuss how they can affect
+efforts to measure the 21cm EoR power spectrum.
+
+\subsection{Why is Synchrotron Emission Polarized?}
+
+To discuss the cause of polarized synchrotron emission, we review how synchrotron emission comes
+about. This discussion will summarize the appropriate chapters of \citet{Tools} and
+\citet{RybickiAndLightman}, but also loosely follows the original paper, \citet{Westfold1959}\footnote{
+  In my opinion, an interesting read in how it differs from modern astrophysical calculations}. 
+
+We begin by recalling a few basics of Larmour precession. As an electron takes its helical path
+about a magnetic field, it emits a dipole radiation pattern perpendicular to both its acceleration
+(pointed toward the center of its helix) and the magnetic field. In the nonrelativistic limit, this
+is simply cyclotron emission.  As the speed of the electron approaches $c$, the Larmour dipole
+pattern elongates in the direction of the electron's motion, forming a thin beam of emission
+preceding the electron. 
+
+An observer off bore-sight of the magnetic field will see a series of pulses in time from a single 
+synchrotron electron --- these pulses in the delta-train arrive at the Lorentz-boosted cyclotron frequency, 
+\begin{equation}
+  \nu_c \propto \gamma^3\omega_B \approx \left[1-\left(\frac{v}{c}\right)^2\right] \frac{eB}{m_ec},
+  \label{eq:synchrotron}
+\end{equation}
+where $\nu_c$ is the observed frequency of the synchrotron emission, $\omega_B \equiv eB/\gamma mc$
+is the cyclotron frequency, and $\gamma$ is the Lorentz factor. Hence, each synchrotron electron
+emits radiation whose frequency is a function of that electron's energy.
+
+We extend this notion to an ensemble of electrons. Since each contributes emission whose frequency
+is proportional to the energy of the electron, the total spectrum will be proportional to the energy
+spectrum of the ensemble of electrons.
+
+The same notion can be extended to the polarization properties of synchrotron emission. One can
+write the full Larmour formula for the relativistic ensemble of electrons (as in the three sources
+cited), and find that the polarized fraction of synchrotron emission, 
+$p$\nomenclature[Rp]{$p$}{Polarized fraction}, exactly written in terms of modified Hankel functions 
+\cite{Westfold1959}, can be written for power-law energy distributions for the electrons, $N(E)\propto E^{-n}$, 
+simply as
+\begin{equation}
+  p = \frac{n+1}{n+7/3}.
+  \label{eq:polfrac_theory}
+\end{equation}
+The direction of polarization is perpendicular to both the magnetic field and the line of sight.
+
+Finding $n$ in Equation \ref{eq:polfrac_theory} from the spectral slope of the galaxy implies a
+polarized fraction of around 75\%. This is a couple orders of magnitude higher that what is
+measured, which we will discuss later in this section. 
+
+\subsection{Faraday Rotation}
+
+The next most important process in radio polarimetry is the rotation of the polarization vector
+through an ionized, magnetized plasma.\footnote{Faraday rotation got its start in the optical,
+  though we mostly see it in the radio since we measure the $E$-field directly in radio. Faraday
+rotation is much like interferometry in that sense (remember Michelson and Morley).}
+
+An easy way to understand Faraday rotation is through birefringence. If a polarized wavefront is
+incident on a Faraday screen, a thin layer of electrons with a constant magnetic field through them,
+then one circular polarization --- the one which opposes cyclotron motion of electrons in that
+magnetic field --- is slowed with respect to the other.
+
+Integrating through the Faraday screen, we find that the phase difference between the two
+polarizations can be written like a column density: 
+\begin{equation}
+  \Delta\varphi = \frac{e^3}{(m_ec^2)^2}\lambda^2\int n_e(s)B_{||}(s)\D{s}
+  \equiv \lambda^2\Phi,
+  \label{eq:def_faraday_depth}
+\end{equation}
+which defines the rotation measure $\Phi$\nomenclature[G]{$\Phi$}{Rotation measure}. In this
+expression, $m_e$ and $e$ are the mass and charge of the electron, $n_e(s)$ is the electron density
+along the line of sight, and $B_{||}$ is the component of the magnetic field that aligns with the
+line of sight. The integral extends from the observer to the emitting source. Since a Faraday
+screen rotates the polarization vector of a field, it affects Stokes parameters $Q$ and $U$ by
+rotating them by $2\Phi\lambda^2$: 
+\begin{equation}
+  (Q + iU)_{meas} = e^{-2i\Phi\lambda^2}(Q+iU)_{int},
+  \label{eq:def_faraday}
+\end{equation}
+where the subscripts $meas$ and $inc$ refer to the measured and incident polarization states,
+respectively. 
+
+Measurements of the Faraday depth of sources can be used to characterize galactic magnetic fields
+\cite[][e.g.]{Beck2013}. To measure the rotation measure of sources, we can either fit a line in
+$\lambda^2$ to the polarization angle, or exploit the Fourier relationship between $\Phi$ and
+$\lambda^2$ in Equation \ref{eq:def_faraday} \cite{BrentjensDeBruyn}. A method to characterize the Faraday depths 
+rotation the polarization vectors of a source is the topic of discussion in Chapter \ref{chap:DRMT}.
+Faraday rotation of sources is also mechanism which gives polarized sources spectral structure,
+which has led to the studies in the remainder of this thesis.
+
+\subsection{Methods of Depolarization}
+
+We will show in Section \ref{sec:updates} that the mean polarized fraction of point sources at 150 MHz is less than
+$3\times10^{-3}$, a far cry from the 75\% predicted from the spectral slope of our own
+galaxy.\footnote{This is the primary result of this thesis.} The question for us to answer now is why
+there is such a disparity between these two polarized fractions. The remainder of this section will
+discuss methods of depolarization, which we split into two groups: instrumental, and intrinsic.
+
+The first form of instrumental depolarization, called beam depolarization, arises from the minimum
+angular resolution element of an array. In general, galactic magnetic fields can be turbulent, so
+the polarization angle varies with position. A large synthesized beam sums many of these randomized
+polarization vectors, yielding a large amount of depolarization. The extent of this attenuation is
+dependent on the size of the synthesized beam, the angular distribution, and alignment of polarization
+vectors at a pointing.
+
+\figuremacroW{BandwidthDepolarization.eps}{0.6}{fig:bw_depol}{
+  Attenuation factor from Equation \ref{eq:attenuate_bandwidth} versus bandwidth for a band centered
+  at 150 MHz, and a distribution of sources drawn from the \citet{Oppermann2012} maps.
+}{Depolarization as a function of bandwidth} 
+The second method of instrumental polarization comes from integrating in frequency, and is called
+bandwidth depolarization. Since all polarized emission passing through magnetic fields undergoes
+Faraday rotation, it all gains spectral structure given by Equation \ref{eq:def_faraday}. As we
+measure this emission, we must integrate over some bandwidth $\Delta\nu$. The rotation within the
+band yields an attenuation given by
+\begin{equation}
+  P_{meas} = \int W(\nu)P(\nu)\D{\nu},
+\end{equation}
+where $P(\nu)$ is the unaveraged power, $P_{meas}$ is the measured power within the band, and
+$W(\nu)$\nomenclature[Rw]{$W(\nu)$}{Window function in frequency} is the window function of the band. If
+we assume the window is a tophat function centered at frequency $\nu_0$, with a width $\Delta\nu$,
+and if we also assume that the intrinsic power follows a flat-spectrum polarized source, $P(\nu) =
+P_0\exp\{-2i\lambda^2\Phi\}$, then we can expect an attenuation rate of 
+\begin{equation}
+  \frac{P_{meas}}{P_0} =
+  \int \mathbb{P}(\Phi)
+  \left[\int_{\nu_0-\Delta\nu/2}^{\nu_0+\Delta\nu/2}e^{-2i\lambda^2\Phi}\D{\nu}\right]
+  \D{\Phi},
+  \label{eq:attenuate_bandwidth}
+\end{equation}
+where $\mathbb{P}(\Phi)$ is the probability distribution of Faraday depths. Figure
+\ref{fig:bw_depol} shows the level of bandwidth depolarization from Equation
+\ref{eq:attenuate_bandwidth} with a distribution of Faraday depths drawn from the
+\citet{Oppermann2012} maps. Using the channel widths we use for the results in Chapter
+\ref{chap:PowerSpectra}, we expect nearly all polarization to be preserved by this mechanism. Using the
+entire bandwidth available to PAPER, around 80 MHz, attenuates the signal to around 10\% of its
+intrinsic power. This effect strengthens at lower frequencies, since the $2\Phi\lambda^2$ phase-wrapping
+grows faster as the frequency decreases. 
+
+These two methods of depolarization are instrumental, meaning they can be mitigated by the correct
+design choices in an instrument. The next two forms of depolarization are intrinsic, meaning they
+arise by galactic physics. No data analysis methods or instrument design can remove these sources of
+depolarization.
+
+The primary form of intrinsic depolarization is due to turbulent magnetic fields. The expression
+linking spectral slope with polarization fraction (Equation \ref{eq:polfrac_theory}) assumes a
+constant magnetic field driving the electron's acceleration. This assumption is not true in 
+general, but rather, galactic magnetic fields usually vary as a function of position, causing
+emission from different parts of the magnetic field to have different polarization angles. This 
+effect causes the polarization in a line of sight to have emission from many different photons with different
+polarization angles. This amounts to an attenuation of polarized power. In the extreme case, a
+totally spatially random magnetic field, the net polarization is zero. 
+
+The secondary form of intrinsic depolarization is due to a polarized emitter's position inside a
+magnetized, ionized plasma. This effect is discussed at length in \citet{Jelic2014}, and we will
+briefly discuss it here. If an emitter lies within the plasma which Faraday-rotates its emission,
+different photons will travel through different lengths of the plasma, which by Equation
+\ref{eq:def_faraday_depth} gives each a different Faraday depth. Many photons with different
+rotation measures developed this way may scatter into one line of sight, yielding a signal containing many
+Faraday-rotated components. Once this line of sight is summed in the instrument, the ensemble
+average of the polarized signal is attenuated by a factor proportional to
+$\exp\{-4\Delta\Phi\lambda^4\}$, where $\Delta\Phi^2$ is the variance of Faraday depths available in
+this line of sight \cite{Tools}.
+
+These methods of depolarization, both instrumental and intrinsic, are discussed in
+\citet{Gaensler2001}, and \citet{Landecker2000}, to give two examples. The latter synthesizes
+information regarding depolarization into the notion of a polarization horizon. The polarization
+horizon is the maximum distance of a polarized source measurable by a given instrument --- polarized
+emission produced beyond this horizon will be subjected to a level of instrumental polarization so
+great as to attenuate the signal below any reasonable detection threshold. Instruments like PAPER have polarization
+horizons on the order of around 10-20 kpc \cite{Bernardi2004}.
